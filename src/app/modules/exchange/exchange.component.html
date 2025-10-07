@@ -1,0 +1,87 @@
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+  <div class="md:col-span-2 xl:col-span-4">
+    <main class="bg-background min-h-screen py-4 sm:py-12">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div class="rounded-lg border p-2 sm:p-8 lg:col-span-2">
+            <!-- Title -->
+
+            <div class="mb-4 text-center">
+              <div
+                class="text-foreground inline-flex flex-wrap items-center justify-center gap-2 font-semibold sm:gap-3 md:gap-4">
+                <!-- Send Currency -->
+                <div class="flex items-center gap-1 sm:gap-2">
+                  <img
+                    [src]="currencyService.selectedSendCurrency()?.LogoUrl"
+                    [alt]="currencyService.selectedSendCurrency()?.Name"
+                    class="h-6 w-6 rounded-full sm:h-7 sm:w-7" />
+                  <span class="text-sm sm:text-base md:text-lg lg:text-xl">
+                    {{ currencyService.selectedSendCurrency()?.Name }}
+                  </span>
+                </div>
+
+                <!-- Arrow -->
+                <svg
+                  class="h-6 w-6 text-gray-500 sm:h-7 sm:w-7"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24">
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.6"
+                    d="M8 20V7m0 13-4-4m4 4 4-4m4-12v13m0-13 4 4m-4-4-4 4" />
+                </svg>
+
+                <!-- Get Currency -->
+                <div class="flex items-center gap-1 sm:gap-2">
+                  <img
+                    [src]="currencyService.selectedGetCurrency()?.LogoUrl"
+                    [alt]="currencyService.selectedGetCurrency()?.Name"
+                    class="h-6 w-6 rounded-full sm:h-7 sm:w-7" />
+                  <span class="text-sm sm:text-base md:text-lg lg:text-xl">
+                    {{ currencyService.selectedGetCurrency()?.Name }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stepper -->
+            <div class="mb-6 flex flex-wrap items-center justify-center">
+              @for (step of steps; track step.number; let i = $index) {
+              <div
+                class="flex cursor-pointer items-center"
+                [ngClass]="{ 'text-primary-foreground': currentStep() === step.number }">
+                <div
+                  class="flex h-6 w-6 items-center justify-center rounded-full border-2 bg-gray-300 text-xs font-bold sm:h-8 sm:w-8 sm:text-sm md:h-8 md:w-8 md:text-sm"
+                  [ngClass]="{ 'bg-primary border-primary': currentStep() === step.number }">
+                  {{ step.number }}
+                </div>
+                <span
+                  class="text-foreground ml-1 text-xs font-semibold sm:ml-2 sm:text-sm md:ml-2 md:text-sm"
+                  [ngClass]="{ 'text-rose-700': currentStep() === step.number }">
+                  {{ step.label }}
+                </span>
+              </div>
+
+              @if (i < steps.length - 1) {
+              <div class="mx-1 h-0.5 flex-1 bg-gray-500 sm:mx-2 md:mx-2"></div>
+              } }
+            </div>
+
+            @switch (currentStep()) { @case (1) {
+            <app-step-one (next)="nextStep()"></app-step-one>
+            } @case (2) {
+            <app-step-two (prev)="prevStep()" (next)="nextStep()"></app-step-two>
+            } @case (3) {
+            <app-step-three (back)="prevStep()" (confirm)="confirmExchange()"> </app-step-three>
+            } }
+          </div>
+          <app-exchange-info></app-exchange-info>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

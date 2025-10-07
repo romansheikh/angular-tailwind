@@ -14,3 +14,13 @@ export interface SubMenuItem {
   active?: boolean;
   children?: Array<SubMenuItem>;
 }
+
+export interface UserMenuItem {
+  icon?: string;
+  label?: string;
+  route?: string | null;
+  active?: boolean;
+  selected?: boolean;
+}
+
+

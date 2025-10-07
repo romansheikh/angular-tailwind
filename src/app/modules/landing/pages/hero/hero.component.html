@@ -1,0 +1,148 @@
+<section class="relative pt-5 pb-5">
+  <div class="container mx-auto px-2 sm:px-6 lg:px-2">
+    <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
+      <div class="bg-background rounded-2xl p-6 shadow-2xl sm:p-8">
+        <form class="space-y-4 sm:space-y-6">
+          <!-- You Send -->
+          <!-- <div class="mb-4">
+            <label class="mb-1 block text-sm text-gray-400 sm:mb-2 sm:text-base" for="send">You Send</label>
+            <div class="relative">
+              <select>
+                @for (currency of currencyService.currencies(); track currency.Id) {
+                <option [value]="currency.Id">{{ currency.Name }} ({{ currency.Symbol }})</option>             
+                }
+              </select>
+                 <div
+                  class="absolute inset-y-0 right-0 flex items-center rounded-r-lg bg-gray-600 px-2 text-sm sm:px-4 sm:text-base">
+                  <span class="text-white">USD</span>
+                </div>
+            </div>
+          </div> -->
+
+          <!-- You Send -->
+          <div class="send-dropdown mb-4">
+            <label class="mb-1 block text-sm text-gray-400 sm:mb-2 sm:text-base" for="send">You Send </label>
+            <div class="relative rounded-lg border">
+              <!-- Trigger -->
+              <button
+                type="button"
+                (click)="toggleSendDropdown()"
+                class="text-foreground bg-background flex w-full items-center justify-between rounded-lg p-3 text-xl">
+                @if (selectSendCurrency!) {
+                <span class="text-sm sm:text-base md:text-lg lg:text-xl">
+                  <img
+                    [src]="currencyService.selectedSendCurrency()?.LogoUrl"
+                    class="mr-2 inline-block h-5 w-5 rounded-full" />
+                  {{ currencyService.selectedSendCurrency()?.Name }}
+                  {{ currencyService.selectedSendCurrency()?.Symbol }}
+                </span>
+                }
+              </button>
+              <!-- Dropdown -->
+              <!-- Send Dropdown -->
+              @if (dropdownSendOpen()) {
+              <ul
+                @sendAnimation
+                class="text-foreground bg-background absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-gray-600">
+                @for (currency of sendList; track currency.Id) {
+                <li
+                  (click)="selectSendCurrency(currency)"
+                  class="flex cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-400 sm:text-base md:text-lg lg:text-xl">
+                  <img [src]="currency.LogoUrl" class="mr-2 h-5 w-5 rounded-full" />
+                  {{ currency.Name }} ({{ currency.Symbol }})
+                </li>
+                }
+              </ul>
+              }
+              <div
+                class="bg-primary absolute inset-y-0 right-0 flex w-20 items-center justify-center rounded-r-lg px-2 text-sm sm:px-4 sm:text-base">
+                <span class="text-white">{{ currencyService.selectedSendCurrency()?.Symbol }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- You Get -->
+          <div class="get-dropdown mb-4">
+            <label class="mb-1 block text-sm text-gray-400 sm:mb-2 sm:text-base" for="receive">You Receive</label>
+            <div class="relative rounded-lg border">
+              <button
+                type="button"
+                (click)="toggleGetDropdown()"
+                class="text-foreground bg-background flex w-full items-center justify-between rounded-lg p-3 text-xl">
+                @if (currencyService.selectedGetCurrency() != null) {
+                <span class="text-sm sm:text-base md:text-lg lg:text-xl">
+                  <img
+                    [src]="currencyService.selectedGetCurrency()?.LogoUrl"
+                    class="mr-2 inline-block h-5 w-5 rounded-full" />
+                  {{ currencyService.selectedGetCurrency()?.Name }} ({{
+                    currencyService.selectedGetCurrency()?.Symbol
+                  }})
+                </span>
+                }
+              </button>
+              @if(dropdownGetOpen()) {
+              <ul
+                @sendAnimation
+                [hidden]="!dropdownGetOpen()"
+                class="text-foreground bg-background absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-gray-600">
+                @for (currency of getList; track currency.Id) {
+                <li
+                  (click)="selectGetCurrency(currency)"
+                  class="flex cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-200 sm:text-base md:text-lg lg:text-xl">
+                  <img [src]="currency.LogoUrl" class="mr-2 h-5 w-5 rounded-full" />
+                  {{ currency.Name }} ({{ currency.Symbol }})
+                </li>
+                }
+              </ul>
+              }
+
+              <div
+                class="bg-primary absolute inset-y-0 right-0 flex w-20 items-center justify-center rounded-r-lg px-2 text-sm sm:px-4 sm:text-base">
+                <span class="text-white">{{ currencyService.selectedGetCurrency()?.Symbol }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Exchange Button -->
+          <button
+            [routerLink]="['/exchange']"
+            type="button"
+            class="bg-primary text-primary-foreground w-full cursor-pointer rounded-lg py-3 px-4 text-base font-bold transition duration-300 hover:scale-105 hover:shadow-lg active:scale-95 sm:py-4 sm:text-lg">
+            Exchange Now
+          </button>
+        </form>
+      </div>
+      <div class="hidden text-center lg:block lg:text-left">
+        <h1 class="animated-zoom text-foreground mb-6 text-4xl font-extrabold leading-tight md:text-5xl lg:text-6xl">
+          Fast Secure <span class="text-red-500">Currency</span> Exchange
+        </h1>
+        <p class="mx-auto mb-8 max-w-lg text-lg text-gray-400 lg:mx-0">
+          The world's most popular cryptocurrency exchange with premium security.
+        </p>
+        <a
+          href="#"
+          class="bg-primary text-primary-foreground inline-block rounded-full py-3 px-8 text-lg font-bold transition duration-300">
+          Discover More
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Inline style for slow zoom -->
+<style>
+  .animated-zoom {
+    display: inline-block;
+    animation: slowZoom 15s ease-in-out infinite;
+  }
+
+  @keyframes slowZoom {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05); /* slightly larger zoom */
+    }
+  }
+</style>

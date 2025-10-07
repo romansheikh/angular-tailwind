@@ -1,0 +1,27 @@
+<ng-container>
+  <td>
+    <div class="flex items-center gap-2.5">
+      <img
+        alt="user avatar"
+        class="h-9 w-9 shrink-0 rounded-full"
+        src="https://ui-avatars.com/api/?name=roman&background=random" />
+          <span  class="text-muted-foreground text-sm font-semibold" >{{ exchange.fromCurrency.name }}</span>
+          <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+          <img [src]="exchange.toCurrency.logo" [alt]="exchange.toCurrency.name" class="h-5 w-5 rounded-full">
+          <span  class="text-muted-foreground text-sm font-semibold" >{{ exchange.toCurrency.name }}</span>  
+          <span class="text-muted-foreground text-sm font-semibold">({{ exchange.fromCurrency.amount }}BDT)</span>
+    </div>
+    
+  </td>
+  <td><span class="text-muted-foreground text-sm font-semibold"> {{ exchange.orderId }}</span></td>
+  <td><span class="text-muted-foreground text-sm font-semibold"> {{ exchange.timeAgo }}</span></td>
+<td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+  <span [ngClass]="{
+    'bg-green-100 text-green-800': exchange.status === 'confirmed',
+    'bg-yellow-100 text-yellow-800': exchange.status === 'pending',
+    'bg-red-100 text-red-800': exchange.status === 'canceled'
+  }" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold">
+    {{ exchange.status }}
+  </span>
+</td>
+</ng-container>

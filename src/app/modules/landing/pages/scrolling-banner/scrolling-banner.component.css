@@ -1,0 +1,12 @@
+/* We define the new seamless animation keyframes */
+@keyframes marquee-seamless {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* We create a utility class to apply the new animation */
+.animate-marquee-seamless {
+  /* You may need to adjust the duration (e.g., 60s) to get the speed you want,
+     since the content is now twice as long. */
+  animation: marquee-seamless 60s linear infinite;
+}

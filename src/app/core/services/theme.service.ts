@@ -15,12 +15,17 @@ export class ThemeService {
     });
   }
 
-  private loadTheme() {
-    const theme = localStorage.getItem('theme');
-    if (theme) {
+ private loadTheme() {
+  const theme = localStorage.getItem('theme');
+  if (theme) {
+    try {
       this.theme.set(JSON.parse(theme));
+    } catch {
+      console.warn('Invalid theme in localStorage, resetting…');
+      localStorage.removeItem('theme');
     }
   }
+}
 
   private setConfig() {
     this.setLocalStorage();

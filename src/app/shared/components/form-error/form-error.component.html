@@ -1,0 +1,16 @@
+
+@if (control?.touched || control?.dirty) {
+
+  @if (control?.errors?.['minAmount']) {
+    <div class="text-red-500 text-sm">
+      Amount must be at least {{ control?.errors?.['minAmountValue'] }}
+    </div>
+  }
+
+  @if (control?.errors?.['maxAmount']) {
+    <div class="text-red-500 text-sm">
+      Amount cannot exceed {{ control?.errors?.['maxAmountValue'] }}
+    </div>
+  }
+
+}

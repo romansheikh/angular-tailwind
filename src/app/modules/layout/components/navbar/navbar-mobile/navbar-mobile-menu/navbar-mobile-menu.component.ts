@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { SubMenuItem } from 'src/app/core/models/menu.model';
-import { MenuService } from 'src/app/modules/layout/services/menu.service';
+import { MenuService } from 'src/app/core/services/menu.service';
 import { NavbarMobileSubmenuComponent } from '../navbar-mobile-submenu/navbar-mobile-submenu.component';
 
 @Component({
@@ -12,14 +12,10 @@ import { NavbarMobileSubmenuComponent } from '../navbar-mobile-submenu/navbar-mo
   styleUrls: ['./navbar-mobile-menu.component.css'],
   imports: [
     NgFor,
-    NgClass,
     AngularSvgIconModule,
-    NgTemplateOutlet,
     RouterLink,
-    RouterLinkActive,
-    NgIf,
-    NavbarMobileSubmenuComponent,
-  ],
+    RouterLinkActive
+],
 })
 export class NavbarMobileMenuComponent implements OnInit {
   constructor(public menuService: MenuService) {}

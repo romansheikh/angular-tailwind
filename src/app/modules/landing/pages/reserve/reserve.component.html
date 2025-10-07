@@ -1,0 +1,38 @@
+<div class="flex-col rounded-lg bg-background px-8 py-4 sm:flex-row">
+  <div class="mb-4 flex items-center justify-between">
+    <div class="flex-col items-center">
+      <h3 class="text-md text-foreground font-bold">Our Reseve</h3>
+    </div>
+  </div>
+<div class="relative overflow-x-auto overflow-y-auto max-h-96">
+  <table class="w-full table-auto">
+    <thead class="text-xs uppercase text-muted-foreground">
+      <tr>
+        <th class="sticky top-0 bg-background py-3 text-left">Currency</th>
+        <th class="sticky top-0 bg-background py-3 text-left">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (exchange of reserve(); track exchange.amount) {
+        <tr class="border-b border-dashed border-border hover:bg-card">
+            <td class="py-3 text-left">
+                <div class="flex items-center gap-3">
+                <div class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full">
+                    <img [src]="exchange.logo" [alt]="exchange.currency" class="h-full w-full object-cover">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-foreground">{{ exchange.currency }}</span>
+                    
+                </div>
+                </div>
+            </td>
+            <td class="py-3 text-left">
+                <span class="text-sm font-bold text-foreground">{{ exchange.amount }} </span>
+                <span class="text-xs text-muted-foreground">{{ exchange.code }}</span>
+            </td>
+        </tr>
+      }
+    </tbody>
+    </table>
+</div>
+</div>

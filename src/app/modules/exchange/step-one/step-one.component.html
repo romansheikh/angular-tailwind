@@ -1,0 +1,126 @@
+<h3 class="text-foreground mb-2 text-center text-lg font-bold sm:text-sm md:text-2xl">Enter Amount</h3>
+<hr class="mx-auto mb-6 h-1 w-16 bg-green-500" />
+
+<form [formGroup]="formGroup" class="space-y-4">
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <!-- Amount Send -->
+    <div>
+      <label class="text-foreground mb-1 flex items-center gap-2 text-sm font-semibold sm:text-base">
+        <svg
+          class="text-foreground h-10 w-10"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24">
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 12H5m14 0-4 4m4-4-4-4" />
+        </svg>
+        Amount Send
+      </label>
+
+      <div class="flex items-center rounded-md border-2 border-gray-300">
+        <input
+          [min]="[exchangeService.rate()?.MinAmount]"
+          [max]="[exchangeService.rate()?.MaxAmount]"
+          type="text"
+          formControlName="amountSend"
+          class="w-full border-0 p-3 !text-[20px] leading-none focus:outline-none" />
+        <div
+          class="bg-background flex items-center justify-center self-stretch rounded-r-md border-l-2 border-gray-300 px-3 sm:px-4">
+          <img
+            [src]="sendCurrency()?.LogoUrl"
+            [alt]="sendCurrency()?.Symbol"
+            class="mr-2 h-4 w-4 rounded-full sm:h-5 sm:w-5" />
+          <span class="text-sm font-semibold text-gray-500 sm:text-base">
+            {{ sendCurrency()?.Symbol }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Validation messages without *ngIf -->
+      <div class="mt-1 text-xs text-red-500">
+        @if (formGroup.get('amountSend')?.touched && formGroup.get('amountSend')?.hasError('required')) {
+        <span class="mt-1 text-xs sm:text-sm">Amount is required.</span>
+        } @if (formGroup.get('amountSend')?.touched && formGroup.get('amountSend')?.hasError('min')) {
+        <span class="mt-1 text-xs sm:text-sm">Minimum allowed is {{ exchangeService.rate()?.MinAmount }}.</span>
+        } @if (formGroup.get('amountSend')?.touched && formGroup.get('amountSend')?.hasError('max')) {
+        <span class="mt-1 text-xs sm:text-sm">Maximum allowed is {{ exchangeService.rate()?.MaxAmount }}.</span>
+        } @if (formGroup.get('amountSend')?.touched && formGroup.get('amountSend')?.hasError('pattern')) {
+        <span class="mt-1 text-xs sm:text-sm">Invalid number format.</span>
+        }
+      </div>
+    </div>
+
+    <!-- Amount Receive -->
+    <div>
+      <label class="text-foreground mb-1 flex items-center gap-2 text-sm font-semibold sm:text-base">
+        <svg
+          class="text-foreground h-10 w-10"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24">
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 12h14M5 12l4-4m-4 4 4 4" />
+        </svg>
+        Amount Receive
+      </label>
+      <div class="flex items-center rounded-md border-2 border-gray-300">
+        <input
+          type="number"
+          formControlName="amountReceive"
+          class="w-full border-0 p-3 !text-[20px] leading-none focus:outline-none sm:p-3" />
+
+        <div
+          class="bg-background flex items-center justify-center self-stretch rounded-r-md border-l-2 border-gray-300 px-3 sm:px-4">
+          <img
+            [src]="getCurrency()?.LogoUrl"
+            [alt]="getCurrency()?.Symbol"
+            class="mr-2 h-4 w-4 rounded-full sm:h-5 sm:w-5" />
+          <span class="text-sm font-semibold text-gray-500 sm:text-base">
+            {{ getCurrency()?.Symbol }}
+          </span>
+        </div>
+      </div>
+      <p class="mb-2 text-xs text-gray-500 sm:text-sm">Estimated amount based on current rates.</p>
+      <!-- Validation messages -->
+      <div class="mt-1 text-xs text-red-500">
+        @if (formGroup.get('amountReceive')?.touched && formGroup.get('amountReceive')?.hasError('required')) {
+        <span class="mt-1 text-xs sm:text-sm">Amount is required.</span>
+        } @if (formGroup.get('amountReceive')?.touched && formGroup.get('amountReceive')?.hasError('max')) {
+        <span class="mt-1 text-xs sm:text-sm">Maximum allowed is {{ exchangeService.rate()?.MaxAmount }} {{exchangeService.rate()?.FromCurrency?.Symbol}}.</span>
+        } @if (formGroup.get('amountReceive')?.touched && formGroup.get('amountReceive')?.hasError('pattern')) {
+        <span class="mt-1 text-xs sm:text-sm">Invalid number format.</span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="mt-4 flex flex-col justify-between gap-2 sm:flex-row sm:gap-4">
+    <!-- Back Button -->
+    <button
+      type="button"
+      class="w-full rounded-lg bg-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+      disabled>
+      &lt; Back
+    </button>
+        <!-- Next Button -->
+    <button
+      type="button"
+      [disabled]="formGroup.invalid"
+      (click)="next.emit()"
+      class="bg-primary hover:bg-primary/90 focus:ring-primary/70 w-full rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 sm:w-auto">
+      Next
+    </button>
+
+  </div>
+</form>

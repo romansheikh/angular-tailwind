@@ -1,4 +1,4 @@
-import { MenuItem } from '../models/menu.model';
+import { MenuItem, UserMenuItem } from '../models/menu.model';
 
 export class Menu {
   public static pages: MenuItem[] = [
@@ -89,4 +89,17 @@ export class Menu {
       ],
     },
   ];
+
+  public static userMenu: UserMenuItem[] = [
+    { icon: 'assets/icons/heroicons/outline/user.svg', label: 'Exchange', route: '/exchange', selected: false, },
+    { icon: 'assets/icons/heroicons/outline/cog.svg', label: 'Our Rates', route: '/our-rates', selected: false, },
+    { icon: 'assets/icons/heroicons/outline/question-mark-circle.svg', label: 'Affiliates', route: '/affiliates', selected: false, },
+    { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Reviews', route: '/reviews', selected: false },
+    { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'News', route: '/news', selected: false },
+    { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Contact Us', route: '/contact-us', selected: false },
+  ];
+
+  public static getMenus(): UserMenuItem[] {
+    return this.userMenu;
+  }
 }
