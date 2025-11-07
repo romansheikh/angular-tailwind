@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BankService } from 'src/app/core/services/bank.service';
+import { CommonService } from 'src/app/core/services/common.service';
 import { ExchangeService } from 'src/app/core/services/exchange.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
-
 
 @Component({
   selector: 'app-step-two',
@@ -13,17 +13,18 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
   templateUrl: './step-two.component.html',
 })
 export class StepTwoComponent {
-onStatusChange($event: Event) {
-throw new Error('Method not implemented.');
-}
+
   formGroup: FormGroup;
+  common : CommonService = inject(CommonService);
+  @Output() formDataChange = new EventEmitter<any>();
   @Output() back = new EventEmitter<void>();
   @Output() next = new EventEmitter<void>();
+  @Input() data: any; //
   exchangeService = inject(ExchangeService);
   bankService = inject(BankService);
   instruction = this.exchangeService.rate()?.ToCurrency?.PaymentInstruction || '';
   cleanInstruction = this.instruction.replace(/^Enter your\s*/i, '');
-
+  userReceivingDetails = signal('');
   constructor(private fb: FormBuilder) {
     this.formGroup = this.fb.group({
       Name: ['', Validators.required],
@@ -35,39 +36,36 @@ throw new Error('Method not implemented.');
       AccountHolderName: [''],
       Branch: [''],
     });
-  this.checkBankTransferValidation();
+    this.checkBankTransferValidation();
+    this.formGroup.valueChanges.subscribe((value) => {
+      this.formDataChange.emit(value);
+    });
   }
 
-checkBankTransferValidation() {
-  const toCurrency = this.exchangeService.rate()?.ToCurrency?.Name;
+  checkBankTransferValidation() {
+    const toCurrency = this.exchangeService.rate()?.ToCurrency?.Name;
 
-  const bankNameCtrl = this.formGroup.get('BankName');
-  const accountHolderCtrl = this.formGroup.get('AccountHolderName');
-  const branchCtrl = this.formGroup.get('Branch');
+    const bankNameCtrl = this.formGroup.get('BankName');
+    const accountHolderCtrl = this.formGroup.get('AccountHolderName');
+    const branchCtrl = this.formGroup.get('Branch');
 
-  if (toCurrency === 'Bank Transfer') {
-    bankNameCtrl?.setValidators([Validators.required]);
-    accountHolderCtrl?.setValidators([
-      Validators.required,
-      Validators.pattern(/^[a-zA-Z\s]+$/) // optional pattern
-    ]);
-    branchCtrl?.setValidators([Validators.required]);
-  } else {
-    bankNameCtrl?.clearValidators();
-    accountHolderCtrl?.clearValidators();
-    branchCtrl?.clearValidators();
-  }
+    if (toCurrency === 'Bank Transfer') {
+      bankNameCtrl?.setValidators([Validators.required]);
+      accountHolderCtrl?.setValidators([
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z\s]+$/), // optional pattern
+      ]);
+      branchCtrl?.setValidators([Validators.required]);
+    } else {
+      bankNameCtrl?.clearValidators();
+      accountHolderCtrl?.clearValidators();
+      branchCtrl?.clearValidators();
+    }
 
-  // revalidate the controls after changes
-  bankNameCtrl?.updateValueAndValidity();
-  accountHolderCtrl?.updateValueAndValidity();
-  branchCtrl?.updateValueAndValidity();
-}
-
-
-  hasError(controlName: string, errorCode: string): boolean {
-    const control = this.formGroup.get(controlName);
-    return !!(control && control.touched && control.hasError(errorCode));
+    // revalidate the controls after changes
+    bankNameCtrl?.updateValueAndValidity();
+    accountHolderCtrl?.updateValueAndValidity();
+    branchCtrl?.updateValueAndValidity();
   }
 
   // getter for values
@@ -76,10 +74,13 @@ checkBankTransferValidation() {
   }
 
   onNext() {
-    if (this.formGroup.valid) {
-      this.next.emit();
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched(); // ✅ Best practice here
+      return;
     } else {
-      this.formGroup.markAllAsTouched();
+      this.bankService.userReceivingDetails.set(this.formGroup.get('UserReceivingDetails')?.value || '');
+      this.next.emit();
     }
+    // go next
   }
 }

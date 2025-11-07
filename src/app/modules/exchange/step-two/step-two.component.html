@@ -6,17 +6,17 @@
         type="text"
         id="name"
         formControlName="Name"
-        [ngClass]="{ 'is__invalid-input': hasError('Name', 'required') }"
-        class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
+        [ngClass]="{ 'is__invalid-input': common.hasError('Name', 'required', formGroup) }"
+        class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-200 px-4 py-3 !text-[14px] focus:ring-1"
         placeholder=" " />
       <label
         for="Name"
-        [ngClass]="{ 'is__invalid-input': hasError('Name', 'required') }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        [ngClass]="{ 'is__invalid-input': common.hasError('Name', 'required', formGroup) }"
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Full Name
       </label>
     </div>
-    @if (hasError('Name','required')) {
+    @if (common.hasError('Name','required', formGroup)) {
     <small class="mt-1 block text-red-500">Name is required</small>
     }
   </div>
@@ -28,19 +28,22 @@
         type="email"
         id="email"
         formControlName="Email"
-        [ngClass]="{ 'is__invalid-input': hasError('Email', 'required') || hasError('Email', 'Email') }"
+        [ngClass]="{ 'is__invalid-input': common.hasError('Email', 'Email', formGroup) }"
         class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
         placeholder=" " />
       <label
         for="email"
-        [ngClass]="{ 'is__invalid-input': hasError('Email', 'required') || hasError('Email', 'Email') }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        [ngClass]="{
+          'is__invalid-input':
+            common.hasError('Email', 'required', formGroup) || common.hasError('Email', 'Email', formGroup)
+        }"
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Email Address
       </label>
     </div>
-    @if (hasError('Email','required')) {
+    @if (common.hasError('Email','required', formGroup)) {
     <small class="text-red-500">Email is required</small>
-    } @if (hasError('Email','Email')) {
+    } @if (common.hasError('Email','Email', formGroup)) {
     <small class="text-red-500">Enter a valid Email</small>
     }
   </div>
@@ -52,19 +55,25 @@
         type="text"
         id="phone"
         formControlName="Phone"
-        [ngClass]="{ 'is__invalid-input': hasError('Phone', 'required') || hasError('Phone', 'pattern') }"
+        [ngClass]="{
+          'is__invalid-input':
+            common.hasError('Phone', 'required', formGroup) || common.hasError('Phone', 'pattern', formGroup)
+        }"
         class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
         placeholder=" " />
       <label
         for="phone"
-        [ngClass]="{ 'is__invalid-input': hasError('Phone', 'required') || hasError('Phone', 'pattern') }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        [ngClass]="{
+          'is__invalid-input':
+            common.hasError('Phone', 'required', formGroup) || common.hasError('Phone', 'pattern', formGroup)
+        }"
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Phone Number
       </label>
     </div>
-    @if (hasError('Phone','required')) {
+    @if (common.hasError('Phone','required', formGroup)) {
     <small class="text-red-500">Phone is required</small>
-    } @if (hasError('Phone','pattern')) {
+    } @if (common.hasError('Phone','pattern', formGroup)) {
     <small class="text-red-500">Phone number is invalid</small>
     }
   </div>
@@ -76,23 +85,23 @@
         type="text"
         id="userReceivingDetails"
         formControlName="UserReceivingDetails"
-        [ngClass]="{ 'is__invalid-input': hasError('UserReceivingDetails', 'required') }"
+        [ngClass]="{ 'is__invalid-input': common.hasError('UserReceivingDetails', 'required', formGroup) }"
         class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
         placeholder=" " />
       <label
         for="userReceivingDetails"
-        [ngClass]="{ 'is__invalid-input': hasError('UserReceivingDetails', 'required') }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        [ngClass]="{ 'is__invalid-input': common.hasError('UserReceivingDetails', 'required', formGroup) }"
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         {{ cleanInstruction }}
       </label>
     </div>
-    @if (hasError('UserReceivingDetails','required')) {
+    @if (common.hasError('UserReceivingDetails','required', formGroup)) {
     <small class="mt-1 block text-red-500">{{ exchangeService.rate()?.ToCurrency?.PaymentInstruction }}</small>
     }
   </div>
 
   @if (exchangeService.rate()?.ToCurrency?.Name == "Bank Transfer") {
-    
+
   <!-- Branch -->
   <div class="form__group">
     <div class="relative">
@@ -100,19 +109,27 @@
         type="text"
         id="accountHolderName"
         formControlName="AccountHolderName"
-        [ngClass]="{ 'is__invalid-input': hasError('AccountHolderName', 'required') || hasError('AccountHolderName', 'pattern') }"
+        [ngClass]="{
+          'is__invalid-input':
+            common.hasError('AccountHolderName', 'required', formGroup) ||
+            common.hasError('AccountHolderName', 'pattern', formGroup)
+        }"
         class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
         placeholder=" " />
       <label
         for="accountHolderName"
-        [ngClass]="{ 'is__invalid-input': hasError('AccountHolderName', 'required') || hasError('AccountHolderName', 'pattern') }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        [ngClass]="{
+          'is__invalid-input':
+            common.hasError('AccountHolderName', 'required', formGroup) ||
+            common.hasError('AccountHolderName', 'pattern', formGroup)
+        }"
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Account Holder Name
       </label>
     </div>
-    @if (hasError('Branch','required')) {
+    @if (common.hasError('AccountHolderName','required', formGroup)) {
     <small class="text-red-500">Account Holder Name is required</small>
-    } @if (hasError('Branch','pattern')) {
+    } @if (common.hasError('AccountHolderName','pattern', formGroup)) {
     <small class="text-red-500">Accoun Holder Name is invalid</small>
     }
   </div>
@@ -123,19 +140,19 @@
       <select
         formControlName="BankName"
         class="tbg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
-        (change)="onStatusChange($event)">
+        >
         @for (item of bankService.bank(); track $index) {
-        <option [value]="item.Id">{{ item.Name }}</option>
+        <option [value]="item.Name">{{ item.Name }}</option>
         }
       </select>
       <label
         for="bankName"
-        [ngClass]="{ 'is__invalid-input': hasError('BankName', 'required') }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        [ngClass]="{ 'is__invalid-input': common.hasError }"
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Bank Name
       </label>
     </div>
-    @if (hasError('BankName','required')) {
+    @if (common.hasError('BankName','required', formGroup)) {
     <small class="mt-1 block text-red-500">{{ exchangeService.rate()?.ToCurrency?.PaymentInstruction }}</small>
     }
   </div>
@@ -147,19 +164,25 @@
         type="text"
         id="branch"
         formControlName="Branch"
-        [ngClass]="{ 'is__invalid-input': hasError('Branch', 'required') || hasError('Branch', 'pattern') }"
+        [ngClass]="{
+          'is__invalid-input':
+            common.hasError('Branch', 'required', formGroup) || common.hasError('Branch', 'pattern', formGroup)
+        }"
         class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
         placeholder=" " />
       <label
         for="branch"
-        [ngClass]="{ 'is__invalid-input': hasError('Branch', 'required') || hasError('Branch', 'pattern') }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        [ngClass]="{
+          'is__invalid-input':
+            common.hasError('Branch', 'required', formGroup) || common.hasError('Branch', 'pattern', formGroup)
+        }"
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Branch Name
       </label>
     </div>
-    @if (hasError('Branch','required')) {
+    @if (common.hasError('Branch','required', formGroup)) {
     <small class="text-red-500">Branch is required</small>
-    } @if (hasError('Branch','pattern')) {
+    } @if (common.hasError('Branch','pattern', formGroup)) {
     <small class="text-red-500">Branch number is invalid</small>
     }
   </div>
@@ -172,18 +195,24 @@
     <label for="accept-term" class="text-muted-foreground text-sm">I Accept the</label>
     <app-button impact="none" tone="primary" shape="rounded" size="small">Terms</app-button>
   </div>
-  @if (hasError('AcceptTerm','required')) {
+  @if (common.hasError('AcceptTerm','required', formGroup)) {
   <small class="mt-1 block text-red-500">You must accept the terms</small>
   }
 
-  <!-- Actions -->
-  <div class="mt-4 flex justify-between">
-    <button type="button" (click)="back.emit()" class="cursor-pointer rounded bg-gray-300 px-4 py-2">&lt; Back</button>
+  <!-- Buttons -->
+  <div class="mt-4 flex flex-col justify-between gap-2 sm:flex-row sm:gap-4">
+    <!-- Back Button -->
+    <button
+      type="button"
+      class="w-full rounded-lg bg-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+      (click)="back.emit()">
+      &lt; Back
+    </button>
+    <!-- Next Button -->
     <button
       type="button"
       (click)="onNext()"
-      [disabled]="formGroup.invalid"
-      class="bg-primary cursor-pointer rounded px-4 py-2 text-white disabled:opacity-50">
+      class="bg-primary hover:bg-primary/90 focus:ring-primary/70 w-full rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 sm:w-auto">
       Next
     </button>
   </div>

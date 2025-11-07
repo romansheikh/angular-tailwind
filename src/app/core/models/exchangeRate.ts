@@ -12,6 +12,7 @@ export interface ExchangeRate {
 
 
 export interface ExchangePair {
+  Id: number;
   FromCurrencyId: number;
   ToCurrencyId: number;
   Rate: number;

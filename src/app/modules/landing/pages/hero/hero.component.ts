@@ -1,9 +1,12 @@
+import { Router } from '@angular/router';
 import { Component, effect, HostListener, inject, OnInit, signal } from '@angular/core';
 import { Currency } from 'src/app/core/models/currencies';
 import { CurrencyService } from 'src/app/core/services/currency.service';
 import { AdminLayoutRoutingModule } from 'src/app/modules/layout/admin-layout/admin-layout-routing.module';
 import { trigger, transition, style, animate, keyframes } from '@angular/animations';
 import { BankService } from 'src/app/core/services/bank.service';
+import { PaymentGatewayService } from 'src/app/core/services/paymentgateway.service';
+import { ExchangeService } from 'src/app/core/services/exchange.service';
 
 @Component({
   selector: 'app-hero',
@@ -21,9 +24,12 @@ import { BankService } from 'src/app/core/services/bank.service';
 })
 // Component Class (TS)
 export class HeroComponent implements OnInit {
-  // Use 'inject' as before, this is correct.
+  exchangeService = inject(ExchangeService);
+  constructor(private router: Router) {}
+
   currencyService = inject(CurrencyService);
   bankService = inject(BankService);
+  paymentGatewayService = inject(PaymentGatewayService);
 
   // Signals are good and correct.
   dropdownSendOpen = signal(false);
@@ -34,16 +40,13 @@ export class HeroComponent implements OnInit {
   ngOnInit() {
     this.currencyService.getCurrencies().subscribe((currencies) => {
       this.currencyService.currencies.set(currencies);
-
       if (currencies.length > 1) {
-        // Select the first currency for "You Send"
         this.selectSendCurrency(currencies[0]);
-
-        // Now select the first filtered currency for "You Get"
         const firstAvailable = this.getList[0];
         if (firstAvailable) {
           this.selectGetCurrency(firstAvailable);
         }
+        this.loadPairData();
       }
     });
   }
@@ -66,22 +69,26 @@ export class HeroComponent implements OnInit {
   selectSendCurrency(currency: Currency) {
     this.currencyService.selectedSendCurrency.set(currency);
     this.dropdownSendOpen.set(false);
-
+    this.paymentGatewayService
+      .getPaymentGateway(currency.Id)
+      .subscribe((paymentGateway) => this.paymentGatewayService.paymentGateway.set(paymentGateway));
     // Refresh "You Get" selection
     const firstAvailable = this.getList[0];
     if (firstAvailable) {
       this.selectGetCurrency(firstAvailable);
     }
+    this.loadPairData();
   }
 
   selectGetCurrency(currency: Currency) {
     this.currencyService.selectedGetCurrency.set(currency);
     this.dropdownGetOpen.set(false);
-    if (currency.Name === 'Bank Transfer') {
+    if (currency.Type === 'Bank') {
       this.bankService.getBank().subscribe((bank) => this.bankService.bank.set(bank));
     } else {
       this.bankService.bank.set([]);
     }
+    this.loadPairData();
   }
 
   get sendList() {
@@ -90,7 +97,27 @@ export class HeroComponent implements OnInit {
 
   get getList() {
     const selected = this.currencyService.selectedSendCurrency();
-    return this.currencyService.currencies().filter((c) => c.Id !== selected?.Id && c.Type !== selected?.Type);
+    const allCurrencies = this.currencyService.currencies();
+    if (!selected) return allCurrencies;
+    if (selected.Type === 'MFS' || selected.Type === 'Bank') {
+      return allCurrencies.filter((c) => c.Type !== 'MFS' && c.Type !== 'Bank');
+    }
+    return allCurrencies.filter((c) => c.Id !== selected.Id && c.Type !== selected.Type);
+  }
+
+  redirectExchange() {
+    this.router.navigateByUrl('/exchange');
+  }
+
+  loadPairData() {
+    var fromId = this.currencyService.selectedSendCurrency()?.Id;
+    var toId = this.currencyService.selectedGetCurrency()?.Id;
+    if (fromId && toId) {
+      this.exchangeService.loadPairRate(fromId, toId);
+      this.exchangeService.getRatePairByCurrencyId(fromId, toId).subscribe((pair) => {
+        this.exchangeService.rate.set(pair);
+      });
+    }
   }
 
   @HostListener('document:click', ['$event'])

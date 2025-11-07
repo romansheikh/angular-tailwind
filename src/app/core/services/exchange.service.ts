@@ -19,8 +19,7 @@ export class ExchangeService {
 
   // 🔹 Fetch single rate (pair)
   getRatePairByCurrencyId(fromId: number, toId: number): Observable<ExchangePair> {
-    return this.api.get<ExchangePair>(
-      `api/ExchangeRate/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`
+    return this.api.get<ExchangePair>(`api/ExchangeRate/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`
     );
   }
 

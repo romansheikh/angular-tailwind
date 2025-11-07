@@ -7,6 +7,7 @@ import { Bank } from '../models/bank';
 export class BankService {
   private api = inject(WebApiService);
   bank = signal<Bank[]>([]);
+  userReceivingDetails = signal('');
   loading = this.api.loading;
   error = this.api.error;
 

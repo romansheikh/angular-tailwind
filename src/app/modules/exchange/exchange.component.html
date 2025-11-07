@@ -6,7 +6,7 @@
           <div class="rounded-lg border p-2 sm:p-8 lg:col-span-2">
             <!-- Title -->
 
-            <div class="mb-4 text-center">
+            <div class="mb-2 text-center">
               <div
                 class="text-foreground inline-flex flex-wrap items-center justify-center gap-2 font-semibold sm:gap-3 md:gap-4">
                 <!-- Send Currency -->
@@ -47,11 +47,10 @@
                 </div>
               </div>
             </div>
-
-            <!-- Stepper -->
-            <div class="mb-6 flex flex-wrap items-center justify-center">
-              @for (step of steps; track step.number; let i = $index) {
+            <div class="mb-2 flex flex-wrap items-center justify-center">
+              @for (step of steps(); track step.number; let i = $index) {
               <div
+                (click)="goToStep(step.number)"
                 class="flex cursor-pointer items-center"
                 [ngClass]="{ 'text-primary-foreground': currentStep() === step.number }">
                 <div
@@ -59,25 +58,36 @@
                   [ngClass]="{ 'bg-primary border-primary': currentStep() === step.number }">
                   {{ step.number }}
                 </div>
+
                 <span
                   class="text-foreground ml-1 text-xs font-semibold sm:ml-2 sm:text-sm md:ml-2 md:text-sm"
                   [ngClass]="{ 'text-rose-700': currentStep() === step.number }">
-                  {{ step.label }}
+                  {{ currentStep() === step.number ? stepLabels[step.number] : step.label }}
                 </span>
               </div>
 
-              @if (i < steps.length - 1) {
+              @if (i < steps().length - 1) {
               <div class="mx-1 h-0.5 flex-1 bg-gray-500 sm:mx-2 md:mx-2"></div>
               } }
             </div>
 
-            @switch (currentStep()) { @case (1) {
-            <app-step-one (next)="nextStep()"></app-step-one>
-            } @case (2) {
-            <app-step-two (prev)="prevStep()" (next)="nextStep()"></app-step-two>
-            } @case (3) {
-            <app-step-three (back)="prevStep()" (confirm)="confirmExchange()"> </app-step-three>
-            } }
+            <h3 class="text-foreground text-center text-lg font-bold sm:text-sm md:text-2xl">
+              {{ stepLabels[currentStep()] }}
+            </h3>
+            <hr class="py-.5 w-75 mx-auto my-1 h-1 rounded-2xl bg-green-500" />
+
+            <!-- Step 1 -->
+            <app-step-one [hidden]="currentStep() !== 1" (next)="nextStep()"> </app-step-one>
+            <!-- Step 2 -->
+            <app-step-two
+              [hidden]="currentStep() !== 2"
+              (formDataChange)="onStepTwoDataChange($event)"
+              (back)="prevStep()"
+              (next)="nextStep()">
+            </app-step-two>
+            <!-- Step 3 -->
+            <app-step-three [hidden]="currentStep() !== 3" (back)="prevStep()" (confirm)="confirmExchange()">
+            </app-step-three>
           </div>
           <app-exchange-info></app-exchange-info>
         </div>

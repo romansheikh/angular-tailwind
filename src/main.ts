@@ -1,12 +1,11 @@
 import { enableProdMode, importProvidersFrom } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { AppRoutingModule } from './app/app-routing.module';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
+import { provideToastr, ToastrModule } from 'ngx-toastr';
 
 if (environment.production) {
   enableProdMode();
@@ -17,9 +16,11 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-  providers: [importProvidersFrom(BrowserModule, AppRoutingModule), 
+  providers: [
+    importProvidersFrom(BrowserModule, AppRoutingModule, BrowserAnimationsModule),
     provideAnimations(),
-    provideHttpClient(), 
+    provideHttpClient(),
+    provideToastr(), // Toastr providers
   ],
 }).catch((err) => console.error(err));
 

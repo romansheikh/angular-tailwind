@@ -1,7 +1,7 @@
-<section class="relative pt-5 pb-5">
+<section class="relative pt-2 pb-5">
   <div class="container mx-auto px-2 sm:px-6 lg:px-2">
     <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-      <div class="bg-background rounded-2xl p-6 shadow-2xl sm:p-8">
+      <div class="bg-background rounded p-4 shadow-xl sm:p-8">
         <form class="space-y-4 sm:space-y-6">
           <!-- You Send -->
           <!-- <div class="mb-4">
@@ -88,7 +88,7 @@
                 @for (currency of getList; track currency.Id) {
                 <li
                   (click)="selectGetCurrency(currency)"
-                  class="flex cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-200 sm:text-base md:text-lg lg:text-xl">
+                  class="flex cursor-pointer items-center px-3 py-2 text-sm hover:bg-gray-400 sm:text-base md:text-lg lg:text-xl">
                   <img [src]="currency.LogoUrl" class="mr-2 h-5 w-5 rounded-full" />
                   {{ currency.Name }} ({{ currency.Symbol }})
                 </li>
@@ -104,8 +104,9 @@
           </div>
 
           <!-- Exchange Button -->
-          <button
-            [routerLink]="['/exchange']"
+          <button 
+          (click)="redirectExchange()"
+          
             type="button"
             class="bg-primary text-primary-foreground w-full cursor-pointer rounded-lg py-3 px-4 text-base font-bold transition duration-300 hover:scale-105 hover:shadow-lg active:scale-95 sm:py-4 sm:text-lg">
             Exchange Now

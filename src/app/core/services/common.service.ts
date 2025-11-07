@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +28,12 @@ export class CommonService {
       return null;
     };
   }
+
+    hasError(controlName: string, errorCode: string, formGroup: FormGroup): boolean {
+    const control = formGroup.get(controlName);
+    return !!(control && control.touched && control.hasError(errorCode));
+  }
+
 
   
 }

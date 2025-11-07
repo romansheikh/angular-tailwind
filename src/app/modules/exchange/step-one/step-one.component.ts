@@ -21,26 +21,28 @@ export class StepOneComponent implements OnInit {
   @Output() next = new EventEmitter<void>();
 
   formGroup: FormGroup;
-  currentRate: number = 0;
+  currentRate = 0 as number | null;
 
   sendCurrency = this.currencyService.selectedSendCurrency;
   getCurrency = this.currencyService.selectedGetCurrency;
 
   constructor() {
     this.formGroup = this.fb.group({
-      amountSend: [null, [Validators.required, Validators.pattern('^[0-9]*\\.?[0-9]*$'), Validators.min(1)]],
-      amountReceive: [{ value: '', disabled: true }],
+      AmountSend: [null, [Validators.required, Validators.pattern('^[0-9]*\\.?[0-9]*$'), Validators.min(1)]],
+      AmountReceive: [{ value: '', disabled: true }],
+      FromCurrencyId: [this.sendCurrency()?.Id || null, Validators.required],
+      ToCurrencyId: [this.getCurrency()?.Id || null, Validators.required]
     });
     this.loadRateEffect();
   }
 
   ngOnInit() {
-    this.formGroup.get('amountSend')?.valueChanges.subscribe((amountSend) => {
-      if (amountSend && this.currentRate) {
-        const calculated = Number(amountSend) * this.currentRate;
-        this.formGroup.get('amountReceive')?.setValue(calculated.toFixed(3), { emitEvent: false });
+    this.formGroup.get('AmountSend')?.valueChanges.subscribe((AmountSend) => {
+      if (AmountSend && this.currentRate) {
+        const calculated = Number(AmountSend) * this.currentRate;
+        this.formGroup.get('AmountReceive')?.setValue(calculated.toFixed(3), { emitEvent: false });
       } else {
-        this.formGroup.get('amountReceive')?.setValue('', { emitEvent: false });
+        this.formGroup.get('AmountReceive')?.setValue('', { emitEvent: false });
       }
     });
   }
@@ -52,17 +54,16 @@ export class StepOneComponent implements OnInit {
 
       if (fromId && toId) {
         this.exchangeService.loadPairRate(fromId, toId);
-
         this.exchangeService.getRatePairByCurrencyId(fromId, toId).subscribe((pair) => {
           this.currentRate = pair.Rate;
           this.exchangeService.rate.set(pair);
 
-          // Default amountSend
+          // Default AmountSend
           let defaultAmountSend = 1;
           if (pair.FromCurrency.Type === 'MFS') {
             defaultAmountSend = this.commonService.convertUsdToBdt(pair.Rate);
           }
-          const sendControl = this.formGroup.get('amountSend');
+          const sendControl = this.formGroup.get('AmountSend');
           sendControl?.setValue(defaultAmountSend, { emitEvent: false });
           sendControl?.setValidators([
             Validators.required,
@@ -75,6 +76,9 @@ export class StepOneComponent implements OnInit {
       }
     });
   }
+
+
+
 
   goNext() {
     this.next.emit();

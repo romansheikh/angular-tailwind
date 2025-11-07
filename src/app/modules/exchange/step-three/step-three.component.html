@@ -1,27 +1,59 @@
-<h3 class="mb-2 text-center text-lg font-bold text-gray-800 sm:text-xl md:text-2xl">Exchange Confirmation</h3>
-<hr class="mx-auto mb-6 h-1 w-16 bg-green-500 sm:mb-8" />
-
 <form [formGroup]="formGroup" class="space-y-6">
   <!-- Account Receive Details -->
-  <div>
-    <label class="mb-1 block text-sm font-semibold text-gray-700 sm:text-base">Account Receive Details</label>
-    <input
-      type="text"
-      value="75895858"
-      class="w-full cursor-not-allowed rounded-md border-2 border-gray-300 bg-gray-100 p-2 text-sm text-gray-500 sm:p-3 sm:text-base"
-      readonly />
+  <div class="rounded-lg border border-dashed border-gray-300 p-3 text-center sm:p-4">
+    <label class="mb-1 block text-sm font-semibold text-gray-700 sm:text-base"> Account Receive Details </label>
+    <p
+      class="my-3 rounded-md bg-gray-100 p-2 text-sm font-bold text-gray-800 sm:p-3 sm:text-base md:text-lg lg:text-xl">
+      {{ bank.userReceivingDetails() || 'N/A' }}
+    </p>
   </div>
 
-  <!-- Our Nagad Account -->
+  <!-- Dynamic Gateway Info -->
+  @if (gatewayData) {
   <div class="rounded-lg border border-dashed border-gray-300 p-3 text-center sm:p-4">
-    <label class="mb-1 block text-sm font-semibold text-gray-700 sm:text-base">Our Nagad Account Details</label>
+    <label class="mb-1 block text-sm font-semibold text-gray-700 sm:text-base">
+      Our {{ gatewayData.GatewayName }} Account Details
+    </label>
     <p class="text-xs text-gray-500 sm:text-sm">
-      Please make payment to our account and insert your payment details in the field below.
+      Please make <b>({{ gatewayData.Instructions.PaymentType || 'Send Money' }})</b> to our account and insert your
+      payment details below.
     </p>
-    <p class="my-3 rounded-md bg-gray-100 p-2 text-xl font-bold text-gray-800 sm:p-3 sm:text-2xl">
-      01731950643 (Nagad Send Money)
+    @if (gatewayData.Instructions.BankName) {
+    <div
+      class="my-3 space-y-1 rounded-md bg-gray-100 p-2 text-left text-sm font-medium text-gray-800 sm:p-3 sm:text-base">
+      <p class="flex gap-2">
+        Bank Name: {{ gatewayData.Instructions.BankName }}
+        <app-copy-button [valueToCopy]="gatewayData.Instructions.BankName"></app-copy-button>
+      </p>
+      <!-- Copy Icon Button -->
+
+      <p class="flex gap-2">
+        Account Holder: {{ gatewayData.Instructions.AccountHolder }}
+        <app-copy-button [valueToCopy]="gatewayData.Instructions.AccountHolder"></app-copy-button>
+      </p>
+      <p class="flex gap-2">
+        Account Number: {{ gatewayData.Instructions.AccountNumber }}
+        <app-copy-button [valueToCopy]="gatewayData.Instructions.AccountNumber"></app-copy-button>
+      </p>
+      <p class="flex gap-2">
+        Branch: {{ gatewayData.Instructions.Branch }}
+        <app-copy-button [valueToCopy]="gatewayData.Instructions.Branch"></app-copy-button>
+      </p>
+      <p class="flex gap-2">Type: {{ gatewayData.Instructions.PaymentType }}</p>
+    </div>
+    } @else {
+    <p
+      class="my-3 flex items-center justify-center rounded-md bg-gray-100 p-2 text-xl font-bold text-gray-800 sm:p-3 sm:text-2xl">
+      <span class="text-sm sm:text-base md:text-lg lg:text-xl">
+        {{ gatewayData.AccountNumber }}
+      </span>
+      <!-- Copy Icon Button -->
+      <app-copy-button [valueToCopy]="gatewayData.AccountNumber"></app-copy-button>
     </p>
+
+    }
   </div>
+  }
 
   <!-- Waiting for Payment -->
   <div
@@ -48,29 +80,43 @@
     <textarea
       id="paymentDetails"
       rows="4"
+      formControlName="TransactionProof"
       class="w-full rounded-md border-2 border-gray-300 p-2 text-sm focus:border-green-500 focus:outline-none sm:p-3 sm:text-base"
-      placeholder="Enter your payment details (Transaction ID, sender details, etc)."></textarea>
+      placeholder="Enter your payment details (Transaction ID, sender details, etc).">
+    </textarea>
+    @if (common.hasError('TransactionProof','required', formGroup)) {
+    <small class="mt-1 block text-red-500">Payment Details is required</small>
+    }
   </div>
 
   <!-- Payment Proof -->
   <div>
-    <label class="mb-1 block text-sm font-semibold text-gray-700 sm:text-base">
-      Payment Proof:
-      <span class="text-xs font-normal text-gray-500 sm:text-sm">(Optional)</span>
-    </label>
+    <label class="mb-1 block text-sm font-semibold text-gray-700 sm:text-base"> Payment Proof Image Upload: </label>
+
     <input
       type="file"
+      (change)="onFileChanged($event)"
+      accept="image/*"
       class="block w-full text-xs text-gray-500 file:mr-2 file:rounded-full file:border-0 file:bg-green-50 file:py-1 file:px-2 file:text-xs file:font-semibold file:text-green-700 hover:file:bg-green-100 sm:text-sm sm:file:mr-4 sm:file:py-2 sm:file:px-4 sm:file:text-sm" />
+
+    @if (common.hasError('PaymentProofImageUrl','required', formGroup)) {
+    <small class="mt-1 block text-red-500"> Please upload a image of your transaction </small>
+    }
   </div>
+
+  <!-- Optional preview -->
+  <img *ngIf="filePreview" [src]="filePreview" alt="Preview" class="mt-2 w-32 rounded-lg border" />
 
   <!-- Buttons -->
   <div class="flex flex-col items-center justify-center space-y-2 pt-4 sm:flex-row sm:space-y-0 sm:space-x-4">
     <button
+      (click)="confrim()"
       type="submit"
-      class="w-full rounded-md bg-green-500 py-2 px-6 font-bold text-white transition duration-300 hover:bg-green-600 sm:w-auto sm:py-3">
+      class="cursor-pointer w-full rounded-md bg-green-500 py-2 px-6 font-bold text-white transition duration-300 hover:bg-green-600 sm:w-auto sm:py-3">
       ✓ Confirm
     </button>
     <button
+      [routerLink]="'/'"
       type="button"
       class="w-full rounded-md bg-red-500 py-2 px-6 font-bold text-white transition duration-300 hover:bg-red-600 sm:w-auto sm:py-3">
       ✗ Cancel

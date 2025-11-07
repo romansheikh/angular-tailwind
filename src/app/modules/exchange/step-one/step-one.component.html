@@ -1,8 +1,6 @@
-<h3 class="text-foreground mb-2 text-center text-lg font-bold sm:text-sm md:text-2xl">Enter Amount</h3>
-<hr class="mx-auto mb-6 h-1 w-16 bg-green-500" />
 
 <form [formGroup]="formGroup" class="space-y-4">
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
     <!-- Amount Send -->
     <div>
       <label class="text-foreground mb-1 flex items-center gap-2 text-sm font-semibold sm:text-base">
@@ -27,7 +25,7 @@
           [min]="[exchangeService.rate()?.MinAmount]"
           [max]="[exchangeService.rate()?.MaxAmount]"
           type="text"
-          formControlName="amountSend"
+          formControlName="AmountSend"
           class="w-full border-0 p-3 !text-[20px] leading-none focus:outline-none" />
         <div
           class="bg-background flex items-center justify-center self-stretch rounded-r-md border-l-2 border-gray-300 px-3 sm:px-4">
@@ -43,13 +41,13 @@
 
       <!-- Validation messages without *ngIf -->
       <div class="mt-1 text-xs text-red-500">
-        @if (formGroup.get('amountSend')?.touched && formGroup.get('amountSend')?.hasError('required')) {
+        @if (formGroup.get('AmountSend')?.touched && formGroup.get('AmountSend')?.hasError('required')) {
         <span class="mt-1 text-xs sm:text-sm">Amount is required.</span>
-        } @if (formGroup.get('amountSend')?.touched && formGroup.get('amountSend')?.hasError('min')) {
-        <span class="mt-1 text-xs sm:text-sm">Minimum allowed is {{ exchangeService.rate()?.MinAmount }}.</span>
-        } @if (formGroup.get('amountSend')?.touched && formGroup.get('amountSend')?.hasError('max')) {
-        <span class="mt-1 text-xs sm:text-sm">Maximum allowed is {{ exchangeService.rate()?.MaxAmount }}.</span>
-        } @if (formGroup.get('amountSend')?.touched && formGroup.get('amountSend')?.hasError('pattern')) {
+        } @if (formGroup.get('AmountSend')?.touched && formGroup.get('AmountSend')?.hasError('min')) {
+        <span class="mt-1 text-xs sm:text-sm">Minimum allowed is {{ exchangeService.rate()?.MinAmount }} {{sendCurrency()?.Symbol}}.</span>
+        } @if (formGroup.get('AmountSend')?.touched && formGroup.get('AmountSend')?.hasError('max')) {
+        <span class="mt-1 text-xs sm:text-sm">Maximum allowed is {{ exchangeService.rate()?.MaxAmount }} {{sendCurrency()?.Symbol}}.</span>
+        } @if (formGroup.get('AmountSend')?.touched && formGroup.get('AmountSend')?.hasError('pattern')) {
         <span class="mt-1 text-xs sm:text-sm">Invalid number format.</span>
         }
       </div>
@@ -76,7 +74,7 @@
       <div class="flex items-center rounded-md border-2 border-gray-300">
         <input
           type="number"
-          formControlName="amountReceive"
+          formControlName="AmountReceive"
           class="w-full border-0 p-3 !text-[20px] leading-none focus:outline-none sm:p-3" />
 
         <div
@@ -93,11 +91,11 @@
       <p class="mb-2 text-xs text-gray-500 sm:text-sm">Estimated amount based on current rates.</p>
       <!-- Validation messages -->
       <div class="mt-1 text-xs text-red-500">
-        @if (formGroup.get('amountReceive')?.touched && formGroup.get('amountReceive')?.hasError('required')) {
+        @if (formGroup.get('AmountReceive')?.touched && formGroup.get('AmountReceive')?.hasError('required')) {
         <span class="mt-1 text-xs sm:text-sm">Amount is required.</span>
-        } @if (formGroup.get('amountReceive')?.touched && formGroup.get('amountReceive')?.hasError('max')) {
-        <span class="mt-1 text-xs sm:text-sm">Maximum allowed is {{ exchangeService.rate()?.MaxAmount }} {{exchangeService.rate()?.FromCurrency?.Symbol}}.</span>
-        } @if (formGroup.get('amountReceive')?.touched && formGroup.get('amountReceive')?.hasError('pattern')) {
+        } @if (formGroup.get('AmountReceive')?.touched && formGroup.get('AmountReceive')?.hasError('max')) {
+        <span class="mt-1 text-xs sm:text-sm">Maximum allowed is {{ exchangeService.rate()?.MaxAmount }} {{getCurrency()?.Symbol}}.</span>
+        } @if (formGroup.get('AmountReceive')?.touched && formGroup.get('AmountReceive')?.hasError('pattern')) {
         <span class="mt-1 text-xs sm:text-sm">Invalid number format.</span>
         }
       </div>
