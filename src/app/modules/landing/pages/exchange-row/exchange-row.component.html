@@ -1,27 +1,76 @@
 <ng-container>
-  <td>
-    <div class="flex items-center gap-2.5">
-      <img
-        alt="user avatar"
-        class="h-9 w-9 shrink-0 rounded-full"
-        src="https://ui-avatars.com/api/?name=roman&background=random" />
-          <span  class="text-muted-foreground text-sm font-semibold" >{{ exchange.fromCurrency.name }}</span>
-          <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-          <!-- <img [src]="exchange.toCurrency.logo" [alt]="exchange.toCurrency.name" class="h-5 w-5 rounded-full"> -->
-          <span  class="text-muted-foreground text-sm font-semibold" >{{ exchange.toCurrency.name }}</span>  
-          <span class="text-muted-foreground text-sm font-semibold">({{ exchange.fromCurrency.amount }}BDT)</span>
-    </div>
-    
+  <!-- Order ID -->
+  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
+    <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+      {{ exchange.OrderId }}
+    </span>
   </td>
-  <td><span class="text-muted-foreground text-sm font-semibold"> {{ exchange.orderId }}</span></td>
-  <td><span class="text-muted-foreground text-sm font-semibold"> {{ exchange.timeAgo }}</span></td>
-<td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-  <span [ngClass]="{
-    'bg-green-100 text-green-800': exchange.status === 'confirmed',
-    'bg-yellow-100 text-yellow-800': exchange.status === 'pending',
-    'bg-red-100 text-red-800': exchange.status === 'canceled'
-  }" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold">
-    {{ exchange.status }}
-  </span>
-</td>
+
+  <!-- User Name -->
+  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
+    <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+      {{ exchange.UserName }}
+    </span>
+  </td>
+
+  <!-- Currency Exchange -->
+  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
+    <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+      <!-- Send Currency -->
+      <div class="flex items-center gap-1 sm:gap-2">
+        <img alt="user avatar" class="h-4 w-4 shrink-0 rounded-full sm:h-5 sm:w-5" [src]="exchange.SendCurrencyLogo" />
+        <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+          {{ exchange.SendCurrency }}
+        </span>
+      </div>
+
+      <span class="text-muted-foreground text-xs font-semibold sm:text-sm">→</span>
+
+      <!-- Receive Currency -->
+      <div class="flex items-center gap-1 sm:gap-2">
+        <img
+          alt="user avatar"
+          class="h-4 w-4 shrink-0 rounded-full sm:h-5 sm:w-5"
+          [src]="exchange.ReceiveCurrencyLogo" />
+        <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+          {{ exchange.ReceiveCurrency }}
+        </span>
+      </div>
+    </div>
+  </td>
+
+  <!-- Amount -->
+  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
+    <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+      {{ exchange.Amount }}
+    </span>
+  </td>
+
+  <!-- Date -->
+  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
+    <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+      {{ exchange.Date }}
+    </span>
+  </td>
+
+  <!-- Status -->
+  <td class="whitespace-nowrap px-2 py-1 text-center align-middle sm:px-6 sm:py-2">
+    <span
+      [ngClass]="{
+        'bg-yellow-100 text-yellow-800': exchange.Status === 'Pending',
+        'bg-green-100 text-green-500': exchange.Status === 'Completed',
+        'bg-yellow-100 text-yellow-600': exchange.Status === 'Failed',
+        'bg-red-100 text-red-800': exchange.Status === 'Canceled'
+      }"
+      class="inline-flex items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-semibold sm:px-3 sm:py-1 sm:text-xs">
+      {{ exchange.Status }}
+    </span>
+  </td>
 </ng-container>
+
+<!-- 
+Pending,              // Order created, waiting for user action.
+Completed,       // Admin has verified and sent funds. Transaction is done.
+Failed ,     //some error occurred during the exchange process.
+Canceled,             // The order was canceled by the user or admin.
+  -->

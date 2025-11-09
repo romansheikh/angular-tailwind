@@ -25,3 +25,18 @@ export interface ExchangePair {
 	ToCurrency: Currency;
 }
 
+
+
+export interface Exchange {
+	OrderId: string;
+	UserName: string;
+	SendCurrency: string;
+	SendCurrencyLogo: string;
+	ReceiveCurrency: string;
+	ReceiveCurrencyLogo: string;
+	Status: string;
+	Amount: string;
+	Date: string;
+}
+
+

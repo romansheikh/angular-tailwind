@@ -3,22 +3,7 @@
     <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
       <div class="bg-background rounded p-4 shadow-xl sm:p-8">
         <form class="space-y-4 sm:space-y-6">
-          <!-- You Send -->
-          <!-- <div class="mb-4">
-            <label class="mb-1 block text-sm text-gray-400 sm:mb-2 sm:text-base" for="send">You Send</label>
-            <div class="relative">
-              <select>
-                @for (currency of currencyService.currencies(); track currency.Id) {
-                <option [value]="currency.Id">{{ currency.Name }} ({{ currency.Symbol }})</option>             
-                }
-              </select>
-                 <div
-                  class="absolute inset-y-0 right-0 flex items-center rounded-r-lg bg-gray-600 px-2 text-sm sm:px-4 sm:text-base">
-                  <span class="text-white">USD</span>
-                </div>
-            </div>
-          </div> -->
-
+     
           <!-- You Send -->
           <div class="send-dropdown mb-4">
             <label class="mb-1 block text-sm text-gray-400 sm:mb-2 sm:text-base" for="send">You Send </label>
@@ -34,7 +19,7 @@
                     [src]="currencyService.selectedSendCurrency()?.LogoUrl"
                     class="mr-2 inline-block h-5 w-5 rounded-full" />
                   {{ currencyService.selectedSendCurrency()?.Name }}
-                  {{ currencyService.selectedSendCurrency()?.Symbol }}
+                
                 </span>
                 }
               </button>
@@ -74,9 +59,7 @@
                   <img
                     [src]="currencyService.selectedGetCurrency()?.LogoUrl"
                     class="mr-2 inline-block h-5 w-5 rounded-full" />
-                  {{ currencyService.selectedGetCurrency()?.Name }} ({{
-                    currencyService.selectedGetCurrency()?.Symbol
-                  }})
+                  {{ currencyService.selectedGetCurrency()?.Name }} 
                 </span>
                 }
               </button>

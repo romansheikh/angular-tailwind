@@ -25,8 +25,7 @@ import { ExchangeService } from 'src/app/core/services/exchange.service';
 // Component Class (TS)
 export class HeroComponent implements OnInit {
   exchangeService = inject(ExchangeService);
-  constructor(private router: Router) {}
-
+  router = inject(Router);
   currencyService = inject(CurrencyService);
   bankService = inject(BankService);
   paymentGatewayService = inject(PaymentGatewayService);
@@ -35,20 +34,19 @@ export class HeroComponent implements OnInit {
   dropdownSendOpen = signal(false);
   dropdownGetOpen = signal(false);
 
-  // 4. Removed the redundant 'isDropdownOpen' signal and 'closeDropdown' method.
+  constructor() {
+    this.currencyService.loadCurrencies();
+  }
 
   ngOnInit() {
-    this.currencyService.getCurrencies().subscribe((currencies) => {
-      this.currencyService.currencies.set(currencies);
-      if (currencies.length > 1) {
-        this.selectSendCurrency(currencies[0]);
-        const firstAvailable = this.getList[0];
-        if (firstAvailable) {
-          this.selectGetCurrency(firstAvailable);
-        }
-        this.loadPairData();
+    if (this.currencyService.currencies.length > 0) {
+
+      const firstAvailable = this.getList[0];
+      if (firstAvailable) {
+        this.selectGetCurrency(firstAvailable);
       }
-    });
+      this.loadPairData();
+    }
   }
 
   // 5. Improved UX: opening one closes the other.
@@ -69,10 +67,8 @@ export class HeroComponent implements OnInit {
   selectSendCurrency(currency: Currency) {
     this.currencyService.selectedSendCurrency.set(currency);
     this.dropdownSendOpen.set(false);
-    this.paymentGatewayService
-      .getPaymentGateway(currency.Id)
-      .subscribe((paymentGateway) => this.paymentGatewayService.paymentGateway.set(paymentGateway));
-    // Refresh "You Get" selection
+    this.paymentGatewayService.loadPaymentGateway(currency.Id);
+
     const firstAvailable = this.getList[0];
     if (firstAvailable) {
       this.selectGetCurrency(firstAvailable);
@@ -84,7 +80,7 @@ export class HeroComponent implements OnInit {
     this.currencyService.selectedGetCurrency.set(currency);
     this.dropdownGetOpen.set(false);
     if (currency.Type === 'Bank') {
-      this.bankService.getBank().subscribe((bank) => this.bankService.bank.set(bank));
+      this.bankService.loadBank();
     } else {
       this.bankService.bank.set([]);
     }
@@ -114,9 +110,6 @@ export class HeroComponent implements OnInit {
     var toId = this.currencyService.selectedGetCurrency()?.Id;
     if (fromId && toId) {
       this.exchangeService.loadPairRate(fromId, toId);
-      this.exchangeService.getRatePairByCurrencyId(fromId, toId).subscribe((pair) => {
-        this.exchangeService.rate.set(pair);
-      });
     }
   }
 

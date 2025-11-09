@@ -1,4 +1,3 @@
-
 <form [formGroup]="formGroup" class="space-y-4">
   <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
     <!-- Amount Send -->
@@ -44,9 +43,13 @@
         @if (formGroup.get('AmountSend')?.touched && formGroup.get('AmountSend')?.hasError('required')) {
         <span class="mt-1 text-xs sm:text-sm">Amount is required.</span>
         } @if (formGroup.get('AmountSend')?.touched && formGroup.get('AmountSend')?.hasError('min')) {
-        <span class="mt-1 text-xs sm:text-sm">Minimum allowed is {{ exchangeService.rate()?.MinAmount }} {{sendCurrency()?.Symbol}}.</span>
+        <span class="mt-1 text-xs sm:text-sm"
+          >Minimum allowed is {{ exchangeService.rate()?.MinAmount }} {{ sendCurrency()?.Symbol }}.</span
+        >
         } @if (formGroup.get('AmountSend')?.touched && formGroup.get('AmountSend')?.hasError('max')) {
-        <span class="mt-1 text-xs sm:text-sm">Maximum allowed is {{ exchangeService.rate()?.MaxAmount }} {{sendCurrency()?.Symbol}}.</span>
+        <span class="mt-1 text-xs sm:text-sm"
+          >Maximum allowed is {{ exchangeService.rate()?.MaxAmount }} {{ sendCurrency()?.Symbol }}.</span
+        >
         } @if (formGroup.get('AmountSend')?.touched && formGroup.get('AmountSend')?.hasError('pattern')) {
         <span class="mt-1 text-xs sm:text-sm">Invalid number format.</span>
         }
@@ -94,7 +97,9 @@
         @if (formGroup.get('AmountReceive')?.touched && formGroup.get('AmountReceive')?.hasError('required')) {
         <span class="mt-1 text-xs sm:text-sm">Amount is required.</span>
         } @if (formGroup.get('AmountReceive')?.touched && formGroup.get('AmountReceive')?.hasError('max')) {
-        <span class="mt-1 text-xs sm:text-sm">Maximum allowed is {{ exchangeService.rate()?.MaxAmount }} {{getCurrency()?.Symbol}}.</span>
+        <span class="mt-1 text-xs sm:text-sm"
+          >Maximum allowed is {{ exchangeService.rate()?.MaxAmount }} {{ getCurrency()?.Symbol }}.</span
+        >
         } @if (formGroup.get('AmountReceive')?.touched && formGroup.get('AmountReceive')?.hasError('pattern')) {
         <span class="mt-1 text-xs sm:text-sm">Invalid number format.</span>
         }
@@ -111,14 +116,12 @@
       disabled>
       &lt; Back
     </button>
-        <!-- Next Button -->
+    <!-- Next Button -->
     <button
       type="button"
-      [disabled]="formGroup.invalid"
-      (click)="next.emit()"
-      class="bg-primary hover:bg-primary/90 focus:ring-primary/70 w-full rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 sm:w-auto">
+      (click)="onNext()"
+      class="bg-primary hover:bg-primary/90 focus:ring-primary/70 w-full cursor-pointer rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 sm:w-auto">
       Next
     </button>
-
   </div>
 </form>

@@ -13,22 +13,21 @@
       </tr>
     </thead>
     <tbody>
-      @for (exchange of reserve(); track exchange.amount) {
+      @for (exchange of reserve.reserve(); track exchange.Id) {
         <tr class="border-b border-dashed border-border hover:bg-card">
             <td class="py-3 text-left">
                 <div class="flex items-center gap-3">
                 <div class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full">
-                    <!-- <img [src]="exchange.logo" [alt]="exchange.currency" class="h-full w-full object-cover"> -->
+                     <img [src]="exchange.LogoUrl" [alt]="exchange.CurrencyName" class="h-full w-full object-cover"> 
                 </div>
                 <div class="flex flex-col">
-                    <span class="text-sm font-bold text-foreground">{{ exchange.currency }}</span>
+                    <span class="text-sm font-bold text-foreground">{{ exchange.CurrencyName }}</span>
                     
                 </div>
                 </div>
             </td>
             <td class="py-3 text-left">
-                <span class="text-sm font-bold text-foreground">{{ exchange.amount }} </span>
-                <span class="text-xs text-muted-foreground">{{ exchange.code }}</span>
+                <span class="text-sm font-bold text-foreground">{{ exchange.Amount }} </span>              
             </td>
         </tr>
       }

@@ -1,11 +1,12 @@
+import { CreateUpdateCurrency } from './../../../core/models/currencies';
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnInit, inject, Signal, computed, effect } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Currency } from 'src/app/core/models/currencies';
 import { CommonService } from 'src/app/core/services/common.service';
 import { CurrencyService } from 'src/app/core/services/currency.service';
 import { ExchangeService } from 'src/app/core/services/exchange.service';
-import { FormErrorComponent } from 'src/app/shared/components/form-error/form-error.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 
 @Component({
   selector: 'app-step-one',
@@ -20,32 +21,58 @@ export class StepOneComponent implements OnInit {
 
   @Output() next = new EventEmitter<void>();
 
-  formGroup: FormGroup;
+  formGroup!: FormGroup;
   currentRate = 0 as number | null;
 
   sendCurrency = this.currencyService.selectedSendCurrency;
   getCurrency = this.currencyService.selectedGetCurrency;
 
   constructor() {
-    this.formGroup = this.fb.group({
-      AmountSend: [null, [Validators.required, Validators.pattern('^[0-9]*\\.?[0-9]*$'), Validators.min(1)]],
-      AmountReceive: [{ value: '', disabled: true }],
-      FromCurrencyId: [this.sendCurrency()?.Id || null, Validators.required],
-      ToCurrencyId: [this.getCurrency()?.Id || null, Validators.required]
-    });
+    this.CreateFrom()
     this.loadRateEffect();
   }
 
   ngOnInit() {
-    this.formGroup.get('AmountSend')?.valueChanges.subscribe((AmountSend) => {
-      if (AmountSend && this.currentRate) {
-        const calculated = Number(AmountSend) * this.currentRate;
-        this.formGroup.get('AmountReceive')?.setValue(calculated.toFixed(3), { emitEvent: false });
-      } else {
-        this.formGroup.get('AmountReceive')?.setValue('', { emitEvent: false });
-      }
+    this.bindFormValueChanges();
+  }
+
+  private CreateFrom(){
+      this.formGroup = this.fb.group({
+      AmountSend: [null, [Validators.required, Validators.pattern('^[0-9]*\\.?[0-9]*$'), Validators.min(1)]],
+      AmountReceive: [{ value: '' }],
+      FromCurrencyId: [this.sendCurrency()?.Id || null, Validators.required],
+      ToCurrencyId: [this.getCurrency()?.Id || null, Validators.required],
     });
   }
+
+  
+private bindFormValueChanges() {
+  const amountSendCtrl = this.formGroup.get('AmountSend');
+  const amountReceiveCtrl = this.formGroup.get('AmountReceive');
+
+  if (!amountSendCtrl || !amountReceiveCtrl) return;
+
+
+  amountSendCtrl.valueChanges.subscribe((sendValue) => {
+    if (!this.currentRate) return;
+    const receiveValue = Number(sendValue) * this.currentRate;
+
+    if (Number(amountReceiveCtrl.value) !== Number(receiveValue.toFixed(2))) {
+      amountReceiveCtrl.setValue(receiveValue.toFixed(2), { emitEvent: false });
+    }
+  });
+
+
+  amountReceiveCtrl.valueChanges.subscribe((receiveValue) => {
+    if (!this.currentRate) return;
+    const sendValue = Number(receiveValue) / this.currentRate;
+
+    if (Number(amountSendCtrl.value) !== Number(sendValue.toFixed(2))) {
+      amountSendCtrl.setValue(sendValue.toFixed(2), { emitEvent: false });
+    }
+  });
+}
+
 
   private loadRateEffect() {
     effect(() => {
@@ -60,7 +87,7 @@ export class StepOneComponent implements OnInit {
 
           // Default AmountSend
           let defaultAmountSend = 1;
-          if (pair.FromCurrency.Type === 'MFS') {
+          if (pair.FromCurrency.Type === 'MFS' || pair.FromCurrency.Type === 'Bank') {
             defaultAmountSend = this.commonService.convertUsdToBdt(pair.Rate);
           }
           const sendControl = this.formGroup.get('AmountSend');
@@ -77,10 +104,12 @@ export class StepOneComponent implements OnInit {
     });
   }
 
-
-
-
-  goNext() {
-    this.next.emit();
+  onNext() {
+    if (this.formGroup.invalid) {
+      this.formGroup.markAllAsTouched();
+      return;
+    } else {
+      this.next.emit();
+    }
   }
 }

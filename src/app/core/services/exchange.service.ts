@@ -1,26 +1,40 @@
-
-
 import { Injectable, inject, signal } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, single } from 'rxjs';
 import { WebApiService } from './web-api-service';
-import { ExchangePair, ExchangeRate } from '../models/exchangeRate';
-
+import { Exchange, ExchangePair, ExchangeRate } from '../models/exchange';
+import { ApiResponse, Status } from '../models/apiresponse';
 
 @Injectable({ providedIn: 'root' })
 export class ExchangeService {
   private api = inject(WebApiService);
-
   rates = signal<ExchangeRate[]>([]);
-  rate = signal<ExchangePair | null>(null);   // holds last fetched pair
-  rateMap = new Map<string, ExchangePair>();  // cache for fromId-toId
+  latestExchange = signal<Exchange[]>([]);
+  rate = signal<ExchangePair | null>(null);
+  rateMap = new Map<string, ExchangePair>();
 
   loading = this.api.loading;
   error = this.api.error;
 
   // 🔹 Fetch single rate (pair)
   getRatePairByCurrencyId(fromId: number, toId: number): Observable<ExchangePair> {
-    return this.api.get<ExchangePair>(`api/ExchangeRate/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`
-    );
+    return this.api.get<ExchangePair>(`api/ExchangePair/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`);
+  }
+
+  getLatestExchange(): Observable<ApiResponse<Exchange[]>> {
+    return this.api.get<ApiResponse<Exchange[]>>(`api/Orders/latest`);
+  }
+
+  loadLatestExchange() {
+    this.getLatestExchange().subscribe({
+      next: (res) => {
+        if (res.Status === Status.Success) {
+          this.latestExchange.set(res.Body ?? []);
+        } else {
+          console.warn('API returned error:', res.Message);
+        }
+      },
+      error: (err) => console.error('Failed to load pair rate', err),
+    });
   }
 
   // 🔹 Load & cache rate pair
@@ -40,7 +54,6 @@ export class ExchangeService {
     return this.rateMap.get(`${fromId}-${toId}`);
   }
 
-  // 🔹 Helper to get last active rate
   get currentRate(): ExchangePair | null {
     return this.rate();
   }
