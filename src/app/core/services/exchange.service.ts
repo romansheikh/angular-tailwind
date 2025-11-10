@@ -6,7 +6,7 @@ import { ApiResponse, Status } from '../models/apiresponse';
 
 @Injectable({ providedIn: 'root' })
 export class ExchangeService {
-  private api = inject(WebApiService);
+  api = inject(WebApiService);
   rates = signal<ExchangeRate[]>([]);
   latestExchange = signal<Exchange[]>([]);
   rate = signal<ExchangePair | null>(null);
@@ -15,9 +15,8 @@ export class ExchangeService {
   loading = this.api.loading;
   error = this.api.error;
 
-  // 🔹 Fetch single rate (pair)
-  getRatePairByCurrencyId(fromId: number, toId: number): Observable<ExchangePair> {
-    return this.api.get<ExchangePair>(`api/ExchangePair/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`);
+  getRatePairByCurrencyId(fromId: number, toId: number): Observable<ApiResponse<ExchangePair>> {
+    return this.api.get<ApiResponse<ExchangePair>>(`api/ExchangePair/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`);
   }
 
   getLatestExchange(): Observable<ApiResponse<Exchange[]>> {
@@ -37,19 +36,18 @@ export class ExchangeService {
     });
   }
 
-  // 🔹 Load & cache rate pair
   loadPairRate(fromId: number, toId: number) {
     const key = `${fromId}-${toId}`;
     this.getRatePairByCurrencyId(fromId, toId).subscribe({
       next: (res) => {
-        this.rate.set(res);
-        this.rateMap.set(key, res);
+        this.rate.set(res.Body!);
+        this.rateMap.set(key, res.Body!);
       },
       error: (err) => console.error('Failed to load pair rate', err),
     });
   }
 
-  // 🔹 Get cached rate
+
   ratePair(fromId: number, toId: number): ExchangePair | undefined {
     return this.rateMap.get(`${fromId}-${toId}`);
   }

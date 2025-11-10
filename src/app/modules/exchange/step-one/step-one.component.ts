@@ -81,21 +81,22 @@ private bindFormValueChanges() {
 
       if (fromId && toId) {
         this.exchangeService.loadPairRate(fromId, toId);
+
         this.exchangeService.getRatePairByCurrencyId(fromId, toId).subscribe((pair) => {
-          this.currentRate = pair.Rate;
-          this.exchangeService.rate.set(pair);
+          this.currentRate = pair.Body?.Rate!;
+          this.exchangeService.rate.set(pair.Body!);
 
           // Default AmountSend
           let defaultAmountSend = 1;
-          if (pair.FromCurrency.Type === 'MFS' || pair.FromCurrency.Type === 'Bank') {
-            defaultAmountSend = this.commonService.convertUsdToBdt(pair.Rate);
+          if (pair.Body?.FromCurrency.Type === 'MFS' || pair.Body?.FromCurrency.Type === 'Bank') {
+            defaultAmountSend = this.commonService.convertUsdToBdt(pair.Body?.Rate);
           }
           const sendControl = this.formGroup.get('AmountSend');
           sendControl?.setValue(defaultAmountSend, { emitEvent: false });
           sendControl?.setValidators([
             Validators.required,
-            Validators.min(pair.MinAmount),
-            Validators.max(pair.MaxAmount),
+            Validators.min(pair.Body?.MinAmount!),
+            Validators.max(pair.Body?.MaxAmount!),
             Validators.pattern('^[0-9]*\\.?[0-9]*$'),
           ]);
           sendControl?.updateValueAndValidity();
