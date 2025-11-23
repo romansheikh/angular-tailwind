@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { BankService } from 'src/app/core/services/bank.service';
 import { CommonService } from 'src/app/core/services/common.service';
 import { ExchangeService } from 'src/app/core/services/exchange.service';
+import { UserService } from 'src/app/core/services/user.service';
 import { ButtonComponent } from 'src/app/shared/components/button/button.component';
 
 @Component({
@@ -15,6 +16,7 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 export class StepTwoComponent {
   formGroup: FormGroup;
   common: CommonService = inject(CommonService);
+  user: UserService = inject(UserService);
   fb: FormBuilder = inject(FormBuilder);
   @Output() formDataChange = new EventEmitter<any>();
   @Output() back = new EventEmitter<void>();
@@ -27,9 +29,9 @@ export class StepTwoComponent {
   userReceivingDetails = signal('');
   constructor() {
     this.formGroup = this.fb.group({
-      Name: ['', Validators.required],
-      Email: ['', [Validators.required, Validators.email]],
-      Phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]],
+      Name: [this.user.user()?.FullName, Validators.required],
+      Email: [this.user.user()?.Email, [Validators.required, Validators.email]],
+      Phone: [this.user.user()?.Phone, [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]],
       UserReceivingDetails: ['', Validators.required],
       AcceptTerm: [false, Validators.requiredTrue],
       BankName: [''],
