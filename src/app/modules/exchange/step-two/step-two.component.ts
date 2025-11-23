@@ -13,9 +13,9 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
   templateUrl: './step-two.component.html',
 })
 export class StepTwoComponent {
-
   formGroup: FormGroup;
-  common : CommonService = inject(CommonService);
+  common: CommonService = inject(CommonService);
+  fb: FormBuilder = inject(FormBuilder);
   @Output() formDataChange = new EventEmitter<any>();
   @Output() back = new EventEmitter<void>();
   @Output() next = new EventEmitter<void>();
@@ -25,7 +25,7 @@ export class StepTwoComponent {
   instruction = this.exchangeService.rate()?.ToCurrency?.PaymentInstruction || '';
   cleanInstruction = this.instruction.replace(/^Enter your\s*/i, '');
   userReceivingDetails = signal('');
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.formGroup = this.fb.group({
       Name: ['', Validators.required],
       Email: ['', [Validators.required, Validators.email]],

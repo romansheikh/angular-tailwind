@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserLayoutComponent } from './user-layout.component';
+import { AuthGuard } from 'src/app/core/auth/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,7 +9,11 @@ const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       { path: '', loadChildren: () => import('../../landing/landing.module').then(m => m.LandingModule) },
-      { path: 'exchange', loadChildren: () => import('../../exchange/exchange.module').then(m => m.ExchangeModule) },
+      { 
+        path: 'exchange', 
+        canActivate: [AuthGuard],  
+        loadChildren: () => import('../../exchange/exchange.module').then(m => m.ExchangeModule) },
+        
       // { path: 'rates', loadChildren: () => import('../../rates/rates.module').then(m => m.RatesModule) },
       // { path: 'affiliates', loadChildren: () => import('../../affiliates/affiliates.module').then(m => m.AffiliatesModule) },
       // { path: 'reviews', loadChildren: () => import('../../reviews/reviews.module').then(m => m.ReviewsModule) },
@@ -19,7 +24,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes), ],
   exports: [RouterModule],
 })
 export class UserLayoutRoutingModule {}

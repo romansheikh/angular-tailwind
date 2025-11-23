@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { map, Observable, single } from 'rxjs';
 import { WebApiService } from './web-api-service';
 import { Exchange, ExchangePair, ExchangeRate } from '../models/exchange';
-import { ApiResponse, Status } from '../models/apiresponse';
+import { ApiResponseModel, Status } from '../models/apiresponse';
 
 @Injectable({ providedIn: 'root' })
 export class ExchangeService {
@@ -15,12 +15,12 @@ export class ExchangeService {
   loading = this.api.loading;
   error = this.api.error;
 
-  getRatePairByCurrencyId(fromId: number, toId: number): Observable<ApiResponse<ExchangePair>> {
-    return this.api.get<ApiResponse<ExchangePair>>(`api/ExchangePair/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`);
+  getRatePairByCurrencyId(fromId: number, toId: number): Observable<ApiResponseModel<ExchangePair>> {
+    return this.api.get<ApiResponseModel<ExchangePair>>(`api/ExchangePair/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`);
   }
 
-  getLatestExchange(): Observable<ApiResponse<Exchange[]>> {
-    return this.api.get<ApiResponse<Exchange[]>>(`api/Orders/latest`);
+  getLatestExchange(): Observable<ApiResponseModel<Exchange[]>> {
+    return this.api.get<ApiResponseModel<Exchange[]>>(`api/Orders/latest`);
   }
 
   loadLatestExchange() {

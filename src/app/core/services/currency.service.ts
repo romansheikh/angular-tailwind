@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WebApiService } from './web-api-service';
 import { CreateUpdateCurrency, Currency } from '../models/currencies';
-import { ApiResponse, Status } from '../models/apiresponse';
+import { ApiResponseModel, Status } from '../models/apiresponse';
 import { PaymentGatewayService } from './paymentgateway.service';
 import { ExchangeService } from './exchange.service';
 
@@ -22,8 +22,8 @@ export class CurrencyService {
     return this.api.post<Currency>('api/Currencies', dto);
   }
 
-  getCurrencies(): Observable<ApiResponse<Currency[]>> {
-    return this.api.get<ApiResponse<Currency[]>>(`api/Currencies`);
+  getCurrencies(): Observable<ApiResponseModel<Currency[]>> {
+    return this.api.get<ApiResponseModel<Currency[]>>(`api/Currencies`);
   }
   updateCurrency(id: number, dto: CreateUpdateCurrency): Observable<Currency> {
     return this.api.put<Currency>(`api/Currencies/${id}`, dto);

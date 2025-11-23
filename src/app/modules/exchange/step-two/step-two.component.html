@@ -7,12 +7,12 @@
         id="name"
         formControlName="Name"
         [ngClass]="{ 'is__invalid-input': common.hasError('Name', 'required', formGroup) }"
-        class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-200 px-4 py-3 !text-[14px] focus:ring-1"
+        class="bg-background focus:border-primary focus:ring-primary text-[14px]! peer block w-full rounded-md border border-gray-200 px-4 py-3 focus:ring-1"
         placeholder=" " />
       <label
         for="Name"
         [ngClass]="{ 'is__invalid-input': common.hasError('Name', 'required', formGroup) }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-left -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Full Name
       </label>
     </div>
@@ -29,7 +29,7 @@
         id="email"
         formControlName="Email"
         [ngClass]="{ 'is__invalid-input': common.hasError('Email', 'Email', formGroup) }"
-        class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
+        class="bg-background focus:border-primary focus:ring-primary text-[14px]! peer block w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-1"
         placeholder=" " />
       <label
         for="email"
@@ -37,7 +37,7 @@
           'is__invalid-input':
             common.hasError('Email', 'required', formGroup) || common.hasError('Email', 'Email', formGroup)
         }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-left -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Email Address
       </label>
     </div>
@@ -59,7 +59,7 @@
           'is__invalid-input':
             common.hasError('Phone', 'required', formGroup) || common.hasError('Phone', 'pattern', formGroup)
         }"
-        class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
+        class="bg-background focus:border-primary focus:ring-primary text-[14px]! peer block w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-1"
         placeholder=" " />
       <label
         for="phone"
@@ -67,7 +67,7 @@
           'is__invalid-input':
             common.hasError('Phone', 'required', formGroup) || common.hasError('Phone', 'pattern', formGroup)
         }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-left -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Phone Number
       </label>
     </div>
@@ -86,12 +86,12 @@
         id="userReceivingDetails"
         formControlName="UserReceivingDetails"
         [ngClass]="{ 'is__invalid-input': common.hasError('UserReceivingDetails', 'required', formGroup) }"
-        class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
+        class="bg-background focus:border-primary focus:ring-primary text-[14px]! peer block w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-1"
         placeholder=" " />
       <label
         for="userReceivingDetails"
         [ngClass]="{ 'is__invalid-input': common.hasError('UserReceivingDetails', 'required', formGroup) }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-left -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         {{ cleanInstruction }}
       </label>
     </div>
@@ -114,7 +114,7 @@
             common.hasError('AccountHolderName', 'required', formGroup) ||
             common.hasError('AccountHolderName', 'pattern', formGroup)
         }"
-        class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
+        class="bg-background focus:border-primary focus:ring-primary text-[14px]! peer block w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-1"
         placeholder=" " />
       <label
         for="accountHolderName"
@@ -123,7 +123,7 @@
             common.hasError('AccountHolderName', 'required', formGroup) ||
             common.hasError('AccountHolderName', 'pattern', formGroup)
         }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-left -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Account Holder Name
       </label>
     </div>
@@ -139,8 +139,7 @@
     <div class="relative">
       <select
         formControlName="BankName"
-        class="tbg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
-        >
+        class="tbg-background focus:border-primary focus:ring-primary text-[14px]! peer block w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-1">
         @for (item of bankService.bank(); track $index) {
         <option [value]="item.Name">{{ item.Name }}</option>
         }
@@ -148,7 +147,7 @@
       <label
         for="bankName"
         [ngClass]="{ 'is__invalid-input': common.hasError }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-left -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Bank Name
       </label>
     </div>
@@ -168,7 +167,7 @@
           'is__invalid-input':
             common.hasError('Branch', 'required', formGroup) || common.hasError('Branch', 'pattern', formGroup)
         }"
-        class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
+        class="bg-background focus:border-primary focus:ring-primary text-[14px]! peer block w-full rounded-md border border-gray-300 px-4 py-3 focus:ring-1"
         placeholder=" " />
       <label
         for="branch"
@@ -176,7 +175,7 @@
           'is__invalid-input':
             common.hasError('Branch', 'required', formGroup) || common.hasError('Branch', 'pattern', formGroup)
         }"
-        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-[0] -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
+        class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-left -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
         Branch Name
       </label>
     </div>
@@ -204,7 +203,7 @@
     <!-- Back Button -->
     <button
       type="button"
-      class="cursor-pointer w-full rounded-lg bg-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+      class="w-full cursor-pointer rounded-lg bg-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
       (click)="back.emit()">
       &lt; Back
     </button>
@@ -212,7 +211,7 @@
     <button
       type="button"
       (click)="onNext()"
-      class="cursor-pointer bg-primary hover:bg-primary/90 focus:ring-primary/70 w-full rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 sm:w-auto">
+      class="bg-primary hover:bg-primary/90 focus:ring-primary/70 w-full cursor-pointer rounded-lg px-4 py-3 text-sm font-medium text-white transition-all duration-200 focus:outline-none focus:ring-2 sm:w-auto">
       Next
     </button>
   </div>

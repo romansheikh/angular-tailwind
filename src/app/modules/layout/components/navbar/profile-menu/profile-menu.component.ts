@@ -1,10 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { ThemeService } from '../../../../../core/services/theme.service';
 import { ClickOutsideDirective } from '../../../../../shared/directives/click-outside.directive';
+import { UserService } from 'src/app/core/services/user.service';
+import { AuthService } from 'src/app/core/auth/auth.service';
+import { LoginPopupService } from 'src/app/core/services/login-popup.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -35,6 +38,9 @@ import { ClickOutsideDirective } from '../../../../../shared/directives/click-ou
   ],
 })
 export class ProfileMenuComponent implements OnInit {
+  user = inject(UserService);
+  auth = inject(AuthService);
+  popup = inject(LoginPopupService);
   public isOpen = false;
   public profileMenu = [
     {
@@ -113,5 +119,5 @@ export class ProfileMenuComponent implements OnInit {
     this.themeService.theme.update((theme) => {
       return { ...theme, direction: value };
     });
-  }
+  }  
 }

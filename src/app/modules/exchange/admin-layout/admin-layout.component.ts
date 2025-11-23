@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Event, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { SidebarComponent } from '../components/sidebar/sidebar.component';
-import { NavbarComponent } from '../components/navbar/navbar.component';
-import { FooterComponent } from '../components/footer/footer.component';
+import { SidebarComponent } from '../../layout/components/sidebar/sidebar.component';
+import { NavbarComponent } from '../../layout/components/navbar/navbar.component';
+import { FooterComponent } from '../../layout/components/footer/footer.component';
 
 @Component({
   selector: 'app-layout',

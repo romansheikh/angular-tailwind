@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WebApiService } from './web-api-service';
-import { ApiResponse, Status } from '../models/apiresponse';
+import { ApiResponseModel, Status } from '../models/apiresponse';
 import { Reserve } from '../models/reserve';
 
 @Injectable({ providedIn: 'root' })
@@ -9,8 +9,8 @@ export class ReserveService {
   private api = inject(WebApiService);
   reserve = signal<Reserve[]>([]);
 
-  getReserve(): Observable<ApiResponse<Reserve[]>> {
-    return this.api.get<ApiResponse<Reserve[]>>(`api/Reserve`);
+  getReserve(): Observable<ApiResponseModel<Reserve[]>> {
+    return this.api.get<ApiResponseModel<Reserve[]>>(`api/Reserve`);
   }
 
   loadReserve() {

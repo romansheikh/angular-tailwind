@@ -6,7 +6,7 @@ const routes: Routes = [
 
   {
     path: 'system',
-    loadChildren: () => import('./modules/layout/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule),
+    loadChildren: () => import('./modules/exchange/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule),
   },
   {
     path: 'auth',

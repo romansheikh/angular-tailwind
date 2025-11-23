@@ -2,7 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WebApiService } from './web-api-service';
 import { PaymentGateway } from '../models/paymetngateway';
-import { ApiResponse, Status } from '../models/apiresponse';
+import { ApiResponseModel, Status } from '../models/apiresponse';
 
 
 @Injectable({ providedIn: 'root' })
@@ -15,8 +15,8 @@ export class PaymentGatewayService {
   loading = this.api.loading;
   error = this.api.error;
 
-    getPaymentGateway(toCurrency_id: Number): Observable<ApiResponse<PaymentGateway[]>> {
-      return this.api.get<ApiResponse<PaymentGateway[]>>(`api/PaymentGateways?currency_id=${toCurrency_id}`);
+    getPaymentGateway(toCurrency_id: Number): Observable<ApiResponseModel<PaymentGateway[]>> {
+      return this.api.get<ApiResponseModel<PaymentGateway[]>>(`api/PaymentGateways?currency_id=${toCurrency_id}`);
     }
   
     loadPaymentGateway(toCurrency_id: number) {

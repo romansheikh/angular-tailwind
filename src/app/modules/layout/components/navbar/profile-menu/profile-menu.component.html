@@ -1,32 +1,64 @@
 <div class="relative ml-3">
   <!-- Profile Button -->
-  <button (click)="toggleMenu()" class="bg-card relative flex rounded-full text-sm" type="button">
+@if (auth._authenticated || auth.accessToken !== '') {
+    <button (click)="toggleMenu()" class="bg-card relative flex rounded-full text-sm" type="button">
     <span class="sr-only">Open user menu</span>
+
+    @if (user.user()?.Avatar) {
     <img
       clickOutside
       (clickOutside)="isOpen = false"
       class="size-9 shrink-0 rounded-md"
-      src="https://avatars.githubusercontent.com/u/12519008?v=4"
+      [src]="user.user()?.Avatar"
       alt="" />
+    } @else {
+    <div class="size-9 bg-primary flex items-center justify-center rounded-md font-semibold text-white">
+      {{ user.getUserInitials(user.user()?.FullName) }}
+    </div>
+    }
   </button>
+} @else {
+<button (click)="popup.open()" class="bg-transparent hover:bg-primary text-primary hover:text-primary-foreground py-1 px-4 border hover:border-transparent rounded-4xl cursor-pointer">
+  Login
+</button>
+}
+
+
+
   <!-- Dropdown -->
   <div
     [@openClose]="isOpen ? 'open' : 'closed'"
     class="bg-background shadow-custom border-muted absolute z-20 mt-2 w-60 origin-top-right transform rounded-md border border-dashed py-4 ring-1 ring-transparent ring-opacity-5 transition focus:outline-hidden ltr:right-0 rtl:left-0">
     <div class="flext-row flex items-center px-4 pb-4">
       <div class="w-10 shrink-0">
-        <img class="rounded-md" src="https://avatars.githubusercontent.com/u/12519008?v=4" alt="" />
+        @if (user.user()?.Avatar) {
+        <img class="h-10 w-10 rounded-md object-cover" [src]="user.user()?.Avatar" alt="User Avatar" />
+        } @else {
+        <div class="bg-primary flex h-10 w-10 items-center justify-center rounded-md font-semibold text-white">
+          {{ user.getUserInitials(user.user()?.FullName) }}
+        </div>
+        }
       </div>
+
       <div class="text-foreground overflow-hidden px-2 text-sm font-semibold">
-        Luciano Oliveira
-        <p class="text-muted-foreground truncate text-ellipsis text-xs font-semibold">me&#64;lanno.dev</p>
+        {{ user.user()?.FullName }}
+        <p class="text-muted-foreground truncate text-ellipsis text-xs font-semibold">{{ user.user()?.Email }}</p>
       </div>
     </div>
 
     <div class="border-border border-b border-dashed"></div>
 
     <ul class="my-2 mx-2 flex flex-col">
-      @for (item of profileMenu; track $index) {
+      @for (item of profileMenu; track $index) { @if (item.title == 'Log out') {
+      <li
+        (click)="auth.signOut()"
+        :key="$index"
+        class="text-muted-foreground hover:bg-card hover:text-primary inline-flex cursor-pointer items-center gap-2 rounded-md px-2 py-2 text-xs font-semibold">
+        <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5 text-muted-foreground/50'"> </svg-icon>
+        {{ item.title }}
+      </li>
+
+      }@else{
       <li
         routerLink="{{ item.link }}"
         :key="$index"
@@ -34,7 +66,7 @@
         <svg-icon src="{{ item.icon }}" [svgClass]="'h-5 w-5 text-muted-foreground/50'"> </svg-icon>
         {{ item.title }}
       </li>
-      }
+      } }
     </ul>
     <hr class="border-border border-dashed" />
     <div class="mx-4 my-2">

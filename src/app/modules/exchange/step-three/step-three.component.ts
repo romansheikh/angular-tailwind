@@ -7,7 +7,7 @@ import { PaymentGatewayService } from 'src/app/core/services/paymentgateway.serv
 import { BankService } from 'src/app/core/services/bank.service';
 import { CopyButtonComponent } from 'src/app/shared/components/copy-button/copy-button.component';
 import { CommonService } from 'src/app/core/services/common.service';
-import { AdminLayoutRoutingModule } from '../../layout/admin-layout/admin-layout-routing.module';
+import { AdminLayoutRoutingModule } from '../admin-layout/admin-layout-routing.module';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({

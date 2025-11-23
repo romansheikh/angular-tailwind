@@ -1,0 +1,42 @@
+<div class="form__group my-4">
+  <div class="relative">
+
+    <!-- INPUT -->
+    <input
+      [type]="type"
+      [id]="controlName"
+      [formControl]="control"
+      [ngClass]="{
+        'is__invalid-input': hasError('required') || hasError(type.toLowerCase())
+      }"
+      class="bg-background focus:border-primary focus:ring-primary peer block w-full rounded-md border border-gray-300 px-4 py-3 !text-[14px] focus:ring-1"
+      placeholder=" "
+    />
+
+    <!-- LABEL -->
+    <label
+      [for]="controlName"
+      class="
+        bg-background text-muted-foreground absolute top-2 z-10 ml-2 origin-[0]
+        -translate-y-4 scale-95 transform px-2 text-sm duration-300
+        peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100
+        peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2
+      "
+      [ngClass]="{
+        'is__invalid-input': hasError('required') || hasError(type.toLowerCase())
+      }"
+    >
+      {{ label }}
+    </label>
+  </div>
+
+  <!-- ERROR: required -->
+  @if (hasError('required')) {
+    <small class="text-red-500">{{ errorRequired }}</small>
+  }
+
+  <!-- ERROR: custom type (email, pattern, minlength…) -->
+  @if (errorType && hasError(type.toLowerCase())) {
+    <small class="text-red-500">{{ errorType }}</small>
+  }
+</div>

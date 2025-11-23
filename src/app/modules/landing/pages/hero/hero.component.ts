@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Component, effect, HostListener, inject, OnInit, signal } from '@angular/core';
 import { Currency } from 'src/app/core/models/currencies';
 import { CurrencyService } from 'src/app/core/services/currency.service';
-import { AdminLayoutRoutingModule } from 'src/app/modules/layout/admin-layout/admin-layout-routing.module';
+import { AdminLayoutRoutingModule } from 'src/app/modules/exchange/admin-layout/admin-layout-routing.module';
 import { trigger, transition, style, animate, keyframes } from '@angular/animations';
 import { BankService } from 'src/app/core/services/bank.service';
 import { PaymentGatewayService } from 'src/app/core/services/paymentgateway.service';

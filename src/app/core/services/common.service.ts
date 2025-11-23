@@ -28,12 +28,17 @@ export class CommonService {
       return null;
     };
   }
+hasError(controlName: string, errorCode: string, formGroup: FormGroup) {
+  const control = formGroup.get(controlName);
+  return !!(control && (control.touched || control.dirty) && control.hasError(errorCode));
+}  
 
-    hasError(controlName: string, errorCode: string, formGroup: FormGroup): boolean {
-    const control = formGroup.get(controlName);
-    return !!(control && control.touched && control.hasError(errorCode));
-  }
+passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+  const password = control.get('Password')?.value;
+  const confirmPassword = control.get('ConfirmPassword')?.value;
 
+  if (!password || !confirmPassword) return null;
 
-  
+  return password === confirmPassword ? null : { passwordMismatch: true };
+}
 }

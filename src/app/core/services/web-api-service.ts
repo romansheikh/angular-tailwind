@@ -14,7 +14,7 @@ export class WebApiService {
   error = signal<string | null>(null);
 
   private getHeader(): HttpHeaders {
-    const token = localStorage.getItem('jwt');
+    const token = sessionStorage.getItem('accessToken');
     let header = new HttpHeaders({ 'Content-Type': 'application/json' });
     if (token) {
       header = header.set('Authorization', 'Bearer ' + token);

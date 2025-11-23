@@ -1,0 +1,11 @@
+/* .input-base {
+  @apply bg-background border-gray-300 text-[14px];
+}
+
+.input-label {
+  @apply bg-background text-muted-foreground;
+}
+
+.is__invalid-input {
+  @apply border-red-500 text-red-500;
+} */

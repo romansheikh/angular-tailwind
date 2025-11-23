@@ -6,7 +6,7 @@ import { effect } from '@angular/core';
   providedIn: 'root',
 })
 export class ThemeService {
-  public theme = signal<Theme>({ mode: 'dark', color: 'base', direction: 'ltr' });
+  public theme = signal<Theme>({ mode: 'light', color: 'base', direction: 'ltr' });
 
   constructor() {
     this.loadTheme();
@@ -16,13 +16,13 @@ export class ThemeService {
   }
 
  private loadTheme() {
-  const theme = localStorage.getItem('theme');
+  const theme = sessionStorage.getItem('theme');
   if (theme) {
     try {
       this.theme.set(JSON.parse(theme));
     } catch {
       console.warn('Invalid theme in localStorage, resetting…');
-      localStorage.removeItem('theme');
+      sessionStorage.removeItem('theme');
     }
   }
 }
@@ -43,7 +43,7 @@ export class ThemeService {
   }
 
   private setLocalStorage() {
-    localStorage.setItem('theme', JSON.stringify(this.theme()));
+    sessionStorage.setItem('theme', JSON.stringify(this.theme()));
   }
 
   private setRTL() {

@@ -1,4 +1,8 @@
 <div>
+  @if (popup()) {
+  <app-login-popup></app-login-popup>
+  }
+  <ngx-spinner bdColor="rgba(0,0,0,0.4)" size="medium" color="#fff" type="ball-scale-multiple"></ngx-spinner>
   <router-outlet></router-outlet>
   <app-responsive-helper></app-responsive-helper>
   <app-toaster></app-toaster>
