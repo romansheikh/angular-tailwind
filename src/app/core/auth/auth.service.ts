@@ -136,8 +136,7 @@ export class AuthService {
   check(): Observable<boolean> {
     if (this._authenticated) return of(true);
 
-    if (!this.accessToken) return of(false);
-
+    // if (!this.accessToken) return of(false);
     if (AuthUtils.isTokenExpired(this.accessToken)) {
       return this.signInUsingRefreshToken().pipe(
         switchMap((newToken) => {
@@ -203,16 +202,12 @@ export class AuthService {
     this.signIn(credentials).subscribe({
       next: (res) => {
         console.log('Login response:', res);
-
         // SUCCESS
         if (res.Status === 200) {
           this.processAuthResponse(res);
           this.popup.close();
           return;
         }
-
-        // ERROR (401, 400, 500)
-        // Swal will be shown automatically by your interceptor
       },
 
       error: (err) => {

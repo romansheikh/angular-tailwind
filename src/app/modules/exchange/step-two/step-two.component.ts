@@ -14,21 +14,22 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
   templateUrl: './step-two.component.html',
 })
 export class StepTwoComponent {
-  formGroup: FormGroup;
+  fb = inject(FormBuilder);
+  formGroup: FormGroup = this.buildStepTwoform(this.fb);
   common: CommonService = inject(CommonService);
   user: UserService = inject(UserService);
-  fb: FormBuilder = inject(FormBuilder);
   @Output() formDataChange = new EventEmitter<any>();
   @Output() back = new EventEmitter<void>();
   @Output() next = new EventEmitter<void>();
-  @Input() data: any; //
+  @Input() data: any;
   exchangeService = inject(ExchangeService);
   bankService = inject(BankService);
   instruction = this.exchangeService.rate()?.ToCurrency?.PaymentInstruction || '';
   cleanInstruction = this.instruction.replace(/^Enter your\s*/i, '');
   userReceivingDetails = signal('');
-  constructor() {
-    this.formGroup = this.fb.group({
+
+  buildStepTwoform(fb: FormBuilder): any {
+       this.formGroup = fb.group({
       Name: [this.user.user()?.FullName, Validators.required],
       Email: [this.user.user()?.Email, [Validators.required, Validators.email]],
       Phone: [this.user.user()?.Phone, [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]],
@@ -46,7 +47,6 @@ export class StepTwoComponent {
 
   checkBankTransferValidation() {
     const toCurrency = this.exchangeService.rate()?.ToCurrency?.Name;
-
     const bankNameCtrl = this.formGroup.get('BankName');
     const accountHolderCtrl = this.formGroup.get('AccountHolderName');
     const branchCtrl = this.formGroup.get('Branch');
@@ -70,11 +70,9 @@ export class StepTwoComponent {
     branchCtrl?.updateValueAndValidity();
   }
 
-  // getter for values
   get value() {
     return this.formGroup.value;
   }
-
   onNext() {
     if (this.formGroup.invalid) {
       this.formGroup.markAllAsTouched(); // ✅ Best practice here
@@ -83,6 +81,5 @@ export class StepTwoComponent {
       this.bankService.userReceivingDetails.set(this.formGroup.get('UserReceivingDetails')?.value || '');
       this.next.emit();
     }
-    // go next
   }
 }
