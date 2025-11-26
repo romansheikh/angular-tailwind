@@ -34,8 +34,7 @@ export class GoogleOneTapService {
 
   // Reusable One Tap popup trigger
   public showOneTapPrompt(): void {
-    google.accounts.id.cancel();
-    
+   
     google.accounts.id.prompt((moment: any) => {
       const type = moment.getMomentType();
       console.log("OneTap Moment:", type);

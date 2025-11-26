@@ -12,7 +12,8 @@ const routes: Routes = [
       { 
         path: 'exchange', 
         canActivate: [AuthGuard],  
-        loadChildren: () => import('../../exchange/exchange.module').then(m => m.ExchangeModule) },
+        loadChildren: () => import('../../exchange/exchange.module').then(m => m.ExchangeModule) 
+      },
         
       // { path: 'rates', loadChildren: () => import('../../rates/rates.module').then(m => m.RatesModule) },
       // { path: 'affiliates', loadChildren: () => import('../../affiliates/affiliates.module').then(m => m.AffiliatesModule) },

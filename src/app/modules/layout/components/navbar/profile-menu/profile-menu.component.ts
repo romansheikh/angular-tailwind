@@ -8,6 +8,7 @@ import { ClickOutsideDirective } from '../../../../../shared/directives/click-ou
 import { UserService } from 'src/app/core/services/user.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { LoginPopupService } from 'src/app/core/services/login-popup.service';
+import { ExchangeService } from 'src/app/core/services/exchange.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -41,6 +42,7 @@ export class ProfileMenuComponent implements OnInit {
   user = inject(UserService);
   auth = inject(AuthService);
   popup = inject(LoginPopupService);
+  exchange = inject(ExchangeService)
   public isOpen = false;
   public profileMenu = [
     {
@@ -119,5 +121,10 @@ export class ProfileMenuComponent implements OnInit {
     this.themeService.theme.update((theme) => {
       return { ...theme, direction: value };
     });
-  }  
+  } 
+  
+  signOut(){
+    this.toggleMenu();
+    this.auth.signOut();
+  }
 }

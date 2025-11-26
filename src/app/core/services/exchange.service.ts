@@ -10,13 +10,15 @@ export class ExchangeService {
   rates = signal<ExchangeRate[]>([]);
   latestExchange = signal<Exchange[]>([]);
   rate = signal<ExchangePair | null>(null);
-  rateMap = new Map<string, ExchangePair>();
+  // rateMap = new Map<string, ExchangePair>();
 
   loading = this.api.loading;
   error = this.api.error;
 
   getRatePairByCurrencyId(fromId: number, toId: number): Observable<ApiResponseModel<ExchangePair>> {
-    return this.api.get<ApiResponseModel<ExchangePair>>(`api/ExchangePair/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`);
+    return this.api.get<ApiResponseModel<ExchangePair>>(
+      `api/ExchangePair/rate?fromCurrencyId=${fromId}&toCurrencyId=${toId}`,
+    );
   }
 
   getLatestExchange(): Observable<ApiResponseModel<Exchange[]>> {
@@ -39,18 +41,21 @@ export class ExchangeService {
   loadPairRate(fromId: number, toId: number) {
     const key = `${fromId}-${toId}`;
     this.getRatePairByCurrencyId(fromId, toId).subscribe({
-      next: (res) => {
-        this.rate.set(res.Body!);
-        this.rateMap.set(key, res.Body!);
+      next: (res: ApiResponseModel<ExchangePair>) => {
+        if (res.Status == 200) {
+          this.rate.set(res.Body!);
+          console.log(this.rate());
+        }
+        //  this.rateMap.set(key, res.Body!);
       },
+
       error: (err) => console.error('Failed to load pair rate', err),
     });
   }
 
-
-  ratePair(fromId: number, toId: number): ExchangePair | undefined {
-    return this.rateMap.get(`${fromId}-${toId}`);
-  }
+  // ratePair(fromId: number, toId: number): ExchangePair | undefined {
+  //   return this.rateMap.get(`${fromId}-${toId}`);
+  // }
 
   get currentRate(): ExchangePair | null {
     return this.rate();

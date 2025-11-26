@@ -75,6 +75,7 @@ export class AuthService {
       })
       .pipe(
         tap((response: any) => {
+          console.log(response);
           this.processAuthResponse(response);
         }),
 
@@ -91,7 +92,78 @@ export class AuthService {
       );
   }
 
+  // ------------------------------------------------------------
+  // OTHER API WRAPPERS
+  // ------------------------------------------------------------
+
+  forgotPassword(email: string): Observable<ApiResponseModel<LoginResponse>> {
+    return this._httpClient.post('api/Auth/forgot-password', email);
+  }
+
+  resetPassword(password: string): Observable<ApiResponseModel<LoginResponse>> {
+    return this._httpClient.post('api/Auth/reset-password', password);
+  }
+
+  signUp(user: any): Observable<ApiResponseModel<LoginResponse>> {
+    return this._httpClient.post('api/Auth/register', user);
+  }
+  signIn(credentials: any): Observable<ApiResponseModel<LoginResponse>> {
+    return this._httpClient.post('api/Auth/login', credentials);
+  }
+
+  // ------------------------------------------------------------
+  // SIGN OUT
+  // ------------------------------------------------------------
+  signOut(): Observable<any> {
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
+    this._authenticated = false;
+    this._userService.setUser(null);
+    return of(true);
+  }
+
+  unlockSession(credentials: any): Observable<any> {
+    return this._httpClient.post('api/auth/unlock-session', credentials);
+  }
+
+  processSignUpdata(user: ApiResponseModel<LoginResponse>) {
+    this.signUp(user).subscribe({
+      next: (res) => {
+        if (res.Status == 200) {
+          this.processAuthResponse(res);
+          this.popup.close();
+        }
+      },
+      error: (err) => console.error('Failed to load pair rate', err),
+    });
+  }
+  processSignIndata(credentials: any): void {
+    if (this._authenticated) {
+      console.error('Already logged in.');
+      return;
+    }
+
+    this.signIn(credentials).subscribe({
+      next: (res) => {
+        console.log('Login response:', res);
+        // SUCCESS
+        if (res.Status === 200) {
+          this.processAuthResponse(res);
+          this.popup.close();
+          return;
+        }
+      },
+
+      error: (err) => {
+        console.error('Login failed:', err);
+      },
+    });
+  }
+
   private processAuthResponse(res: ApiResponseModel<LoginResponse>) {
+    alert('processing!!')
+    console.log(res);
+        alert('processed')
     if (res.Status == 200) {
       const body = res?.Body;
 
@@ -101,8 +173,8 @@ export class AuthService {
       }
 
       // Store tokens
-      this.accessToken = body.AccessToken;
       sessionStorage.setItem('refreshToken', body.RefreshToken);
+      sessionStorage.setItem('accessToken', body.AccessToken);
 
       this._authenticated = true;
 
@@ -150,73 +222,5 @@ export class AuthService {
 
     this.signInUsingAccessToken();
     return of(true);
-  }
-
-  // ------------------------------------------------------------
-  // SIGN OUT
-  // ------------------------------------------------------------
-  signOut(): Observable<any> {
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
-    this._authenticated = false;
-    this._userService.setUser(null);
-    return of(true);
-  }
-
-  // ------------------------------------------------------------
-  // OTHER API WRAPPERS
-  // ------------------------------------------------------------
-
-  forgotPassword(email: string): Observable<ApiResponseModel<LoginResponse>> {
-    return this._httpClient.post('api/Auth/forgot-password', email);
-  }
-
-  resetPassword(password: string): Observable<ApiResponseModel<LoginResponse>> {
-    return this._httpClient.post('api/Auth/reset-password', password);
-  }
-
-  signUp(user: any): Observable<ApiResponseModel<LoginResponse>> {
-    return this._httpClient.post('api/Auth/register', user);
-  }
-  signIn(credentials: any): Observable<ApiResponseModel<LoginResponse>> {
-    return this._httpClient.post('api/Auth/login', credentials);
-  }
-
-  processSignUpdata(user: ApiResponseModel<LoginResponse>) {
-    this.signUp(user).subscribe({
-      next: (res) => {
-        if (res.Status == 200) {
-          this.processAuthResponse(res);
-          this.popup.close();
-        }
-      },
-      error: (err) => console.error('Failed to load pair rate', err),
-    });
-  }
-  processSignIndata(credentials: any): void {
-    if (this._authenticated) {
-      console.error('Already logged in.');
-      return;
-    }
-
-    this.signIn(credentials).subscribe({
-      next: (res) => {
-        console.log('Login response:', res);
-        // SUCCESS
-        if (res.Status === 200) {
-          this.processAuthResponse(res);
-          this.popup.close();
-          return;
-        }
-      },
-
-      error: (err) => {
-        console.error('Login failed:', err);
-      },
-    });
-  }
-
-  unlockSession(credentials: any): Observable<any> {
-    return this._httpClient.post('api/auth/unlock-session', credentials);
   }
 }

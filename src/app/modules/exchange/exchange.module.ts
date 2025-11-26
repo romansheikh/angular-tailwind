@@ -8,13 +8,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  imports: [ExchangeRoutingModule,
-        ExchangeComponent,
+  imports: [
+    ExchangeRoutingModule,
+    ExchangeComponent,
     StepOneComponent,
     StepTwoComponent,
     StepThreeComponent,
-     ReactiveFormsModule ,
-      CommonModule,    
+    ReactiveFormsModule,
+    CommonModule,
   ],
 })
 export class ExchangeModule {}
