@@ -6,7 +6,7 @@ import { finalize } from 'rxjs';
 export const loaderInterceptor: HttpInterceptorFn = (req, next) => {
   const spinner = inject(NgxSpinnerService);
 
-  spinner.show();
+  spinner.show(undefined, { fullScreen: true });
 
   return next(req).pipe(
     finalize(() => spinner.hide())

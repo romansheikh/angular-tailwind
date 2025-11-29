@@ -1,58 +1,77 @@
-import { inject, Injectable } from '@angular/core';
-
-import { catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
+// src/app/services/auth.service.ts
+import { Injectable, inject } from '@angular/core';
+import { BehaviorSubject, Observable, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
+import { ApiResponseModel, LoginResponse } from '../models/apiresponse';
+import { LoginPopupService } from '../services/login-popup.service';
+import { UserService } from '../services/user.service';
 import { WebApiService } from '../services/web-api-service';
 import { AuthUtils } from './auth.utils';
-import { UserService } from '../services/user.service';
-import { LoginPopupService } from '../services/login-popup.service';
-import { ApiResponseModel, LoginResponse } from '../models/apiresponse';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+
+  private _accessToken: string | null = null;
+  private _refreshToken: string | null = null;
   public _authenticated = false;
-  private popup = inject(LoginPopupService);
-  private _httpClient = inject(WebApiService);
-  private _userService = inject(UserService);
-  injector: any;
 
-  constructor() {}
+  private readonly http = inject(WebApiService);
+  private readonly userService = inject(UserService);
+  private readonly popup = inject(LoginPopupService);
 
-  // ------------------------------------------------------------
-  // TOKENS
-  // ------------------------------------------------------------
-  set accessToken(token: string) {
-    sessionStorage.setItem('accessToken', token);
+  constructor() {
+    this.loadTokens();
   }
 
-  get accessToken(): string {
-    return sessionStorage.getItem('accessToken') ?? '';
+  // ─────────────────────────────────────
+  // Public Token Access
+  // ─────────────────────────────────────
+  getAccessToken(): string | null {
+    return this._accessToken;
   }
 
-  get refreshToken(): string {
-    return sessionStorage.getItem('refreshToken') ?? '';
+  getRefreshToken(): string | null {
+    return this._refreshToken;
   }
 
-  // ------------------------------------------------------------
-  // AUTH API CALLS
-  // ------------------------------------------------------------
+  // ─────────────────────────────────────
+  // Token Storage
+  // ─────────────────────────────────────
+  private loadTokens() {
+    const access = sessionStorage.getItem('accessToken');
+    const refresh = sessionStorage.getItem('refreshToken');
 
-  handleCredentialResponse(response: any) {
-    this._httpClient.post(`api/Auth/google-login`, { token: response?.credential }).subscribe({
-      next: (res: any) => {
-        this.processAuthResponse(res);
-      },
-      error: (err) => console.error('Google login verify failed', err),
-    });
+    if (access && refresh && !AuthUtils.isTokenExpired(access)) {
+    
+      this._accessToken = access;
+      this._refreshToken = refresh;
+      this._authenticated = true;
+      this.signInUsingAccessToken(access);
+
+    } else {
+      this.clearTokens();
+    }
   }
 
-  // ------------------------------------------------------------
-  // REFRESH TOKEN (Optimized)
-  // ------------------------------------------------------------
-  signInUsingAccessToken() {
-    const token = this.accessToken;
-    if (token && !AuthUtils.isTokenExpired(token)) {
+  private saveTokens(access: string, refresh: string) {
+    this._accessToken = access;
+    this._refreshToken = refresh;
+    sessionStorage.setItem('accessToken', access);
+    sessionStorage.setItem('refreshToken', refresh);
+    this._authenticated = true;
+  }
+
+  private clearTokens() {
+    this._accessToken = null;
+    this._refreshToken = null;
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
+    this._authenticated = false;
+    this.userService.setUser(null);
+  }
+
+  signInUsingAccessToken(token: string) {
       const payload = AuthUtils.decodeToken(token);
-      this._userService.updateUser({
+      this.userService.updateUser({
         UserId: payload.sub,
         FullName: payload.given_name,
         Email: payload.email,
@@ -60,167 +79,141 @@ export class AuthService {
         Avatar: payload.picture,
       });
       this._authenticated = true;
-    }
-  }
+    }  
 
-  signInUsingRefreshToken(): Observable<boolean> {
-    const refreshToken = this.refreshToken;
 
+  // ─────────────────────────────────────
+  // Refresh Token (used by interceptor)
+  // ─────────────────────────────────────
+  refreshAccessToken(): Observable<string> {
+    const refreshToken = this.getRefreshToken();
     if (!refreshToken) {
-      return throwError(() => new Error('No refresh token found'));
+      this.signOut();
+      return throwError(() => new Error('No refresh token'));
     }
-    return this._httpClient
-      .post('api/Auth/refresh', {
-        refreshToken: refreshToken,
-      })
-      .pipe(
-        tap((response: any) => {
-          console.log(response);
-          this.processAuthResponse(response);
-        }),
 
-        map((response: any) => {
-          const access = response?.Body?.AccessToken;
-          return access ? access : false;
-        }),
-
-        catchError((error) => {
-          console.error('Refresh error:', error);
-          this.signOut();
-          return of(false);
-        }),
-      );
-  }
-
-  // ------------------------------------------------------------
-  // OTHER API WRAPPERS
-  // ------------------------------------------------------------
-
-  forgotPassword(email: string): Observable<ApiResponseModel<LoginResponse>> {
-    return this._httpClient.post('api/Auth/forgot-password', email);
-  }
-
-  resetPassword(password: string): Observable<ApiResponseModel<LoginResponse>> {
-    return this._httpClient.post('api/Auth/reset-password', password);
-  }
-
-  signUp(user: any): Observable<ApiResponseModel<LoginResponse>> {
-    return this._httpClient.post('api/Auth/register', user);
-  }
-  signIn(credentials: any): Observable<ApiResponseModel<LoginResponse>> {
-    return this._httpClient.post('api/Auth/login', credentials);
-  }
-
-  // ------------------------------------------------------------
-  // SIGN OUT
-  // ------------------------------------------------------------
-  signOut(): Observable<any> {
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
-    this._authenticated = false;
-    this._userService.setUser(null);
-    return of(true);
-  }
-
-  unlockSession(credentials: any): Observable<any> {
-    return this._httpClient.post('api/auth/unlock-session', credentials);
-  }
-
-  processSignUpdata(user: ApiResponseModel<LoginResponse>) {
-    this.signUp(user).subscribe({
-      next: (res) => {
-        if (res.Status == 200) {
-          this.processAuthResponse(res);
-          this.popup.close();
+    return this.http.post('api/Auth/refresh', { refreshToken }).pipe(
+      map((res: any) => {
+        console.log(res);
+        const body = res?.Body;
+        if (!body?.AccessToken || !body?.RefreshToken) {
+          throw new Error('Invalid refresh response');
         }
-      },
-      error: (err) => console.error('Failed to load pair rate', err),
+        this.saveTokens(body.AccessToken, body.RefreshToken);
+        this.updateUserFromToken(body);
+        return body.AccessToken;
+      }),
+      catchError(err => {
+        this.signOut();
+        return throwError(() => err);
+      })
+    );
+  }
+
+
+  // ─────────────────────────────────────
+  // Login / Google / Normal
+  // ─────────────────────────────────────
+  handleCredentialResponse(response: any) {
+    this.http.post(`api/Auth/google-login`, { token: response?.credential }).subscribe({
+      next: (res: any) => this.processAuthResponse(res),
+      error: (err) => console.error('Google login failed', err)
     });
   }
+
   processSignIndata(credentials: any): void {
-    if (this._authenticated) {
-      console.error('Already logged in.');
-      return;
-    }
+    if (this._authenticated) return;
 
     this.signIn(credentials).subscribe({
       next: (res) => {
-        console.log('Login response:', res);
-        // SUCCESS
         if (res.Status === 200) {
           this.processAuthResponse(res);
           this.popup.close();
-          return;
         }
       },
-
-      error: (err) => {
-        console.error('Login failed:', err);
-      },
+      error: (err) => console.error('Login failed', err)
     });
   }
 
-  private processAuthResponse(res: ApiResponseModel<LoginResponse>) {
-    alert('processing!!')
-    console.log(res);
-        alert('processed')
-    if (res.Status == 200) {
-      const body = res?.Body;
-
-      if (!body) {
-        console.error('API did not return Body property');
-        return null;
-      }
-
-      // Store tokens
-      sessionStorage.setItem('refreshToken', body.RefreshToken);
-      sessionStorage.setItem('accessToken', body.AccessToken);
-
-      this._authenticated = true;
-
-      // Build user object
-      const user = {
-        UserId: body.UserId,
-        FullName: body.FullName,
-        Email: body.Email,
-        Status: 'Online',
-        Avatar: body.Avatar,
-      };
-
-      this._userService.updateUser(user);
-
-      return {
-        accessToken: this.accessToken,
-        refreshToken: this.refreshToken,
-        user,
-      };
-    } else {
-      return {
-        Status: res.Status,
-        Message: res.Message,
-      };
-    }
+  processSignUpdata(user: any) {
+    this.signUp(user).subscribe({
+      next: (res) => {
+        if (res.Status === 200) {
+          this.processAuthResponse(res);
+          this.popup.close();
+        }
+      },
+      error: (err) => console.error('Signup failed', err)
+    });
   }
 
-  // ------------------------------------------------------------
-  // CHECK SIGNED IN (Optimized)
-  // ------------------------------------------------------------
-  check(): Observable<boolean> {
-    if (this._authenticated) return of(true);
+  // ─────────────────────────────────────
+  // API Wrappers
+  // ─────────────────────────────────────
+  signIn(credentials: any): Observable<ApiResponseModel<LoginResponse>> {
+    return this.http.post('api/Auth/login', credentials);
+  }
 
-    // if (!this.accessToken) return of(false);
-    if (AuthUtils.isTokenExpired(this.accessToken)) {
-      return this.signInUsingRefreshToken().pipe(
-        switchMap((newToken) => {
-          if (!newToken) return of(false);
-          this._authenticated = true;
-          return of(true);
-        }),
-        catchError(() => of(false)),
-      );
+  signUp(user: any): Observable<ApiResponseModel<LoginResponse>> {
+    return this.http.post('api/Auth/register', user);
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post('api/Auth/forgot-password', { email });
+  }
+
+  resetPassword(password: string) {
+    return this.http.post('api/Auth/reset-password', { password });
+  }
+
+  // ─────────────────────────────────────
+  // Process Response (shared)
+  // ─────────────────────────────────────
+  processAuthResponse(res: ApiResponseModel<LoginResponse>) {
+    if (res.Status !== 200 || !res.Body) {
+      console.error('Auth failed:', res.Message);
+      return;
     }
 
-    this.signInUsingAccessToken();
-    return of(true);
+    const b = res.Body;
+    this.saveTokens(b.AccessToken, b.RefreshToken);
+    this.updateUserFromToken(b);
+  }
+
+  private updateUserFromToken(body: any) {
+    this.userService.updateUser({
+      UserId: body.UserId,
+      FullName: body.FullName,
+      Email: body.Email,
+      Avatar: body.Avatar,
+      Status: 'Online'
+    });
+  }
+
+  // ─────────────────────────────────────
+  // Sign Out
+  // ─────────────────────────────────────
+  signOut(): void {
+    this.clearTokens();
+   // this.popup.open();
+    // or router.navigate(['/login'])
+  }
+
+  // ─────────────────────────────────────
+  // Check Auth (for AuthGuard)
+  // ─────────────────────────────────────
+  check(): Observable<boolean> {
+    if (this._authenticated && this._accessToken && !AuthUtils.isTokenExpired(this._accessToken)) {
+      return of(true);
+    }
+
+    if (!this.getRefreshToken()) {
+      return of(false);
+    }
+
+    return this.refreshAccessToken().pipe(
+      map(token => !!token),
+      catchError(() => of(false))
+    );
   }
 }

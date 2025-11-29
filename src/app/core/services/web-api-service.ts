@@ -13,21 +13,31 @@ export class WebApiService {
   loading = signal(false);
   error = signal<string | null>(null);
 
-  private getHeader(): HttpHeaders {
-    const token = sessionStorage.getItem('accessToken');
-    let header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    if (token) {
-      header = header.set('Authorization', 'Bearer ' + token);
-    }
-    return header;
-  }
+private getHeader(): HttpHeaders {
+  const token = sessionStorage.getItem('accessToken');
+  console.log('Token from sessionStorage:', token); // ← ADD THIS LINE
 
-  get<T>(url: string, params: any = null): Observable<T> {
-    this.loading.set(true);
-    return this.http
-      .get<T>(this.base + url + (params ?? ''), { headers: this.getHeader() })
-      .pipe(catchError(err => this.handleError(err)));
+  let header = new HttpHeaders({ 'Content-Type': 'application/json' });
+  if (token) {
+    header = header.set('Authorization', `Bearer ${token}`);
+  } else {
+    console.warn('No accessToken found in sessionStorage!');
   }
+  return header;
+}
+
+ get<T>(url: string, params: any = null): Observable<T> {
+  this.loading.set(true);
+  console.log(this.getHeader());
+  return this.http.get<T>(
+    this.base + url,
+    {
+      headers: this.getHeader(),
+      params: params
+    }
+  )
+  .pipe(catchError(err => this.handleError(err)));
+}
 
   post<T>(url: string, body: any): Observable<T> {
     this.loading.set(true);

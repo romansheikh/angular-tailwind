@@ -9,13 +9,14 @@ import { loaderInterceptor } from '../interceptor/loader.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { apiInterceptor } from '../interceptor/global.interceptor';
 
+
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(
       BrowserModule,
       AppRoutingModule,
       BrowserAnimationsModule,
-      NgxSpinnerModule,
+      NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
       AngularSvgIconModule.forRoot(),
     ),
     provideAnimations(),

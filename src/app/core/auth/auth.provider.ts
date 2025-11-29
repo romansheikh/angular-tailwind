@@ -2,7 +2,7 @@ import { HTTP_INTERCEPTORS, HttpHandler, provideHttpClient, withInterceptors } f
 import { ENVIRONMENT_INITIALIZER, EnvironmentProviders, inject, Provider } from '@angular/core';
 
 import { AuthService } from './auth.service';
-import { AuthInterceptor } from './auth.interceptor';
+import { AuthInterceptor } from '../interceptor/auth.interceptor';
 
 import { withInterceptorsFromDi } from '@angular/common/http';
 

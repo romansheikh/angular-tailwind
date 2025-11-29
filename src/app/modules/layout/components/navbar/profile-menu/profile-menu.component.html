@@ -1,6 +1,6 @@
 <div class="relative ml-3">
   <!-- Profile Button -->
-@if (auth._authenticated || auth.accessToken !== '') {
+@if (auth._authenticated || auth.getAccessToken() !== null) {
     <button (click)="toggleMenu()" class="bg-card relative flex rounded-full text-sm" type="button">
     <span class="sr-only">Open user menu</span>
 

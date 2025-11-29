@@ -307,3 +307,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .animate-fade-in {
   animation: fade-in 0.3s ease-out;
 }
+
+.ball-scale-multiple > div {
+  display: inline-block !important;
+  background-color: #fff !important;
+}
