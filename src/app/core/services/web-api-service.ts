@@ -15,8 +15,6 @@ export class WebApiService {
 
 private getHeader(): HttpHeaders {
   const token = sessionStorage.getItem('accessToken');
-  console.log('Token from sessionStorage:', token); // ← ADD THIS LINE
-
   let header = new HttpHeaders({ 'Content-Type': 'application/json' });
   if (token) {
     header = header.set('Authorization', `Bearer ${token}`);
@@ -28,7 +26,6 @@ private getHeader(): HttpHeaders {
 
  get<T>(url: string, params: any = null): Observable<T> {
   this.loading.set(true);
-  console.log(this.getHeader());
   return this.http.get<T>(
     this.base + url,
     {

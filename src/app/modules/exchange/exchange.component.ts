@@ -80,19 +80,7 @@ export class ExchangeComponent {
     ...this.stepThree.formGroup.value,
     ExchangeRateApplied: this.stepOne.currentRate,
   };
-  console.log('✅ Final Exchange Payload:', payload);
-
-
-  this.orderService.PlaceOrder(payload).subscribe({
-    next: (res) => {
-      console.log('💾 Exchange saved successfully:', res);
-      alert('Exchange confirmed and saved successfully!');
-    },
-    error: (err) => {
-      console.error('❌ Error saving exchange:', err);
-      alert('Failed to save exchange. Please try again.');
-    },
-  });
+  this.orderService.SaveOrder(payload);
 }
 
 

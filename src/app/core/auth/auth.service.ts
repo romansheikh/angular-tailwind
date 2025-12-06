@@ -1,7 +1,7 @@
 // src/app/services/auth.service.ts
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
-import { ApiResponseModel, LoginResponse } from '../models/apiresponse';
+import { ApiResponseModel, LoginResponseModel } from '../models/apiresponse';
 import { LoginPopupService } from '../services/login-popup.service';
 import { UserService } from '../services/user.service';
 import { WebApiService } from '../services/web-api-service';
@@ -71,6 +71,7 @@ export class AuthService {
 
   signInUsingAccessToken(token: string) {
       const payload = AuthUtils.decodeToken(token);
+      console.log(payload);
       this.userService.updateUser({
         UserId: payload.sub,
         FullName: payload.given_name,
@@ -94,7 +95,6 @@ export class AuthService {
 
     return this.http.post('api/Auth/refresh', { refreshToken }).pipe(
       map((res: any) => {
-        console.log(res);
         const body = res?.Body;
         if (!body?.AccessToken || !body?.RefreshToken) {
           throw new Error('Invalid refresh response');
@@ -150,11 +150,11 @@ export class AuthService {
   // ─────────────────────────────────────
   // API Wrappers
   // ─────────────────────────────────────
-  signIn(credentials: any): Observable<ApiResponseModel<LoginResponse>> {
+  signIn(credentials: any): Observable<ApiResponseModel<LoginResponseModel>> {
     return this.http.post('api/Auth/login', credentials);
   }
 
-  signUp(user: any): Observable<ApiResponseModel<LoginResponse>> {
+  signUp(user: any): Observable<ApiResponseModel<LoginResponseModel>> {
     return this.http.post('api/Auth/register', user);
   }
 
@@ -169,7 +169,7 @@ export class AuthService {
   // ─────────────────────────────────────
   // Process Response (shared)
   // ─────────────────────────────────────
-  processAuthResponse(res: ApiResponseModel<LoginResponse>) {
+  processAuthResponse(res: ApiResponseModel<LoginResponseModel>) {
     if (res.Status !== 200 || !res.Body) {
       console.error('Auth failed:', res.Message);
       return;

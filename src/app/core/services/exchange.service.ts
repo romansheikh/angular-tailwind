@@ -44,7 +44,6 @@ export class ExchangeService {
       next: (res: ApiResponseModel<ExchangePair>) => {
         if (res.Status == 200) {
           this.rate.set(res.Body!);
-          console.log(this.rate());
         }
         //  this.rateMap.set(key, res.Body!);
       },

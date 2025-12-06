@@ -35,20 +35,7 @@ export class GoogleOneTapService {
   // Reusable One Tap popup trigger
   public showOneTapPrompt(): void {
    
-    google.accounts.id.prompt((moment: any) => {
-      const type = moment.getMomentType();
-      console.log("OneTap Moment:", type);
-
-      // FedCM compatible tracking
-      if (type === 'dismissed') {
-        console.log("User dismissed One Tap");
-      }
-      if (type === 'skipped') {
-        console.log("One Tap skipped");
-      }
-      if (type === 'displayed') {
-        console.log("One Tap displayed");
-      }
+    google.accounts.id.prompt(() => {
     });
   }
 }

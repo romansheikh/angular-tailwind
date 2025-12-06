@@ -10,7 +10,7 @@ export enum Status {
   Unauthorized = 401,
   InternalServerError = 500,
 }
-export interface LoginResponse {
+export interface LoginResponseModel {
   Email: string;
   FullName: string;
   AccessToken: string;
