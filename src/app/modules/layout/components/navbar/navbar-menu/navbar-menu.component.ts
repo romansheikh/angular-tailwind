@@ -1,6 +1,6 @@
 import { NgClass, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'src/app/core/models/menu.model';
+import { MenuItem } from 'src/app/core/models/menu';
 import { MenuService } from '../../../../../core/services/menu.service';
 import { NavbarSubmenuComponent } from '../navbar-submenu/navbar-submenu.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';

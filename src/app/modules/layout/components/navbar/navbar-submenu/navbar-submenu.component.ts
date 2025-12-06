@@ -2,7 +2,7 @@ import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { SubMenuItem } from 'src/app/core/models/menu.model';
+import { SubMenuItem } from 'src/app/core/models/menu';
 
 @Component({
   selector: 'div[navbar-submenu]',

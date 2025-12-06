@@ -1,4 +1,4 @@
-import { MenuItem, ProfileMenuItem, UserMenuItem } from '../models/menu.model';
+import { MenuItem, ProfileMenuItem, UserMenuItem } from '../models/menu';
 
 export class Menu {
   public static pages: MenuItem[] = [
