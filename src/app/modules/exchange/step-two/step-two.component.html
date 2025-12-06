@@ -69,13 +69,13 @@
             common.hasError('Phone', 'required', formGroup) || common.hasError('Phone', 'pattern', formGroup)
         }"
         class="bg-background text-muted-foreground peer-focus:text-primary absolute top-2 z-10 ml-2 origin-left -translate-y-4 scale-95 transform px-2 text-sm duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-95 peer-focus:px-2">
-        Phone Number
+        Emergency Contact Number
       </label>
     </div>
     @if (common.hasError('Phone','required', formGroup)) {
-    <small class="text-red-500">Phone is required</small>
+    <small class="text-red-500">Emergency Contact is required</small>
     } @if (common.hasError('Phone','pattern', formGroup)) {
-    <small class="text-red-500">Phone number is invalid</small>
+    <small class="text-red-500">Emergency Contact is invalid</small>
     }
   </div>
 
