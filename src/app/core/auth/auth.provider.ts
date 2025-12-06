@@ -1,22 +1,23 @@
-import { HTTP_INTERCEPTORS, HttpHandler, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ENVIRONMENT_INITIALIZER, EnvironmentProviders, inject, Provider } from '@angular/core';
-
+import { Provider, EnvironmentProviders, inject } from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from '../interceptor/auth.interceptor';
 import { AuthService } from './auth.service';
-import { AuthInterceptor } from '../interceptor/auth.interceptor';
 
-import { withInterceptorsFromDi } from '@angular/common/http';
+export function provideAuth(): Array<Provider | EnvironmentProviders> {
+  return [
 
-export const provideAuth = () => [
-    provideHttpClient(withInterceptorsFromDi()),    
+    // HttpClient + functional interceptor
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    ),
+
+    // Eagerly create AuthService at startup (recommended)
     {
-        provide: HTTP_INTERCEPTORS,
-        useClass: AuthInterceptor,
-        multi: true,
-    },
-    {
-        provide: ENVIRONMENT_INITIALIZER,
-        useValue: () => inject(AuthService),
-        multi: true,
+      provide: 'AUTH_INIT',
+      useFactory: () => {
+        inject(AuthService); // <-- this triggers your constructor at boot
+        return true;
+      }
     }
-];
-
+  ];
+}

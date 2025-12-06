@@ -70,8 +70,7 @@ export class AuthService {
   }
 
   signInUsingAccessToken(token: string) {
-      const payload = AuthUtils.decodeToken(token);
-      console.log(payload);
+      const payload = AuthUtils.decodeToken(token);     
       this.userService.updateUser({
         UserId: payload.sub,
         FullName: payload.given_name,
@@ -89,6 +88,7 @@ export class AuthService {
   refreshAccessToken(): Observable<string> {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) {
+      alert(refreshToken);
       this.signOut();
       return throwError(() => new Error('No refresh token'));
     }
