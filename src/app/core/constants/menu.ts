@@ -1,4 +1,4 @@
-import { MenuItem, UserMenuItem } from '../models/menu.model';
+import { MenuItem, ProfileMenuItem, UserMenuItem } from '../models/menu.model';
 
 export class Menu {
   public static pages: MenuItem[] = [
@@ -98,6 +98,32 @@ export class Menu {
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'News', route: '/news', selected: false },
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Contact Us', route: '/contact-us', selected: false },
   ];
+  
+
+public static Profile_Menu: ProfileMenuItem[] = [
+  {
+    title: 'My Profile',
+    icon: './assets/icons/heroicons/outline/user-circle.svg',
+    link: '/profile',
+  },
+  {
+    title: 'My Order',
+    icon: './assets/icons/heroicons/outline/order.svg',
+    link: '/orders',
+  },
+  {
+    title: 'Settings',
+    icon: './assets/icons/heroicons/outline/cog-6-tooth.svg',
+    link: '/settings',
+  },
+  {
+    title: 'Log out',
+    icon: './assets/icons/heroicons/outline/logout.svg',
+    link: '/auth',
+  },
+];
+
+
 
   public static getMenus(): UserMenuItem[] {
     return this.userMenu;

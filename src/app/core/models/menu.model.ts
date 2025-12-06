@@ -23,4 +23,11 @@ export interface UserMenuItem {
   selected?: boolean;
 }
 
+export interface ProfileMenuItem {
+  title: string;
+  icon: string;
+  link: string;
+}
+
+
 

@@ -9,6 +9,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { LoginPopupService } from 'src/app/core/services/login-popup.service';
 import { ExchangeService } from 'src/app/core/services/exchange.service';
+import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'app-profile-menu',
@@ -43,24 +44,8 @@ export class ProfileMenuComponent implements OnInit {
   auth = inject(AuthService);
   popup = inject(LoginPopupService);
   exchange = inject(ExchangeService)
+  menu = inject(MenuService)
   public isOpen = false;
-  public profileMenu = [
-    {
-      title: 'Your Profile',
-      icon: './assets/icons/heroicons/outline/user-circle.svg',
-      link: '/profile',
-    },
-    {
-      title: 'Settings',
-      icon: './assets/icons/heroicons/outline/cog-6-tooth.svg',
-      link: '/settings',
-    },
-    {
-      title: 'Log out',
-      icon: './assets/icons/heroicons/outline/logout.svg',
-      link: '/auth',
-    },
-  ];
 
   public themeColors = [
     {
