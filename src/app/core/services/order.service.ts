@@ -15,7 +15,7 @@ export class OrderService {
   error = this.api.error;
 
   PlaceOrder(dto: Order): Observable<any> {
-    return this.api.post<Bank>('api/Orders/place_prder', dto);
+    return this.api.post<Bank>('api/Orders/place_order', dto);
   }
 
   GetUserOrders(): Observable<ApiResponseModel<Exchange[]>> {
@@ -43,6 +43,7 @@ export class OrderService {
     this.PlaceOrder(payload).subscribe({
       next: () => {
         this.GetUserOrders();
+        
       },
       error: (err) => console.error('Failed to load pair rate', err),
     });

@@ -120,15 +120,7 @@
             </app-button>
           </div>
 
-          <!-- Accept Terms -->
-          <div class="flex items-center gap-2">
-            <input id="accept-term" type="checkbox" formControlName="AcceptTerm" />
-            <label for="accept-term" class="text-muted-foreground text-sm">I Accept the</label>
-            <app-button impact="none" tone="primary" shape="rounded" size="small">Terms</app-button>
-          </div>
-          @if (common.hasError('AcceptTerm','required', signinForm)) {
-          <small class="mt-1 block text-red-500">You must accept the terms</small>
-          }
+    
 
           <div class="mt-6">
             <button
@@ -307,6 +299,15 @@
           <small class="text-red-500"> Passwords do not match </small>
           }
         </div>
+              <!-- Accept Terms -->
+          <div class="flex items-center gap-2">
+            <input id="accept-term" type="checkbox" formControlName="AcceptTerm" />
+            <label for="accept-term" class="text-muted-foreground text-sm">I Accept the</label>
+            <app-button impact="none" tone="primary" shape="rounded" size="small">Terms</app-button>
+          </div>
+          @if (common.hasError('AcceptTerm','required', signupForm)) {
+          <small class="mt-1 block text-red-500">You must accept the terms</small>
+          }
 
         <div class="mt-6">
           <button

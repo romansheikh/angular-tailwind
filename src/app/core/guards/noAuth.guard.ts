@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
 
 import { of, switchMap } from 'rxjs';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../auth/auth.service';
 
 export const NoAuthGuard: CanActivateFn | CanActivateChildFn = (route, state) =>
 {

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { UserLayoutRoutingModule } from './user-layout-routing.module';
 import { CommonModule } from '@angular/common';
-import { ExchangeComponent } from '../../exchange/exchange.component';
+import { ExchangeComponent } from '../../user-components/exchange/exchange.component';
 
 
 

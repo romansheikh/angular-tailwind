@@ -1,10 +1,12 @@
+  @if (auth._authenticated || auth.getAccessToken() !== null) {
 <section class="bg-background backdrop-blur-xs fixed bottom-0 z-0 block w-full bg-gray/75 shadow-sm md:hidden">
   <div class="flex justify-between text-xs font-semibold text-gray-600">
     @for (item of menu.profileMenu; track $index) {
-    <button class="flex w-full flex-col items-center justify-center pt-3 pb-3 text-center hover:text-gray-800 cursor-pointer">
+    <button routerLink="{{item.link}}" class="flex w-full flex-col items-center justify-center pt-3 pb-3 text-center hover:text-gray-800 cursor-pointer">
       <svg-icon src="{{item.icon}}" [svgClass]="'h-5 w-5'"> </svg-icon>
       <span class="text-xs">{{item.title}}</span>
     </button>
     }
   </div>
 </section>
+  }

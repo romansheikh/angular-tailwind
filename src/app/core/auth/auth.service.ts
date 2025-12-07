@@ -9,7 +9,6 @@ import { AuthUtils } from './auth.utils';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
   private _accessToken: string | null = null;
   private _refreshToken: string | null = null;
   public _authenticated = false;
@@ -37,50 +36,53 @@ export class AuthService {
   // Token Storage
   // ─────────────────────────────────────
   private loadTokens() {
-    const access = sessionStorage.getItem('accessToken');
-    const refresh = sessionStorage.getItem('refreshToken');
+    const access = localStorage.getItem('accessToken');
+    const refresh = localStorage.getItem('refreshToken');
 
-    if (access && refresh && !AuthUtils.isTokenExpired(access)) {
-    
-      this._accessToken = access;
-      this._refreshToken = refresh;
-      this._authenticated = true;
-      this.signInUsingAccessToken(access);
-
-    } else {
-      this.clearTokens();
+    if (!access || !refresh) {
+      this._authenticated = false;
+      return;
     }
+
+    if (AuthUtils.isTokenExpired(access)) {
+      this._authenticated = false;
+      return;
+    }
+
+    this._accessToken = access;
+    this._refreshToken = refresh;
+    this._authenticated = true;
+    this.signInUsingAccessToken(access);
   }
 
   private saveTokens(access: string, refresh: string) {
     this._accessToken = access;
     this._refreshToken = refresh;
-    sessionStorage.setItem('accessToken', access);
-    sessionStorage.setItem('refreshToken', refresh);
+    localStorage.setItem('accessToken', access);
+    localStorage.setItem('refreshToken', refresh);
     this._authenticated = true;
   }
 
   private clearTokens() {
     this._accessToken = null;
     this._refreshToken = null;
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('refreshToken');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     this._authenticated = false;
     this.userService.setUser(null);
   }
 
   signInUsingAccessToken(token: string) {
-      const payload = AuthUtils.decodeToken(token);     
-      this.userService.updateUser({
-        UserId: payload.sub,
-        FullName: payload.given_name,
-        Email: payload.email,
-        Status: 'Online',
-        Avatar: payload.picture,
-      });
-      this._authenticated = true;
-    }  
-
+    const payload = AuthUtils.decodeToken(token);
+    this.userService.updateUser({
+      UserId: payload.sub,
+      FullName: payload.given_name,
+      Email: payload.email,
+      Status: 'Online',
+      Avatar: payload.picture,
+    });
+    this._authenticated = true;
+  }
 
   // ─────────────────────────────────────
   // Refresh Token (used by interceptor)
@@ -103,13 +105,12 @@ export class AuthService {
         this.updateUserFromToken(body);
         return body.AccessToken;
       }),
-      catchError(err => {
+      catchError((err) => {
         this.signOut();
         return throwError(() => err);
-      })
+      }),
     );
   }
-
 
   // ─────────────────────────────────────
   // Login / Google / Normal
@@ -117,7 +118,7 @@ export class AuthService {
   handleCredentialResponse(response: any) {
     this.http.post(`api/Auth/google-login`, { token: response?.credential }).subscribe({
       next: (res: any) => this.processAuthResponse(res),
-      error: (err) => console.error('Google login failed', err)
+      error: (err) => console.error('Google login failed', err),
     });
   }
 
@@ -131,7 +132,7 @@ export class AuthService {
           this.popup.close();
         }
       },
-      error: (err) => console.error('Login failed', err)
+      error: (err) => console.error('Login failed', err),
     });
   }
 
@@ -143,7 +144,7 @@ export class AuthService {
           this.popup.close();
         }
       },
-      error: (err) => console.error('Signup failed', err)
+      error: (err) => console.error('Signup failed', err),
     });
   }
 
@@ -170,6 +171,7 @@ export class AuthService {
   // Process Response (shared)
   // ─────────────────────────────────────
   processAuthResponse(res: ApiResponseModel<LoginResponseModel>) {
+    console.log(res);
     if (res.Status !== 200 || !res.Body) {
       console.error('Auth failed:', res.Message);
       return;
@@ -186,7 +188,7 @@ export class AuthService {
       FullName: body.FullName,
       Email: body.Email,
       Avatar: body.Avatar,
-      Status: 'Online'
+      Status: 'Online',
     });
   }
 
@@ -195,7 +197,7 @@ export class AuthService {
   // ─────────────────────────────────────
   signOut(): void {
     this.clearTokens();
-   // this.popup.open();
+    // this.popup.open();
     // or router.navigate(['/login'])
   }
 
@@ -212,8 +214,8 @@ export class AuthService {
     }
 
     return this.refreshAccessToken().pipe(
-      map(token => !!token),
-      catchError(() => of(false))
+      map((token) => !!token),
+      catchError(() => of(false)),
     );
   }
 }

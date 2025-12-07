@@ -2,8 +2,8 @@ import { inject } from '@angular/core';
 import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
 
 import { of, switchMap } from 'rxjs';
-import { AuthService } from '../auth.service';
-import { LoginPopupService } from '../../services/login-popup.service';
+import { AuthService } from '../auth/auth.service';
+import { LoginPopupService } from '../services/login-popup.service';
 
 export const AuthGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
   const router: Router = inject(Router);

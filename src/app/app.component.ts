@@ -32,10 +32,10 @@ export class AppComponent {
   title = 'Angular Tailwind';
 
   ngOnInit() {
-    var token = sessionStorage.getItem('accessToken');
+    var token = localStorage.getItem('accessToken');
     if (token == 'undefined') {
-      sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('refreshToken');
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
     }
 
     if (!token) {

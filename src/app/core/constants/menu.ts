@@ -91,8 +91,8 @@ export class Menu {
   ];
 
   public static userMenu: UserMenuItem[] = [
-    { icon: 'assets/icons/heroicons/outline/user.svg', label: 'Exchange', route: '/exchange', selected: false, },
-    { icon: 'assets/icons/heroicons/outline/cog.svg', label: 'Our Rates', route: '/our-rates', selected: false, },
+    { icon: 'assets/icons/heroicons/outline/user.svg', label: 'Exchange', route: '/', selected: false, },
+    { icon: 'assets/icons/heroicons/outline/cog.svg', label: 'Our Rates', route: '/rates', selected: false, },
     { icon: 'assets/icons/heroicons/outline/question-mark-circle.svg', label: 'Affiliates', route: '/affiliates', selected: false, },
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Reviews', route: '/reviews', selected: false },
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'News', route: '/news', selected: false },
@@ -102,14 +102,19 @@ export class Menu {
 
 public static Profile_Menu: ProfileMenuItem[] = [
   {
+    title: 'Home',
+    icon: './assets/icons/heroicons/outline/view-grid.svg',
+    link: '/',
+  },
+    {
     title: 'My Profile',
     icon: './assets/icons/heroicons/outline/user-circle.svg',
-    link: '/profile',
+    link: '/my-profile',
   },
   {
     title: 'My Order',
     icon: './assets/icons/heroicons/outline/order.svg',
-    link: '/orders',
+    link: '/my-order',
   },
   {
     title: 'Settings',
@@ -119,7 +124,7 @@ public static Profile_Menu: ProfileMenuItem[] = [
   {
     title: 'Log out',
     icon: './assets/icons/heroicons/outline/logout.svg',
-    link: '/auth',
+    link: '/',
   },
 ];
 

@@ -1,4 +1,4 @@
-import { CreateUpdateCurrency } from './../../../core/models/currencies';
+import { CreateUpdateCurrency } from '../../../../core/models/currencies';
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, OnInit, inject, Signal, computed, effect } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';

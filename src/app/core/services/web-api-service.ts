@@ -14,13 +14,11 @@ export class WebApiService {
   error = signal<string | null>(null);
 
 private getHeader(): HttpHeaders {
-  const token = sessionStorage.getItem('accessToken');
+  const token = localStorage.getItem('accessToken');
   let header = new HttpHeaders({ 'Content-Type': 'application/json' });
   if (token) {
     header = header.set('Authorization', `Bearer ${token}`);
-  } else {
-    console.warn('No accessToken found in sessionStorage!');
-  }
+  } 
   return header;
 }
 

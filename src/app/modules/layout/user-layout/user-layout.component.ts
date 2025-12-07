@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavbarComponent } from '../components/navbar/navbar.component';
 import { BottomNavbarComponent } from "../components/bottom-navbar/bottom-navbar.component";
 import { NavbarUserComponent } from "../components/navbar-user/navbar-user.component";
-import { ScrollingBannerComponent } from "../../landing/pages/scrolling-banner/scrolling-banner.component";
+import { ScrollingBannerComponent } from "../../user-components/landing/pages/scrolling-banner/scrolling-banner.component";
 
 @Component({
   selector: 'app-user-layout',

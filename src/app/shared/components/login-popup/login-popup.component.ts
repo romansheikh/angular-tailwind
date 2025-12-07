@@ -46,6 +46,7 @@ export class LoginPopupComponent {
         PhoneNumber: ['', [Validators.required]],
         Password: ['', Validators.required],
         ConfirmPassword: ['', Validators.required],
+        AcceptTerm: [false, Validators.requiredTrue],
       },
       { validators: this.common.passwordMatchValidator },
     );
@@ -55,7 +56,7 @@ export class LoginPopupComponent {
       Email: ['', [Validators.required, Validators.email]],
       Password: ['', Validators.required],
       Remember: [false],
-      AcceptTerm: [false, Validators.requiredTrue],
+  
     });
   }
   submitSignIn() {

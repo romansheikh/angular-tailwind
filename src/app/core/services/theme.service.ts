@@ -16,13 +16,13 @@ export class ThemeService {
   }
 
  private loadTheme() {
-  const theme = sessionStorage.getItem('theme');
+  const theme = localStorage.getItem('theme');
   if (theme) {
     try {
       this.theme.set(JSON.parse(theme));
     } catch {
       console.warn('Invalid theme in localStorage, resetting…');
-      sessionStorage.removeItem('theme');
+      localStorage.removeItem('theme');
     }
   }
 }
@@ -43,7 +43,7 @@ export class ThemeService {
   }
 
   private setLocalStorage() {
-    sessionStorage.setItem('theme', JSON.stringify(this.theme()));
+    localStorage.setItem('theme', JSON.stringify(this.theme()));
   }
 
   private setRTL() {

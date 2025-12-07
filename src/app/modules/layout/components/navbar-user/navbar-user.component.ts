@@ -4,7 +4,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { NavbarMenuComponent } from '../navbar/navbar-menu/navbar-menu.component';
 import { ProfileMenuComponent } from '../navbar/profile-menu/profile-menu.component';
 import { NavbarMobileComponent } from '../navbar/navbar-mobile/navbar-mobilecomponent';
-import { AdminLayoutRoutingModule } from '../../../exchange/admin-layout/admin-layout-routing.module';
+import { AdminLayoutRoutingModule } from '../../admin-layout/admin-layout-routing.module';
 import { UserService } from 'src/app/core/services/user.service';
 import { GoogleOneTapService } from 'src/app/core/services/google/google-one-tap.service';
 
