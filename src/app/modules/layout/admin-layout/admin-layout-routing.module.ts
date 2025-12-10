@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: AdminLayoutComponent,
-    loadChildren: () => import('../../dashboard/dashboard.module').then((m) => m.DashboardModule),
+    loadChildren: () => import('../../admin-components/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
     path: 'components',

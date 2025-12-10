@@ -1,35 +1,35 @@
 <!-- Containers for top/bottom/left positions -->
 <div class="toaster-container top-center">
-  <ng-container *ngFor="let t of toaster.toasts()">
-    <div *ngIf="t.options.position === 'top-center'" class="toast" [ngClass]="t.options.type">
-      <div class="toast-body">{{ t.message }}</div>
-      <button class="toast-close" (click)="close(t)">✕</button>
-    </div>
-  </ng-container>
-</div>
-
-<div class="toaster-container bottom-center">
-  <ng-container *ngFor="let t of toaster.toasts()">
-    <div *ngIf="t.options.position === 'bottom-center'" class="toast" [ngClass]="t.options.type">
-      <div class="toast-body">{{ t.message }}</div>
-      <button class="toast-close" (click)="close(t)">✕</button>
-    </div>
-  </ng-container>
-</div>
-
-<div class="toaster-container top-left">
-  <ng-container *ngFor="let t of toaster.toasts()">
-    <div *ngIf="t.options.position === 'top-left'" class="toast" [ngClass]="t.options.type">
-      <div class="toast-body">{{ t.message }}</div>
-      <button class="toast-close" (click)="close(t)">✕</button>
-    </div>
-  </ng-container>
-</div>
-
-<!-- near-positioned toasts are absolutely placed -->
-<ng-container *ngFor="let t of toaster.toasts()">
-  <div *ngIf="t.options.position === 'near'" class="toast near" [ngStyle]="getStyle(t)" [ngClass]="t.options.type">
+  @for (t of toaster.toasts(); track t) { @if (t.options.position === 'top-center') {
+  <div class="toast" [ngClass]="t.options.type">
     <div class="toast-body">{{ t.message }}</div>
     <button class="toast-close" (click)="close(t)">✕</button>
   </div>
-</ng-container>
+  } }
+</div>
+
+<div class="toaster-container bottom-center">
+  @for (t of toaster.toasts(); track t) { @if (t.options.position === 'bottom-center') {
+  <div class="toast" [ngClass]="t.options.type">
+    <div class="toast-body">{{ t.message }}</div>
+    <button class="toast-close" (click)="close(t)">✕</button>
+  </div>
+  } }
+</div>
+
+<div class="toaster-container top-left">
+  @for (t of toaster.toasts(); track t) { @if (t.options.position === 'top-left') {
+  <div class="toast" [ngClass]="t.options.type">
+    <div class="toast-body">{{ t.message }}</div>
+    <button class="toast-close" (click)="close(t)">✕</button>
+  </div>
+  } }
+</div>
+
+<!-- near-positioned toasts are absolutely placed -->
+@for (t of toaster.toasts(); track t) { @if (t.options.position === 'near') {
+<div class="toast near" [ngStyle]="getStyle(t)" [ngClass]="t.options.type">
+  <div class="toast-body">{{ t.message }}</div>
+  <button class="toast-close" (click)="close(t)">✕</button>
+</div>
+} }

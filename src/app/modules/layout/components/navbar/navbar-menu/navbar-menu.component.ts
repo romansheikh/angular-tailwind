@@ -1,4 +1,4 @@
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'src/app/core/models/menu';
 import { MenuService } from '../../../../../core/services/menu.service';
@@ -10,7 +10,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   selector: 'app-navbar-menu',
   templateUrl: './navbar-menu.component.html',
   styleUrls: ['./navbar-menu.component.css'],
-  imports: [NgFor, NgClass, RouterLink],
+  imports: [NgClass, RouterLink],
 })
 export class NavbarMenuComponent implements OnInit {
   private showMenuClass = ['scale-100', 'animate-fade-in-up', 'opacity-100', 'pointer-events-auto'];

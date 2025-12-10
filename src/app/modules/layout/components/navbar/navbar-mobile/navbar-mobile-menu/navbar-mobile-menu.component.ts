@@ -1,4 +1,3 @@
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -10,8 +9,7 @@ import { NavbarMobileSubmenuComponent } from '../navbar-mobile-submenu/navbar-mo
   selector: 'app-navbar-mobile-menu',
   templateUrl: './navbar-mobile-menu.component.html',
   styleUrls: ['./navbar-mobile-menu.component.css'],
-  imports: [
-    NgFor,
+  imports: [    
     AngularSvgIconModule,
     RouterLink,
     RouterLinkActive

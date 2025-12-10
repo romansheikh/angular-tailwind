@@ -8,7 +8,7 @@ import { ScrollingBannerComponent } from "../../user-components/landing/pages/sc
 
 @Component({
   selector: 'app-user-layout',
-  imports: [RouterOutlet, FooterComponent, BottomNavbarComponent, NavbarUserComponent, ScrollingBannerComponent],
+  imports: [RouterOutlet, FooterComponent, BottomNavbarComponent, NavbarUserComponent],
   templateUrl: './user-layout.component.html',
   styleUrl: './user-layout.component.css'
 })

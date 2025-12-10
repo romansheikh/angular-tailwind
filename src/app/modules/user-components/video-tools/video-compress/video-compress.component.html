@@ -34,7 +34,9 @@
   <div *ngIf="frames.length">
     <h4>Extracted frames (sample)</h4>
     <div class="frames">
-      <img *ngFor="let f of frames | slice:0:20" [src]="f.url" class="frame" />
+      @for (f of frames | slice: 0 : 20; track f) {
+      <img [src]="f.url" class="frame" />
+      }
     </div>
   </div>
 

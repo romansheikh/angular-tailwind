@@ -1,17 +1,19 @@
-<div *ngFor="let menu of menuService.pagesUserMenu">
+@for (menu of menuService.pagesUserMenu; track menu) {
+<div>
   <ul class="flex flex-col">
-    <!-- List items -->
     <li>
-      <!-- Menu List -->
-            <div
-            routerLink="{{ menu.route }}"
-            class="text-muted-foreground hover:text-primary flex h-[36px] cursor-pointer items-center justify-start rounded-sm">
-            <a
-              routerLinkActive="text-primary"
-              class="truncate text-xs font-semibold tracking-wide focus:outline-hidden">
-              {{ menu.label }}
-            </a>
-          </div>
+      <div
+        [routerLink]="menu.route"
+        class="text-muted-foreground hover:text-primary flex h-[36px] cursor-pointer items-center justify-start rounded-sm">
+        
+        <a
+          routerLinkActive="text-primary"
+          class="truncate text-xs font-semibold tracking-wide focus:outline-hidden">
+          {{ menu.label }}
+        </a>
+        
+      </div>
     </li>
   </ul>
 </div>
+}

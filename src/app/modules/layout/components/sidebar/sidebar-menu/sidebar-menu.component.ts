@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AngularSvgIconModule } from 'angular-svg-icon';
@@ -12,14 +12,12 @@ import { SidebarSubmenuComponent } from '../sidebar-submenu/sidebar-submenu.comp
   styleUrls: ['./sidebar-menu.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    NgFor,
-    NgClass,
+        NgClass,
     AngularSvgIconModule,
     NgTemplateOutlet,
     RouterLink,
     RouterLinkActive,
-    NgIf,
-    SidebarSubmenuComponent,
+        SidebarSubmenuComponent,
   ],
 })
 export class SidebarMenuComponent implements OnInit {
