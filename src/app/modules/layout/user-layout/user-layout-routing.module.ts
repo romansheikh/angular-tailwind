@@ -42,7 +42,6 @@ const routes: Routes = [
         path: 'rates',
         loadChildren: () => import('../../user-components/rates/rates.module').then((m) => m.RatesModule),
       },
-
       {
         path: 'reviews',
         loadChildren: () => import('../../user-components/reviews/reviews.module').then((m) => m.ReviewsModule),
@@ -50,6 +49,11 @@ const routes: Routes = [
       {
         path: 'settings',
         loadChildren: () => import('../../user-components/setting/setting.module').then((m) => m.SettingModule),
+      },
+      {
+        path: 'video-compress',
+        loadChildren: () =>
+          import('../../user-components/video-tools/video-tools.module').then((m) => m.VideoToolsModule),
       },
     ],
   },

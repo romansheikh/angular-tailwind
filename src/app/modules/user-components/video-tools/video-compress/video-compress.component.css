@@ -1,0 +1,7 @@
+.vt-container { max-width: 640px; padding: 12px; background:#fff; border-radius:8px; }
+.settings input, .settings label { display:block; margin:6px 0; }
+.btn { margin:10px 0; padding:8px 12px; background:#3498db; color:#fff; border:none; border-radius:4px; }
+.progress { margin-top: 12px; }
+.progress-bar { height: 12px; background:#2ecc71; width:0; transition:width 0.2s; }
+.frames img.frame { width:80px; height:50px; object-fit:cover; margin:4px; border:1px solid #ddd; }
+.result video { display:block; margin-top:8px; }

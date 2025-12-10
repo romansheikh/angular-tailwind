@@ -97,6 +97,8 @@ export class Menu {
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Reviews', route: '/reviews', selected: false },
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'News', route: '/news', selected: false },
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Contact Us', route: '/contact-us', selected: false },
+    { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Compress Video', route: '/video-compress', selected: false },
+
   ];
   
 

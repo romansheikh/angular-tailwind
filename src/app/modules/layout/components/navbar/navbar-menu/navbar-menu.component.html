@@ -1,13 +1,12 @@
-<div class="dropdown relative inline-block" *ngFor="let menu of menuService.pagesUserMenu">
+@for (menu of menuService.pagesUserMenu; track $index) {
+<div class="dropdown relative inline-block">
   <!-- Button -->
-  <button
-   [routerLink]="menu.route"
-    [ngClass]="
+  <button [routerLink]="menu.route" [ngClass]="
       menu.selected || menu.active
         ? 'bg-primary text-primary-foreground'
         : 'text-muted-foreground/50 hover:bg-card hover:text-muted-foreground cursor-pointer '
-    "
-    class="mr-2 inline-flex rounded-md px-3 py-2 text-sm font-medium">
+    " class="mr-2 inline-flex rounded-md px-3 py-2 text-sm font-medium">
     <span>{{ menu.label }}</span>
   </button>
 </div>
+}
