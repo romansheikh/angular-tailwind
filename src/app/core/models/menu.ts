@@ -27,6 +27,7 @@ export interface ProfileMenuItem {
   title: string;
   icon: string;
   link: string;
+  seoKey : string;
 }
 
 

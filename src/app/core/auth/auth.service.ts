@@ -6,6 +6,7 @@ import { LoginPopupService } from '../services/login-popup.service';
 import { UserService } from '../services/user.service';
 import { WebApiService } from '../services/web-api-service';
 import { AuthUtils } from './auth.utils';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -17,9 +18,69 @@ export class AuthService {
   private readonly userService = inject(UserService);
   private readonly popup = inject(LoginPopupService);
 
+  // Http client that bypasses interceptors:
+  private readonly httpNoInterceptor: HttpClient;
+
   constructor() {
+    this.httpNoInterceptor = new HttpClient(inject(HttpBackend));
     this.loadTokens();
   }
+
+  // ─────────────────────────────────────
+  // Refresh Token (used by interceptor)
+  // ─────────────────────────────────────
+  refreshAccessToken(): Observable<string> {
+    alert('refreshing token');
+    const refreshToken = this.getRefreshToken();
+    if (!refreshToken) {
+      this.signOut();
+      return throwError(() => new Error('No refresh token'));
+    }
+
+    // IMPORTANT: use httpNoInterceptor so this request does not get intercepted
+    return this.httpNoInterceptor.post('api/Auth/refresh', { refreshToken }).pipe(
+      map((res: any) => {
+        const body = res?.Body;
+        if (!body?.AccessToken || !body?.RefreshToken) {
+          throw new Error('Invalid refresh response');
+        }
+        this.saveTokens(body.AccessToken, body.RefreshToken);
+        this.updateUserFromToken(body);
+        return body.AccessToken;
+      }),
+      catchError((err) => {
+        this.signOut();
+        return throwError(() => err);
+      }),
+    );
+  }
+
+  // ─────────────────────────────────────
+  // Refresh Token (used by interceptor)
+  // ─────────────────────────────────────
+  // refreshAccessToken(): Observable<string> {
+  //   const refreshToken = this.getRefreshToken();
+  //   if (!refreshToken) {
+  //     this.signOut();
+  //     return throwError(() => new Error('No refresh token'));
+  //   }
+
+  //   return this.http.post('api/Auth/refresh', { refreshToken }).pipe(
+  //     map((res: any) => {
+  //       const body = res?.Body;
+  //       if (!body?.AccessToken || !body?.RefreshToken) {
+  //         throw new Error('Invalid refresh response');
+  //       }
+  //       this.saveTokens(body.AccessToken, body.RefreshToken);
+  //       this.updateUserFromToken(body);
+  //       return body.AccessToken;
+  //     }),
+  //     catchError((err) => {
+  //       this.signOut();
+  //       return throwError(() => err);
+  //     }),
+  //   );
+  // }
 
   // ─────────────────────────────────────
   // Public Token Access
@@ -45,8 +106,9 @@ export class AuthService {
     }
 
     if (AuthUtils.isTokenExpired(access)) {
-      this._authenticated = false;
-      return;
+      alert('access token expired');
+      // this._authenticated = false;
+      // return;
     }
 
     this._accessToken = access;
@@ -73,6 +135,7 @@ export class AuthService {
   }
 
   signInUsingAccessToken(token: string) {
+    //  alert(AuthUtils.isTokenExpired(this._accessToken!))
     const payload = AuthUtils.decodeToken(token);
     this.userService.updateUser({
       UserId: payload.sub,
@@ -82,34 +145,6 @@ export class AuthService {
       Avatar: payload.picture,
     });
     this._authenticated = true;
-  }
-
-  // ─────────────────────────────────────
-  // Refresh Token (used by interceptor)
-  // ─────────────────────────────────────
-  refreshAccessToken(): Observable<string> {
-    const refreshToken = this.getRefreshToken();
-    if (!refreshToken) {
-      alert(refreshToken);
-      this.signOut();
-      return throwError(() => new Error('No refresh token'));
-    }
-
-    return this.http.post('api/Auth/refresh', { refreshToken }).pipe(
-      map((res: any) => {
-        const body = res?.Body;
-        if (!body?.AccessToken || !body?.RefreshToken) {
-          throw new Error('Invalid refresh response');
-        }
-        this.saveTokens(body.AccessToken, body.RefreshToken);
-        this.updateUserFromToken(body);
-        return body.AccessToken;
-      }),
-      catchError((err) => {
-        this.signOut();
-        return throwError(() => err);
-      }),
-    );
   }
 
   // ─────────────────────────────────────
@@ -171,7 +206,6 @@ export class AuthService {
   // Process Response (shared)
   // ─────────────────────────────────────
   processAuthResponse(res: ApiResponseModel<LoginResponseModel>) {
-    console.log(res);
     if (res.Status !== 200 || !res.Body) {
       console.error('Auth failed:', res.Message);
       return;

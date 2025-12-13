@@ -1,1 +1,136 @@
-<p>setting works!</p>
+<!-- Open button (place where appropriate in your layout) -->
+<button (click)="openDrawer()"
+        class="inline-flex items-center gap-2 rounded-md bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 focus:outline-none">
+  Edit Profile
+</button>
+
+<!-- Drawer container: we keep it in DOM so transitions animate nicely -->
+<div class="fixed inset-0 z-50 pointer-events-none">
+  <!-- overlay -->
+  <div
+    class="fixed inset-0 bg-black/40 transition-opacity duration-300 pointer-events-auto"
+    [class.opacity-100]="open()"
+    [class.opacity-0]="!open()"
+    (click)="closeDrawer()"
+  ></div>
+
+  <!-- slide-over panel -->
+  <aside
+    class="fixed inset-y-0 right-0 z-50 w-full max-w-md transform transition-transform duration-300 ease-in-out pointer-events-auto"
+    [class.translate-x-0]="open()"
+    [class.translate-x-full]="!open()"
+    (window:keydown.escape)="closeDrawer()"
+    role="dialog" aria-modal="true"
+  >
+    <div class="flex h-full flex-col bg-white dark:bg-gray-900 shadow-xl">
+      <!-- header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Edit Profile</h3>
+        <button (click)="closeDrawer()" aria-label="Close drawer" class="rounded-md p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 dark:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- body (scrollable) -->
+      <div class="overflow-y-auto px-6 py-6">
+        <!-- reuse your profile form markup here (kept visual only) -->
+        <section class="space-y-6">
+          <!-- cover + avatar -->
+          <div class="relative">
+            <div class="h-36 rounded-lg bg-cover bg-center"
+                 style="background-image: url('https://images.unsplash.com/photo-1449844908441-8829872d2607?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080')">
+            </div>
+
+            <div class="absolute -bottom-10 left-6 flex h-[92px] w-[92px] items-center justify-center rounded-full bg-white p-1 shadow-lg">
+              <div class="relative h-full w-full rounded-full overflow-hidden">
+                <div class="h-full w-full bg-cover bg-center"
+                     style="background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080')"></div>
+                <input id="upload_profile" type="file" hidden />
+                <label for="upload_profile" class="absolute right-0 bottom-0 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white ring-1 ring-gray-100 shadow-sm cursor-pointer">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v6a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2V7" />
+                  </svg>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-12">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Profile</h2>
+
+            <!-- form: keep your existing bindings -->
+            <form [formGroup]="formGroup" class="space-y-4 mt-4">
+              <!-- Full name -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name</label>
+                <input id="name" type="text" formControlName="Name"
+                       class="block w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                       placeholder="Full name" />
+                @if (common.hasError('Name','required', formGroup)) {
+                  <small class="text-red-500">Name is required</small>
+                }
+              </div>
+
+              <!-- Email + Phone -->
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                  <input id="email" type="email" formControlName="Email"
+                         class="block w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                         placeholder="you@example.com" />
+                  @if (common.hasError('Email','required', formGroup)) {
+                    <small class="text-red-500">Email is required</small>
+                  } @if (common.hasError('Email','Email', formGroup)) {
+                    <small class="text-red-500">Enter a valid Email</small>
+                  }
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
+                  <input id="phone" type="text" formControlName="Phone"
+                         class="block w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
+                         placeholder="+1 (555) 555-5555" />
+                  @if (common.hasError('Phone','required', formGroup)) {
+                    <small class="text-red-500">Phone is required</small>
+                  }
+                </div>
+              </div>
+
+              <!-- Gender + DOB -->
+              <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Gender</label>
+                  <select formControlName="Gender" class="block w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300">
+                    <option disabled value="">Select Sex</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                  @if (common.hasError('Gender','required', formGroup)) {
+                    <small class="text-red-500">Gender is required</small>
+                  }
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date of Birth</label>
+                  <input id="dateofbirth" type="date" formControlName="DateOfBirth"
+                         class="block w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300" />
+                  @if (common.hasError('DateOfBirth','required', formGroup)) {
+                    <small class="text-red-500">Date of Birth is required</small>
+                  }
+                </div>
+              </div>
+
+              <!-- actions -->
+              <div class="mt-6 flex items-center justify-end gap-3">
+                <button type="button" (click)="closeDrawer()" class="rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100">Cancel</button>
+                <button (click)="confrim()" type="button" class="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600">Update</button>
+              </div>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </aside>
+</div>

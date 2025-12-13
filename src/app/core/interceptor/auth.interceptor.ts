@@ -20,12 +20,21 @@ export const authInterceptor: HttpInterceptorFn = (
   const authService = inject(AuthService);
   const token = authService.getAccessToken();
 
+  // don't intercept refresh or auth endpoints
+  const url = req.url ?? '';
+  const isAuthEndpoint = url.includes('/api/Auth/refresh') || url.includes('/api/Auth/login') || url.includes('/api/Auth/register');
+
   let authReq = req;
 
-  if (token) {
+  if (!isAuthEndpoint && token) {
     authReq = req.clone({
       setHeaders: { Authorization: `Bearer ${token}` }
     });
+  }
+
+  // If this is the refresh request (or other auth endpoints), don't try to handle 401 here
+  if (isAuthEndpoint) {
+    return next(authReq);
   }
 
   return next(authReq).pipe(
@@ -37,6 +46,7 @@ export const authInterceptor: HttpInterceptorFn = (
     })
   );
 };
+
 
 function handle401Error(
   req: HttpRequest<any>,

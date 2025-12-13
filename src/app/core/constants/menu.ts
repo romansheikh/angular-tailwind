@@ -97,41 +97,40 @@ export class Menu {
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Reviews', route: '/reviews', selected: false },
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'News', route: '/news', selected: false },
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Contact Us', route: '/contact-us', selected: false },
-    { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Compress Video', route: '/video-compress', selected: false },
 
   ];
-  
-
-public static Profile_Menu: ProfileMenuItem[] = [
+  public static Profile_Menu: ProfileMenuItem[] = [
   {
     title: 'Home',
     icon: './assets/icons/heroicons/outline/view-grid.svg',
     link: '/',
+    seoKey: 'landing',          // SEO for homepage
   },
-    {
+  {
     title: 'My Profile',
     icon: './assets/icons/heroicons/outline/user-circle.svg',
     link: '/my-profile',
+    seoKey: 'my-profile',       // SEO for profile
   },
   {
-    title: 'My Order',
+    title: 'My Exchange',
     icon: './assets/icons/heroicons/outline/order.svg',
     link: '/my-order',
+    seoKey: 'my-order',         // SEO for order history
   },
   {
     title: 'Settings',
     icon: './assets/icons/heroicons/outline/cog-6-tooth.svg',
     link: '/settings',
+    seoKey: 'settings',         // SEO for settings page
   },
   {
     title: 'Log out',
     icon: './assets/icons/heroicons/outline/logout.svg',
     link: '/',
+    seoKey: 'landing',          // Redirect to home → home SEO
   },
 ];
-
-
-
   public static getMenus(): UserMenuItem[] {
     return this.userMenu;
   }
