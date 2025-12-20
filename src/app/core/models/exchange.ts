@@ -36,7 +36,7 @@ export interface Exchange {
 	ReceiveCurrencyLogo: string;
 	Status: string;
 	Amount: string;
-	Date: string;
+	Date: Date;
 }
 
 

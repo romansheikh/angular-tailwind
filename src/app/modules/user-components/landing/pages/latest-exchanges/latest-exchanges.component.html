@@ -5,32 +5,56 @@
     </div>
   </div>
   <div class="relative max-h-96 overflow-x-auto overflow-y-auto">
-    <div class="overflow-x-auto">
-      <table class="w-full min-w-[600px] table-auto">
-        <thead class="text-muted-foreground text-xs uppercase">
-          <tr class="gap-2">
-                      <!-- Always visible -->
-            <th class="bg-background sticky top-0 py-2 px-2 text-center sm:py-3 sm:px-4"  colspan="3">Direction</th>
-            <!-- Hidden on mobile, visible from sm and up -->
-            <th class="bg-background sticky top-0 hidden py-2 px-2 text-center sm:table-cell sm:py-3 sm:px-4">
-              Order Id
-            </th>
-            <th class="bg-background sticky top-0 hidden py-2 px-2 text-center sm:table-cell sm:py-3 sm:px-4">
-              User Name
-            </th>
+<!-- Premium Responsive Exchange Table (Angular + Tailwind, Mobile-first) -->
+<div class="relative overflow-hidden rounded-2xl border bg-background shadow-lg">
+  <!-- subtle top gradient -->
+  <div class="pointer-events-none absolute inset-x-0 top-0 h-16 bg-linear-to-b from-muted/40 to-transparent"></div>
 
+  <div class="relative overflow-x-auto">
+    <table class="w-full min-w-[720px] table-auto">
+      <!-- Header -->
+      <thead class="sticky top-0 z-10 bg-background">
+        <tr class="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">
+          <!-- Direction -->
+          <th class="px-3 py-3 text-center font-semibold" colspan="3">
+            Direction
+          </th>
 
-            <th class="bg-background sticky top-0 py-2 px-2 text-center sm:py-3 sm:px-4">Amount</th>
-            <th class="bg-background sticky top-0 py-2 px-2 text-center sm:py-3 sm:px-4">Order Date</th>
-            <th class="bg-background sticky top-0 py-2 px-2 text-center sm:py-3 sm:px-4">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (exchange of exchange.latestExchange(); track exchange.OrderId) {
-          <tr class="border-border hover:bg-card border-b border-dashed" app-exchange-row [exchange]="exchange"></tr>
-          }
-        </tbody>
-      </table>
-    </div>
+          <!-- Desktop only -->
+          <th class="hidden px-4 py-3 text-center font-semibold sm:table-cell">
+            Order ID
+          </th>
+          <th class="hidden px-4 py-3 text-center font-semibold sm:table-cell">
+            User
+          </th>
+
+          <!-- Common -->
+          <th class="px-4 py-3 text-center font-semibold">Amount</th>
+          <th class="px-4 py-3 text-center font-semibold">Order Date</th>
+          <th class="px-4 py-3 text-center font-semibold">Status</th>
+        </tr>
+      </thead>
+
+      <!-- Body -->
+      <tbody class="divide-y divide-dashed">
+        @for (exchange of exchange.latestExchange(); track exchange.OrderId) {
+        <tr
+          class="group transition hover:bg-muted/40"
+          app-exchange-row
+          [exchange]="exchange">
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Mobile hint -->
+  <div class="flex items-center justify-between border-t bg-muted/30 px-4 py-3 sm:hidden">
+    <span class="text-xs text-muted-foreground">Swipe horizontally to view more</span>
+    <svg class="h-4 w-4 text-muted-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </div>
+</div>
   </div>
 </div>

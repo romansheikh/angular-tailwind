@@ -1,81 +1,80 @@
+<!-- Premium Exchange Table Row (Angular + Tailwind) -->
 <ng-container>
-  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
-    <!-- Send Currency -->
-    <div class="flex items-center justify-start gap-1 sm:gap-2">
+  <!-- Send -->
+  <td class="px-2 py-2 align-middle sm:px-4">
+    <div class="flex items-center gap-2">
       <img
         [src]="exchange.SendCurrencyLogo"
         alt="{{ exchange.SendCurrency }}"
-        class="h-5 w-5 rounded-full sm:h-6 sm:w-6" />
-      <span class="text-foreground whitespace-nowrap text-xs font-semibold sm:text-sm">
+        class="h-6 w-6 rounded-full ring-1 ring-border sm:h-7 sm:w-7" />
+      <span class="whitespace-nowrap text-xs font-semibold text-foreground sm:text-sm">
         {{ exchange.SendCurrency }}
       </span>
     </div>
   </td>
-  <td>
-    <!-- Arrow -->
-    <div class="flex items-center justify-center">
-      <span class="text-muted-foreground text-sm font-semibold leading-none">→</span>
+
+  <!-- Arrow -->
+  <td class="px-1 py-2 align-middle">
+    <div class="flex justify-center">
+      <span class="rounded-full bg-muted px-2 py-1 text-xs font-bold text-muted-foreground">→</span>
     </div>
   </td>
-  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
-    <!-- Receive Currency -->
-    <div class="flex items-center justify-start gap-1 sm:gap-2">
+
+  <!-- Receive -->
+  <td class="px-2 py-2 align-middle sm:px-4">
+    <div class="flex items-center gap-2">
       <img
         [src]="exchange.ReceiveCurrencyLogo"
         alt="{{ exchange.ReceiveCurrency }}"
-        class="h-5 w-5 rounded-full sm:h-6 sm:w-6" />
-      <span class="text-foreground whitespace-nowrap text-xs font-semibold sm:text-sm">
+        class="h-6 w-6 rounded-full ring-1 ring-border sm:h-7 sm:w-7" />
+      <span class="whitespace-nowrap text-xs font-semibold text-foreground sm:text-sm">
         {{ exchange.ReceiveCurrency }}
       </span>
     </div>
   </td>
 
-  <!-- Order ID -->
-  <td class="hidden px-2 py-1 text-center align-middle sm:table-cell sm:px-4 sm:py-2">
-    <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
-      {{ exchange.OrderId }}
+  <!-- Order ID (Desktop) -->
+  <td class="hidden px-4 py-2 text-center align-middle sm:table-cell">
+    <span class="rounded-lg bg-muted px-2 py-1 text-xs font-semibold text-muted-foreground">
+      #{{ exchange.OrderId }}
     </span>
   </td>
 
-  <!-- User Name -->
-  <td class="hidden px-2 py-1 text-center align-middle sm:table-cell sm:px-4 sm:py-2">
-    <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+  <!-- User -->
+  <td class="hidden px-4 py-2 text-center align-middle sm:table-cell">
+    <span class="text-xs font-medium text-foreground/80">
       {{ exchange.UserName }}
     </span>
   </td>
 
   <!-- Amount -->
-  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
-    <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+  <td class="px-2 py-2 text-center align-middle sm:px-4">
+    <span class="text-xs font-bold text-foreground sm:text-sm">
       {{ exchange.Amount }}
     </span>
   </td>
 
   <!-- Date -->
-  <td class="px-2 py-1 text-center align-middle sm:px-4 sm:py-2">
-    <span class="text-muted-foreground text-xs font-semibold sm:text-sm">
+  <td class="px-2 py-2 text-center align-middle sm:px-4">
+    <span class="text-xs text-muted-foreground sm:text-sm">
       {{ exchange.Date }}
     </span>
   </td>
 
   <!-- Status -->
-  <td class="whitespace-nowrap px-2 py-1 text-center align-middle sm:px-6 sm:py-2">
+  <td class="px-2 py-2 text-center align-middle sm:px-6">
     <span
       [ngClass]="{
-        'bg-yellow-100 text-yellow-800': exchange.Status === 'Pending',
-        'bg-green-100 text-green-500': exchange.Status === 'Completed',
-        'bg-yellow-100 text-yellow-600': exchange.Status === 'Failed',
-        'bg-red-100 text-red-800': exchange.Status === 'Canceled'
+        'bg-yellow-100 text-yellow-800 ring-yellow-200': exchange.Status === 'Pending',
+        'bg-green-100 text-green-700 ring-green-200': exchange.Status === 'Completed',
+        'bg-orange-100 text-orange-700 ring-orange-200': exchange.Status === 'Failed',
+        'bg-red-100 text-red-700 ring-red-200': exchange.Status === 'Canceled'
       }"
-      class="inline-flex items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-semibold sm:px-3 sm:py-1 sm:text-xs">
+      class="inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-bold ring-1 sm:text-xs">
+
+      <!-- Dot -->
+      <span class="h-1.5 w-1.5 rounded-full bg-current"></span>
       {{ exchange.Status }}
     </span>
   </td>
 </ng-container>
-
-<!-- 
-Pending,              // Order created, waiting for user action.
-Completed,       // Admin has verified and sent funds. Transaction is done.
-Failed ,     //some error occurred during the exchange process.
-Canceled,             // The order was canceled by the user or admin.
-  -->

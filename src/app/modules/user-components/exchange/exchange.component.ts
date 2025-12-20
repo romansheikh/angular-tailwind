@@ -29,7 +29,7 @@ export class ExchangeComponent {
   // Special labels for selected step
   stepLabels: Record<number, string> = {
     1: 'Select Amount',
-    2: 'Provide Details',
+    2: 'Recipient Information',
     3: 'Confirm Exchange',
   };
 

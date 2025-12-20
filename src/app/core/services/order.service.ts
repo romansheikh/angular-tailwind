@@ -5,10 +5,12 @@ import { Bank } from '../models/bank';
 import { Order } from '../models/order';
 import { ApiResponseModel } from '../models/apiresponse';
 import { Exchange } from '../models/exchange';
+import { Router, } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private api = inject(WebApiService);
+  private router = inject(Router);
   bank = signal<Bank[]>([]);
   customer_order = signal<Exchange[]>([]);
   loading = this.api.loading;
@@ -24,8 +26,9 @@ export class OrderService {
 
   loadUserOrders() {
     this.GetUserOrders().subscribe({
-      next: (res: ApiResponseModel<Exchange[]>) => {
+      next: (res: ApiResponseModel<Exchange[]>) => {    
         if (res.Status == 200) {
+          console.log(res);
           this.customer_order.set(res.Body!);
         }
       },
@@ -37,17 +40,13 @@ export class OrderService {
     return this.api.put<Bank>(`api/Orders/${id}`, dto);
   }
 
-
-
   SaveOrder(payload: Order) {
     this.PlaceOrder(payload).subscribe({
       next: () => {
-        this.GetUserOrders();
-        
+       this.loadUserOrders()
+        this.router.navigate(['/my-order']);
       },
       error: (err) => console.error('Failed to load pair rate', err),
     });
   }
-
-
 }

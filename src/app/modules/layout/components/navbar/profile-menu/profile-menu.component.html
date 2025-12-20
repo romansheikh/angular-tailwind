@@ -44,7 +44,7 @@
 
     <div class="border-border border-b border-dashed"></div>
 
-    <ul class="my-2 mx-2 flex flex-col hidden md:flex">
+    <ul class="my-2 mx-2 flex flex-col md:flex">
       @for (item of menu.profileMenu; track $index) {
       @if (item.title == 'Log out') {
       <li (click)="signOut()" :key="$index"

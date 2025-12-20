@@ -1,3 +1,4 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AuthService } from 'src/app/core/auth/auth.service';

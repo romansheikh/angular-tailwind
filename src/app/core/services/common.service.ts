@@ -45,6 +45,7 @@ export class CommonService {
   // Basic 12-hour "time ago" helper (keeps it small & dependency-free).
   // For production, you might want dayjs/date-fns for localization and accuracy.
   timeAgo(d: Date | undefined): string {
+    console.log(d);
     if (!d) return '';
     const now = new Date();
     const sec = Math.floor((now.getTime() - d.getTime()) / 1000);

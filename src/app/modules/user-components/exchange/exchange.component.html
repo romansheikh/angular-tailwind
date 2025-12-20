@@ -3,10 +3,9 @@
     <main class="bg-background min-h-screen py-4 sm:py-12">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div class="rounded-lg border p-2 sm:p-8 lg:col-span-2">
+          <div class="rounded-lg border p-2 sm:p-8 lg:col-span-2">            
             <!-- Title -->
-
-            <div class="mb-2 text-center">
+            <div class="mb-2 shrink-0 border-b bg-background px-6 py-4 text-center">
               <div
                 class="text-foreground inline-flex flex-wrap items-center justify-center gap-2 font-semibold sm:gap-3 md:gap-4">
                 <!-- Send Currency -->
@@ -47,6 +46,7 @@
                 </div>
               </div>
             </div>
+
             <div class="mb-2 flex flex-wrap items-center justify-center">
               @for (step of steps(); track step.number; let i = $index) {
               <div
@@ -76,18 +76,20 @@
             </h3>
             <hr class="py-.5 w-75 mx-auto my-1 h-1 rounded-2xl bg-green-500" />
 
-            <!-- Step 1 -->
-            <app-step-one [hidden]="currentStep() !== 1" (next)="nextStep()"> </app-step-one>
-            <!-- Step 2 -->
-            <app-step-two
-              [hidden]="currentStep() !== 2"
-              (formDataChange)="onStepTwoDataChange($event)"
-              (back)="prevStep()"
-              (next)="nextStep()">
-            </app-step-two>
-            <!-- Step 3 -->
-            <app-step-three [hidden]="currentStep() !== 3" (back)="prevStep()" (confirm)="confirmExchange()">
-            </app-step-three>
+            <div class="overflow-scroll">
+              <!-- Step 1 -->
+              <app-step-one [hidden]="currentStep() !== 1" (next)="nextStep()"> </app-step-one>
+              <!-- Step 2 -->
+              <app-step-two
+                [hidden]="currentStep() !== 2"
+                (formDataChange)="onStepTwoDataChange($event)"
+                (back)="prevStep()"
+                (next)="nextStep()">
+              </app-step-two>
+              <!-- Step 3 -->
+              <app-step-three [hidden]="currentStep() !== 3" (back)="prevStep()" (confirm)="confirmExchange()">
+              </app-step-three>
+            </div>
           </div>
           <app-exchange-info></app-exchange-info>
         </div>

@@ -10,7 +10,7 @@ import { ButtonComponent } from 'src/app/shared/components/button/button.compone
 @Component({
   selector: 'app-step-two',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './step-two.component.html',
 })
 export class StepTwoComponent {

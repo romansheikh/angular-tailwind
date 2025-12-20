@@ -1,45 +1,36 @@
+// auth.interceptor.ts
 import {
   HttpInterceptorFn,
   HttpRequest,
   HttpHandlerFn,
   HttpEvent,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, filter, switchMap, throwError } from 'rxjs';
+import { catchError, filter, Observable, switchMap, take, throwError } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-
-let isRefreshing = false;
-const refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
-
   const authService = inject(AuthService);
   const token = authService.getAccessToken();
 
-  // don't intercept refresh or auth endpoints
-  const url = req.url ?? '';
-  const isAuthEndpoint = url.includes('/api/Auth/refresh') || url.includes('/api/Auth/login') || url.includes('/api/Auth/register');
+  const isAuthEndpoint = /\/api\/Auth\/(login|register|refresh|google-login)/.test(req.url);
 
-  let authReq = req;
-
-  if (!isAuthEndpoint && token) {
-    authReq = req.clone({
-      setHeaders: { Authorization: `Bearer ${token}` }
-    });
-  }
-
-  // If this is the refresh request (or other auth endpoints), don't try to handle 401 here
+  // Skip adding token or handling 401 for auth endpoints
   if (isAuthEndpoint) {
-    return next(authReq);
+    return next(req);
   }
+
+  let authReq = token
+    ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
+    : req;
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
+      if (error.status === 401 && !isAuthEndpoint) {
         return handle401Error(authReq, next, authService);
       }
       return throwError(() => error);
@@ -47,45 +38,27 @@ export const authInterceptor: HttpInterceptorFn = (
   );
 };
 
-
 function handle401Error(
-  req: HttpRequest<any>,
+  request: HttpRequest<any>,
   next: HttpHandlerFn,
   authService: AuthService
-): Observable<HttpEvent<any>> {
-
-  if (!isRefreshing) {
-    isRefreshing = true;
-    refreshTokenSubject.next(null);
-
-    return authService.refreshAccessToken().pipe(
-      switchMap((newToken: string) => {
-        isRefreshing = false;
-        refreshTokenSubject.next(newToken);
-
-        return next(
-          req.clone({
-            setHeaders: { Authorization: `Bearer ${newToken}` }
-          })
-        );
-      }),
-      catchError(err => {
-        isRefreshing = false;
-        authService.signOut();
-        return throwError(() => err);
-      })
-    );
-  }
-
-  // If refresh already in progress → wait for new token
-  return refreshTokenSubject.pipe(
-    filter(token => token !== null),
-    switchMap(token =>
-      next(
-        req.clone({
-          setHeaders: { Authorization: `Bearer ${token}` }
-        })
-      )
-    )
+) {
+  // Use service-based subject for coordination
+  return authService.refreshAccessToken().pipe(
+    switchMap((newToken) => {
+      authService.triggerRefreshComplete(newToken);
+      return next(request.clone({
+        setHeaders: { Authorization: `Bearer ${newToken}` }
+      }));
+    }),
+    catchError((err) => {
+      authService.triggerRefreshComplete(null); // Signal failure
+      authService.signOut();
+      return throwError(() => err);
+    })
   );
+
+  // If another refresh is already in progress, wait for it
+  // This is now handled via the service's refreshTokenSubject
+  // But we can improve further with a dedicated queue if needed.
 }

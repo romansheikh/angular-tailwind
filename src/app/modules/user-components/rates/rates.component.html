@@ -1,1 +1,124 @@
-<p>rates works!</p>
+<!-- Mobile‑first, ultra‑responsive elegant exchange table (Tailwind CSS) -->
+<div class="relative overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl">
+  <!-- subtle gradient glow -->
+  <div class="pointer-events-none absolute inset-0 bg-linear-to-br from-indigo-50 via-transparent to-emerald-50"></div>
+
+  <div class="relative">
+    <!-- Desktop / Tablet Table -->
+    <div class="hidden md:block overflow-x-auto">
+      <table class="w-full border-collapse text-left">
+        <thead>
+          <tr class="bg-linear-to-r from-gray-900 to-gray-800 text-white">
+            <th class="px-6 py-4 text-sm font-medium tracking-wide">Send</th>
+            <th class="px-6 py-4 text-sm font-medium tracking-wide">Receive</th>
+            <th class="px-6 py-4 text-sm font-medium tracking-wide">Rate</th>
+            <th class="px-6 py-4 text-sm font-medium tracking-wide">Fee</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y">
+          <tr class="transition hover:bg-gray-50/80">
+            <td class="px-6 py-5">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">₮</span>
+                <div>
+                  <div class="font-semibold">USDT</div>
+                  <div class="text-xs text-gray-500">TRC20 Network</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-5">
+              <span class="inline-flex rounded-full bg-rose-50 px-3 py-1 text-sm font-medium text-rose-700">Nagad</span>
+            </td>
+            <td class="px-6 py-5">
+              <span class="text-lg font-bold">৳ 109.50</span>
+              <span class="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">Best</span>
+            </td>
+            <td class="px-6 py-5">
+              <span class="rounded-lg bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-700">৳ 0</span>
+            </td>
+          </tr>
+
+          <tr class="transition hover:bg-gray-50/80">
+            <td class="px-6 py-5">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">₮</span>
+                <div>
+                  <div class="font-semibold">USDT</div>
+                  <div class="text-xs text-gray-500">TRC20 Network</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-5">
+              <span class="inline-flex rounded-full bg-pink-50 px-3 py-1 text-sm font-medium text-pink-700">Bkash</span>
+            </td>
+            <td class="px-6 py-5">
+              <span class="text-lg font-bold">৳ 108.80</span>
+            </td>
+            <td class="px-6 py-5">
+              <span class="rounded-lg bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-700">৳ 0</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile Cards -->
+    <div class="space-y-4 p-4 md:hidden">
+      <!-- Card 1 -->
+      <div class="rounded-xl border bg-white p-4 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">₮</span>
+            <div>
+              <p class="font-semibold">USDT</p>
+              <p class="text-xs text-gray-500">TRC20</p>
+            </div>
+          </div>
+          <span class="rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-700">Nagad</span>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between">
+          <div>
+            <p class="text-xs text-gray-500">Rate</p>
+            <p class="text-lg font-bold">৳ 109.50</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-500">Fee</p>
+            <p class="font-semibold text-emerald-700">৳ 0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="rounded-xl border bg-white p-4 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">₮</span>
+            <div>
+              <p class="font-semibold">USDT</p>
+              <p class="text-xs text-gray-500">TRC20</p>
+            </div>
+          </div>
+          <span class="rounded-full bg-pink-50 px-3 py-1 text-xs font-semibold text-pink-700">Bkash</span>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between">
+          <div>
+            <p class="text-xs text-gray-500">Rate</p>
+            <p class="text-lg font-bold">৳ 108.80</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-500">Fee</p>
+            <p class="font-semibold text-emerald-700">৳ 0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="flex flex-col gap-3 border-t bg-gray-50 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+    <p class="text-sm text-gray-500">Live exchange rates • Updated instantly</p>
+    <button class="rounded-xl bg-gray-900 px-5 py-2 text-sm font-semibold text-white transition hover:bg-gray-800">Exchange Now</button>
+  </div>
+</div>

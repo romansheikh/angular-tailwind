@@ -1,37 +1,47 @@
-<div class="flex-col rounded-lg bg-background px-4 py-4 sm:flex-row">
+<div class="bg-background flex-col rounded-lg px-4 py-4 sm:flex-row">
   <div class="mb-4 flex items-center justify-between">
     <div class="flex-col items-center">
       <h3 class="text-md text-foreground font-bold">Our Reseve</h3>
     </div>
   </div>
-<div class="relative overflow-x-auto overflow-y-auto max-h-96">
-  <table class="w-full table-auto">
-    <thead class="text-xs uppercase text-muted-foreground">
-      <tr>
-        <th class="sticky top-0 bg-background py-3 text-left">Currency</th>
-        <th class="sticky top-0 bg-background py-3 text-left">Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (exchange of reserve.reserve(); track exchange.Id) {
-        <tr class="border-b border-dashed border-border hover:bg-card">
-            <td class="py-3 text-left">
-                <div class="flex items-center gap-3">
-                <div class="h-8 w-8 flex-shrink-0 overflow-hidden rounded-full">
-                     <img [src]="exchange.LogoUrl" [alt]="exchange.CurrencyName" class="h-full w-full object-cover"> 
+  <div class="relative max-h-96 overflow-x-auto overflow-y-auto">
+    <!-- Elegant, Minimal Reserve Table (Angular + Tailwind, Mobile-first) -->
+    <div class="bg-background rounded-2xl border shadow-sm">
+      <table class="w-full table-auto">
+        <!-- Header -->
+        <thead class="bg-background sticky top-0 z-10">
+          <tr class="border-border text-muted-foreground border-b text-xs uppercase tracking-wide">
+            <th class="px-4 py-3 text-left font-semibold">Currency</th>
+            <th class="px-4 py-3 text-right font-semibold">Amount</th>
+          </tr>
+        </thead>
+
+        <!-- Body -->
+        <tbody class="divide-y divide-dashed">
+          @for (exchange of reserve.reserve(); track exchange.Id) {
+          <tr class="hover:bg-muted/40 group transition">
+            <!-- Currency -->
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-3">
+                <div class="ring-border h-9 w-9 shrink-0 overflow-hidden rounded-full ring-1">
+                  <img [src]="exchange.LogoUrl" [alt]="exchange.CurrencyName" class="h-full w-full object-cover" />
                 </div>
-                <div class="flex flex-col">
-                    <span class="text-sm font-bold text-foreground">{{ exchange.CurrencyName }}</span>
-                    
-                </div>
-                </div>
+                <span class="text-foreground text-sm font-semibold">
+                  {{ exchange.CurrencyName }}
+                </span>
+              </div>
             </td>
-            <td class="py-3 text-left">
-                <span class="text-sm font-bold text-foreground">{{ exchange.Amount }} </span>              
+
+            <!-- Amount -->
+            <td class="px-4 py-3 text-right">
+              <span class="text-foreground text-sm font-bold">
+                {{ exchange.Amount }}
+              </span>
             </td>
-        </tr>
-      }
-    </tbody>
-    </table>
-</div>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
