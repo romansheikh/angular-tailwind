@@ -6,7 +6,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 @Component({
   selector: 'app-rates',
   standalone: true,
-  imports: [CommonModule, GenericTableComponent, AngularSvgIconModule],
+  imports: [CommonModule, AngularSvgIconModule],
   templateUrl: './rates.component.html',
   styleUrl: './rates.component.css'
 })
