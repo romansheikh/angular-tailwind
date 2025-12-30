@@ -44,52 +44,62 @@ export class CommonService {
   
   // Basic 12-hour "time ago" helper (keeps it small & dependency-free).
   // For production, you might want dayjs/date-fns for localization and accuracy.
-  timeAgo(d: Date | undefined): string {
-    console.log(d);
-    if (!d) return '';
-    const now = new Date();
-    const sec = Math.floor((now.getTime() - d.getTime()) / 1000);
-    if (sec < 10) return 'just now';
-    if (sec < 60) return `${sec} s ago`;
-    const min = Math.floor(sec / 60);
-    if (min < 60) return `${min} m ago`;
-    const hr = Math.floor(min / 60);
-    if (hr < 24) return `${hr} h ago`;
-    const day = Math.floor(hr / 24);
-    if (day < 30) return `${day} d ago`;
-    const mon = Math.floor(day / 30);
-    if (mon < 12) return `${mon} mo ago`;
-    return `${Math.floor(mon / 12)} y ago`;
+timeAgo(d: string | Date | undefined): string {
+  if (!d) return '';
+
+  let date: Date | null;
+
+  if (d instanceof Date) {
+    date = d;
+  } else {
+    date = this.parseDate(d);
   }
 
-  // Expected date format: "DD MM YYYY hh:mm AM/PM"
-  // Returns a Date in local timezone.
-  parseDate(s: string): Date {
-    // Defensive parsing: split tokens
-    // Example input: "06 12 2025 05:34 PM"
-    try {
-      const parts = s.trim().split(/\s+/); // ["06","12","2025","05:34","PM"]
-      if (parts.length < 5) return new Date(s); // fallback
-      const [dayStr, monthStr, yearStr, timeStr, ampm] = parts;
-      const [hhStr, mmStr] = timeStr.split(':');
-      let hh = parseInt(hhStr, 10);
-      const mm = parseInt(mmStr, 10);
-      const day = parseInt(dayStr, 10);
-      // month in input appears numeric (e.g. 12 => December). If logos use US style, confirm.
-      let month = parseInt(monthStr, 10); // 1-12
-      // convert 12-hour to 24-hour
-      if (/pm/i.test(ampm) && hh < 12) hh += 12;
-      if (/am/i.test(ampm) && hh === 12) hh = 0;
-      // Construct ISO string YYYY-MM-DDTHH:MM:00
-      const iso = `${yearStr}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hh).padStart(
-        2,
-        '0',
-      )}:${String(mm).padStart(2, '0')}:00`;
-      const dt = new Date(iso);
-      if (isNaN(dt.getTime())) return new Date(s); // fallback
-      return dt;
-    } catch {
-      return new Date(s);
-    }
-  }
+  if (!date || isNaN(date.getTime())) return '';
+
+  const now = new Date();
+  const sec = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  if (sec < 10) return 'just now';
+  if (sec < 60) return `${sec} s ago`;
+
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min} m ago`;
+
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr} h ago`;
+
+  const day = Math.floor(hr / 24);
+  if (day < 30) return `${day} d ago`;
+
+  const mon = Math.floor(day / 30);
+  if (mon < 12) return `${mon} mo ago`;
+
+  return `${Math.floor(mon / 12)} y ago`;
+}
+
+
+parseDate(dateStr: string): Date | null {
+  // "06 12 2025 05:34 PM"
+  const parts = dateStr.match(
+    /^(\d{2})[\/\s](\d{2})[\/\s](\d{4})\s(\d{1,2}):(\d{2})\s(AM|PM)$/i
+  );
+
+  if (!parts) return null;
+
+  let [, dd, mm, yyyy, hh, min, period] = parts;
+
+  let hour = Number(hh);
+  if (period.toUpperCase() === 'PM' && hour < 12) hour += 12;
+  if (period.toUpperCase() === 'AM' && hour === 12) hour = 0;
+
+  return new Date(
+    Number(yyyy),
+    Number(mm) - 1,
+    Number(dd),
+    hour,
+    Number(min)
+  );
+}
+
 }

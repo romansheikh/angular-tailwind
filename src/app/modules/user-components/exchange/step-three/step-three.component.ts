@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Output, EventEmitter, inject, effect, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PaymentGateway } from 'src/app/core/models/paymetngateway';
@@ -13,7 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-step-three',
   templateUrl: './step-three.component.html',
-  imports: [CommonModule, ReactiveFormsModule, CopyButtonComponent, AdminLayoutRoutingModule], // ✅ Add this
+  imports: [ReactiveFormsModule, CopyButtonComponent, AdminLayoutRoutingModule], // ✅ Add this
 })
 export class StepThreeComponent {
   copied = signal(false);

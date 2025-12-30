@@ -3,10 +3,9 @@
     <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
       <div class="bg-background rounded p-4 shadow-xl sm:p-8">
         <form class="space-y-4 sm:space-y-6">
-     
           <!-- You Send -->
           <div class="send-dropdown mb-4">
-            <label class="mb-1 block text-sm text-gray-400 sm:mb-2 sm:text-base" for="send">You Send </label>
+            <label class="block" for="send">You Send </label>
             <div class="relative rounded-lg border">
               <!-- Trigger -->
               <button
@@ -19,7 +18,6 @@
                     [src]="currencyService.selectedSendCurrency()?.LogoUrl"
                     class="mr-2 inline-block h-5 w-5 rounded-full" />
                   {{ currencyService.selectedSendCurrency()?.Name }}
-                
                 </span>
                 }
               </button>
@@ -48,7 +46,7 @@
 
           <!-- You Get -->
           <div class="get-dropdown mb-4">
-            <label class="mb-1 block text-sm text-gray-400 sm:mb-2 sm:text-base" for="receive">You Receive</label>
+            <label class="block" for="receive">You Receive</label>
             <div class="relative rounded-lg border">
               <button
                 type="button"
@@ -59,7 +57,7 @@
                   <img
                     [src]="currencyService.selectedGetCurrency()?.LogoUrl"
                     class="mr-2 inline-block h-5 w-5 rounded-full" />
-                  {{ currencyService.selectedGetCurrency()?.Name }} 
+                  {{ currencyService.selectedGetCurrency()?.Name }}
                 </span>
                 }
               </button>
@@ -87,9 +85,8 @@
           </div>
 
           <!-- Exchange Button -->
-          <button 
-          (click)="redirectExchange()"
-          
+          <button
+            (click)="redirectExchange()"
             type="button"
             class="bg-primary text-primary-foreground w-full cursor-pointer rounded-lg py-3 px-4 text-base font-bold transition duration-300 hover:scale-105 hover:shadow-lg active:scale-95 sm:py-4 sm:text-lg">
             Exchange Now

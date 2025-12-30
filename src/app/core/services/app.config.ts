@@ -8,8 +8,7 @@ import { AngularSvgIconModule } from 'angular-svg-icon';
 import { loaderInterceptor } from '../interceptor/loader.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { apiInterceptor } from '../interceptor/global.interceptor';
-import { authInterceptor } from '../interceptor/auth.interceptor';
-import { provideAuth } from '../auth/auth.provider';
+
 
 
 export const appConfig: ApplicationConfig = {
@@ -22,7 +21,7 @@ export const appConfig: ApplicationConfig = {
       AngularSvgIconModule.forRoot(),
     ),
     provideAnimations(),
-    provideToastr(), provideAuth(),
-    provideHttpClient(withInterceptors([loaderInterceptor, apiInterceptor, authInterceptor])),
+    provideToastr(), 
+    provideHttpClient(withInterceptors([loaderInterceptor, apiInterceptor])),
   ],
 };

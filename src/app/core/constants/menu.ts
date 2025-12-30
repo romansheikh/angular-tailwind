@@ -99,6 +99,7 @@ export class Menu {
     { icon: 'assets/icons/heroicons/outline/logout.svg', label: 'Contact Us', route: '/contact-us', selected: false },
 
   ];
+  
   public static Profile_Menu: ProfileMenuItem[] = [
   {
     title: 'Home',

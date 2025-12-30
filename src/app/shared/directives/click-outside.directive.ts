@@ -1,5 +1,13 @@
-
-import { AfterViewInit, Directive, ElementRef, EventEmitter, Inject, OnDestroy, Output, DOCUMENT } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  OnDestroy,
+  Output,
+} from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { filter, fromEvent, Subscription } from 'rxjs';
 
 @Directive({
@@ -9,15 +17,24 @@ import { filter, fromEvent, Subscription } from 'rxjs';
 export class ClickOutsideDirective implements AfterViewInit, OnDestroy {
   @Output() clickOutside = new EventEmitter<void>();
 
-  documentClickSubscription: Subscription | undefined;
+  private subscription?: Subscription;
 
-  constructor(private element: ElementRef, @Inject(DOCUMENT) private document: Document) {}
+  constructor(
+    private element: ElementRef<HTMLElement>,
+    @Inject(DOCUMENT) private document: Document,
+  ) {}
 
   ngAfterViewInit(): void {
-    this.documentClickSubscription = fromEvent(this.document, 'click')
+    this.subscription = fromEvent<PointerEvent>(this.document, 'pointerdown')
       .pipe(
         filter((event) => {
-          return !this.isInside(event.target as HTMLElement);
+          const target = event.target;
+
+          if (!(target instanceof HTMLElement)) {
+            return false;
+          }
+
+          return !this.element.nativeElement.contains(target);
         }),
       )
       .subscribe(() => {
@@ -26,10 +43,6 @@ export class ClickOutsideDirective implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.documentClickSubscription?.unsubscribe();
-  }
-
-  isInside(elementToCheck: HTMLElement): boolean {
-    return elementToCheck === this.element.nativeElement || this.element.nativeElement.contains(elementToCheck);
+    this.subscription?.unsubscribe();
   }
 }

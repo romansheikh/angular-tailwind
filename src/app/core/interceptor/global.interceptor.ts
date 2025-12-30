@@ -12,7 +12,7 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
   const skip =
     firstRequest ||
     req.method === 'GET' ||
-    req.url.includes('refresh') ||
+   // req.url.includes('refresh') ||
     req.url.includes('check') ||
     req.url.includes('settings') ||
     req.url.includes('pair-rate');

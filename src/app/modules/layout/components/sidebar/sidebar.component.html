@@ -6,16 +6,18 @@
     <div
       [ngClass]="menuService.showSideBar ? 'justify-between' : 'justify-center'"
       class="mx-4 mb-2 flex h-9 items-center">
-      <div class="flex items-center" *ngIf="menuService.showSideBar">
-        <a
-          (click)="toggleSidebar()"
-          class="bg-primary flex cursor-pointer items-center justify-center rounded-sm p-2 focus:outline-hidden focus:ring-1">
-          <svg-icon src="assets/icons/logo.svg"> </svg-icon>
-        </a>
-        <b class="text-foreground ps-2 ml-1 grow text-sm font-bold">
-          {{ appJson.displayName }}
-        </b>
-      </div>
+      @if (menuService.showSideBar) {
+        <div class="flex items-center">
+          <a
+            (click)="toggleSidebar()"
+            class="bg-primary flex cursor-pointer items-center justify-center rounded-sm p-2 focus:outline-hidden focus:ring-1">
+            <svg-icon src="assets/icons/logo.svg"> </svg-icon>
+          </a>
+          <b class="text-foreground ps-2 ml-1 grow text-sm font-bold">
+            {{ appJson.displayName }}
+          </b>
+        </div>
+      }
       <button
         (click)="toggleSidebar()"
         class="text-muted-foreground/50 hover:text-muted-foreground flex items-center justify-center rounded-md p-2 transition-all duration-200 focus:outline-hidden"
@@ -46,12 +48,14 @@
         <span class="bg-primary/10 text-primary px-2 font-semibold">v{{ appJson.version }}</span>
       </div>
 
-      <div class="fixed w-full" *ngIf="!menuService.showSideBar">
-        <span
-          class="z-1 bg-foreground text-background absolute left-12 -top-4 w-auto min-w-max origin-left scale-0 p-2 text-xs font-bold shadow-md transition-all duration-200 group-hover:scale-100">
-          v{{ appJson.version }}
-        </span>
-      </div>
+      @if (!menuService.showSideBar) {
+        <div class="fixed w-full">
+          <span
+            class="z-1 bg-foreground text-background absolute left-12 -top-4 w-auto min-w-max origin-left scale-0 p-2 text-xs font-bold shadow-md transition-all duration-200 group-hover:scale-100">
+            v{{ appJson.version }}
+          </span>
+        </div>
+      }
     </a>
   </div>
 </nav>

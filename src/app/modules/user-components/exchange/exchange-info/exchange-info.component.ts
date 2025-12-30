@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject, signal } from '@angular/core';
 import { CurrencyService } from 'src/app/core/services/currency.service';
 import { ExchangeService } from 'src/app/core/services/exchange.service';
@@ -6,7 +6,7 @@ import { ReserveService } from 'src/app/core/services/reserve.service';
 
 @Component({
   selector: 'app-exchange-info',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './exchange-info.component.html',
   styleUrl: './exchange-info.component.css'
 })

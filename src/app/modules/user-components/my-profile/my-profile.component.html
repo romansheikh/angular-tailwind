@@ -5,13 +5,24 @@
         <!-- Cover area -->
         <div
           class="relative h-44 bg-cover bg-center"
-          style="background-image: url('https://images.unsplash.com/photo-1449844908441-8829872d2607?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxob21lfGVufDB8MHx8fDE3MTA0MDE1NDZ8MA&ixlib=rb-4.0.3&q=80&w=1080');">
+          style="
+            background-image: url('https://images.unsplash.com/photo-1449844908441-8829872d2607?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw2fHxob21lfGVufDB8MHx8fDE3MTA0MDE1NDZ8MA&ixlib=rb-4.0.3&q=80&w=1080');
+          ">
           <!-- upload cover control (top-right) -->
           <div class="absolute top-3 right-3 flex items-center gap-2 rounded-md bg-white/90 px-2 py-1 text-sm">
             <input id="upload_cover" type="file" hidden />
-            <label for="upload_cover" class="inline-flex cursor-pointer items-center gap-1 text-gray-700">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7V4a1 1 0 011-1h3m8 0h3a1 1 0 011 1v3M4 17v3a1 1 0 001 1h3m8 0h3a1 1 0 001-1v-3" />
+            <label for="upload_cover" class="inline-flex cursor-pointer items-center gap-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 7V4a1 1 0 011-1h3m8 0h3a1 1 0 011 1v3M4 17v3a1 1 0 001 1h3m8 0h3a1 1 0 001-1v-3" />
               </svg>
               Cover
             </label>
@@ -20,19 +31,30 @@
           <!-- avatar overlaps cover -->
           <div
             class="absolute left-6 -bottom-10 flex h-[92px] w-[92px] items-center justify-center rounded-full bg-white p-1 shadow-lg">
-            <div class="relative h-full w-full rounded-full overflow-hidden">
+            <div class="relative h-full w-full overflow-hidden rounded-full">
               <div
                 class="h-full w-full bg-cover bg-center"
-                style="background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw4fHxwcm9maWxlfGVufDB8MHx8fDE3MTEwMDM0MjN8MA&ixlib=rb-4.0.3&q=80&w=1080');">
-              </div>
+                style="
+                  background-image: url('https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw4fHxwcm9maWxlfGVufDB8MHx8fDE3MTEwMDM0MjN8MA&ixlib=rb-4.0.3&q=80&w=1080');
+                "></div>
 
               <!-- small camera button on avatar -->
               <input id="upload_profile" type="file" hidden />
-              <label for="upload_profile"
-                     class="absolute right-0 bottom-0 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white ring-1 ring-gray-100 shadow-sm cursor-pointer"
-                     title="Upload profile">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v6a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2V7" />
+              <label
+                for="upload_profile"
+                class="absolute right-0 bottom-0 inline-flex h-7 w-7 cursor-pointer items-center justify-center rounded-full shadow-sm ring-1"
+                title="Upload profile">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 text-blue-700"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 7v6a2 2 0 002 2h3l3 3 3-3h3a2 2 0 002-2V7" />
                 </svg>
               </label>
             </div>
@@ -40,13 +62,13 @@
         </div>
 
         <!-- form container -->
-        <div class="bg-white/70 dark:bg-gray-800/60 px-6 pt-14 pb-6">
+        <div class="bg-white/70 px-6 pt-14 pb-6 dark:bg-gray-800/60">
           <h1 class="mb-2 font-serif text-xl font-extrabold dark:text-white md:text-2xl lg:text-3xl">Profile</h1>
 
           <form [formGroup]="formGroup" class="space-y-4">
             <!-- Full Name -->
             <div>
-              <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Full Name</label>
+              <label for="name" class="block">Full Name</label>
               <div class="relative">
                 <input
                   id="name"
@@ -57,41 +79,47 @@
                   placeholder="Enter your full name" />
               </div>
               @if (common.hasError('Name','required', formGroup)) {
-                <small class="mt-1 block text-red-500">Name is required</small>
+              <small class="mt-1 block text-red-500">Name is required</small>
               }
             </div>
 
             <!-- Email & Phone grouped -->
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address</label>
+                <label for="email" class="block">Email Address</label>
                 <input
                   id="email"
                   type="email"
                   formControlName="Email"
-                  [ngClass]="{ 'is__invalid-input': common.hasError('Email','required', formGroup) || common.hasError('Email','Email', formGroup) }"
+                  [ngClass]="{
+                    'is__invalid-input':
+                      common.hasError('Email', 'required', formGroup) || common.hasError('Email', 'Email', formGroup)
+                  }"
                   class="block w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
                   placeholder="you@example.com" />
                 @if (common.hasError('Email','required', formGroup)) {
-                  <small class="text-red-500">Email is required</small>
+                <small class="text-red-500">Email is required</small>
                 } @if (common.hasError('Email','Email', formGroup)) {
-                  <small class="text-red-500">Enter a valid Email</small>
+                <small class="text-red-500">Enter a valid Email</small>
                 }
               </div>
 
               <div>
-                <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Emergency Contact</label>
+                <label for="phone" class="block">Emergency Contact</label>
                 <input
                   id="phone"
                   type="text"
                   formControlName="Phone"
-                  [ngClass]="{ 'is__invalid-input': common.hasError('Phone','required', formGroup) || common.hasError('Phone','pattern', formGroup) }"
+                  [ngClass]="{
+                    'is__invalid-input':
+                      common.hasError('Phone', 'required', formGroup) || common.hasError('Phone', 'pattern', formGroup)
+                  }"
                   class="block w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300"
                   placeholder="+1 (555) 555-5555" />
                 @if (common.hasError('Phone','required', formGroup)) {
-                  <small class="text-red-500">Emergency Contact is required</small>
+                <small class="text-red-500">Emergency Contact is required</small>
                 } @if (common.hasError('Phone','pattern', formGroup)) {
-                  <small class="text-red-500">Emergency Contact is invalid</small>
+                <small class="text-red-500">Emergency Contact is invalid</small>
                 }
               </div>
             </div>
@@ -99,31 +127,31 @@
             <!-- Gender & DOB -->
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label for="gender" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Gender</label>
+                <label for="gender" class="block">Gender</label>
                 <select
                   id="gender"
                   formControlName="Gender"
-                  [ngClass]="{ 'is__invalid-input': common.hasError('Gender','required', formGroup) }"
+                  [ngClass]="{ 'is__invalid-input': common.hasError('Gender', 'required', formGroup) }"
                   class="block w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300">
                   <option disabled value="">Select Sex</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
                 @if (common.hasError('Gender','required', formGroup)) {
-                  <small class="text-red-500">Gender is required</small>
+                <small class="text-red-500">Gender is required</small>
                 }
               </div>
 
               <div>
-                <label for="dateofbirth" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Birth</label>
+                <label for="dateofbirth" class="block">Date of Birth</label>
                 <input
                   id="dateofbirth"
                   type="date"
                   formControlName="DateOfBirth"
-                  [ngClass]="{ 'is__invalid-input': common.hasError('DateOfBirth','required', formGroup) }"
+                  [ngClass]="{ 'is__invalid-input': common.hasError('DateOfBirth', 'required', formGroup) }"
                   class="block w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-300" />
                 @if (common.hasError('DateOfBirth','required', formGroup)) {
-                  <small class="text-red-500">Date of Birth is required</small>
+                <small class="text-red-500">Date of Birth is required</small>
                 }
               </div>
             </div>
@@ -138,7 +166,8 @@
               </button>
             </div>
           </form>
-        </div> <!-- end form container -->
+        </div>
+        <!-- end form container -->
       </div>
     </div>
   </div>

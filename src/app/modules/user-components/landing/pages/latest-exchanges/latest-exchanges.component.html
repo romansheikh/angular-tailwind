@@ -4,57 +4,54 @@
       <h3 class="text-md text-foreground font-bold">Latest Exchanges</h3>
     </div>
   </div>
-  <div class="relative max-h-96 overflow-x-auto overflow-y-auto">
-<!-- Premium Responsive Exchange Table (Angular + Tailwind, Mobile-first) -->
-<div class="relative overflow-hidden rounded-2xl border bg-background shadow-lg">
-  <!-- subtle top gradient -->
-  <div class="pointer-events-none absolute inset-x-0 top-0 h-16 bg-linear-to-b from-muted/40 to-transparent"></div>
+  <div class="max-h-94 relative">
+    <!-- Premium Responsive Exchange Table (Angular + Tailwind, Mobile-first) -->
+    <div class="bg-background relative overflow-hidden rounded-1xl border shadow-lg">
+      <!-- subtle top gradient -->
+      <div class="bg-linear-to-b from-muted/40 pointer-events-none absolute inset-x-0 top-0 h-16 to-transparent"></div>
 
-  <div class="relative overflow-x-auto">
-    <table class="w-full min-w-[720px] table-auto">
-      <!-- Header -->
-      <thead class="sticky top-0 z-10 bg-background">
-        <tr class="border-b border-border text-xs uppercase tracking-wide text-muted-foreground">
-          <!-- Direction -->
-          <th class="px-3 py-3 text-center font-semibold" colspan="3">
-            Direction
-          </th>
+     <div class="hide-scrollbar relative max-h-[330px] overflow-y-auto sm:max-h-[375px]">
 
-          <!-- Desktop only -->
-          <th class="hidden px-4 py-3 text-center font-semibold sm:table-cell">
-            Order ID
-          </th>
-          <th class="hidden px-4 py-3 text-center font-semibold sm:table-cell">
-            User
-          </th>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[720px] table-auto">
+            <!-- Header -->
+            <thead class="bg-background sticky top-0 z-10">
+              <tr class="border-border text-muted-foreground border-b text-xs uppercase tracking-wide">
+                <!-- Direction -->
+                <th class="px-3 py-3 text-center font-semibold" colspan="3">Direction</th>
 
-          <!-- Common -->
-          <th class="px-4 py-3 text-center font-semibold">Amount</th>
-          <th class="px-4 py-3 text-center font-semibold">Order Date</th>
-          <th class="px-4 py-3 text-center font-semibold">Status</th>
-        </tr>
-      </thead>
+                <!-- Desktop only -->
+                <th class="hidden px-4 py-3 text-center font-semibold sm:table-cell">Order ID</th>
+                <th class="hidden px-4 py-3 text-center font-semibold sm:table-cell">User</th>
 
-      <!-- Body -->
-      <tbody class="divide-y divide-dashed">
-        @for (exchange of exchange.latestExchange(); track exchange.OrderId) {
-        <tr
-          class="group transition hover:bg-muted/40"
-          app-exchange-row
-          [exchange]="exchange">
-        </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+                <!-- Common -->
+                <th class="px-4 py-3 text-center font-semibold">Amount</th>
+                <th class="px-4 py-3 text-center font-semibold">Order Date</th>
+                <th class="px-4 py-3 text-center font-semibold">Status</th>
+              </tr>
+            </thead>
 
-  <!-- Mobile hint -->
-  <div class="flex items-center justify-between border-t bg-muted/30 px-4 py-3 sm:hidden">
-    <span class="text-xs text-muted-foreground">Swipe horizontally to view more</span>
-    <svg class="h-4 w-4 text-muted-foreground" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-    </svg>
-  </div>
-</div>
+            <!-- Body -->
+            <tbody class="divide-y divide-dashed">
+              @for (exchange of exchange.latestExchange(); track exchange.OrderId) {
+              <tr class="hover:bg-muted/40 group transition" app-exchange-row [exchange]="exchange"></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Mobile hint -->
+      <div class="bg-muted/30 flex items-center justify-between border-t px-4 py-3 sm:hidden">
+        <span class="text-muted-foreground text-xs">Swipe horizontally to view more</span>
+        <svg
+          class="text-muted-foreground h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    </div>
   </div>
 </div>

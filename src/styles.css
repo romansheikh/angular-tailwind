@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap') layer(base);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
+layer(base);
 @import 'tailwindcss';
-
 
 /** Plugins **/
 @import './assets/styles/apexchart.css';
@@ -42,7 +42,6 @@
   --color-card-foreground: var(--card-foreground);
 
   @keyframes wiggle {
-
     0%,
     100% {
       transform: rotate(-3deg);
@@ -131,7 +130,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
   *,
   ::after,
   ::before,
@@ -144,30 +142,30 @@
 @utility dropdown-content {
   @apply pointer-events-none scale-95 opacity-0 duration-100 ease-in;
 
-  .dropdown:hover>& {
-    @apply pointer-events-auto block scale-100 animate-fade-in-up opacity-100 duration-200;
+  .dropdown:hover > & {
+    @apply animate-fade-in-up pointer-events-auto block scale-100 opacity-100 duration-200;
   }
 }
 
 @utility dropdown {
-  &:hover>.dropdown-content {
-    @apply pointer-events-auto block scale-100 animate-fade-in-up opacity-100 duration-200;
+  &:hover > .dropdown-content {
+    @apply animate-fade-in-up pointer-events-auto block scale-100 opacity-100 duration-200;
   }
 }
 
 @layer base {
   :root {
     --background: #ffffffea;
-    --foreground: #242323;
-    --card: #F1F5F9;
+    --foreground: #64748b;
+    --card: #f1f5f9;
     --card-foreground: #000000;
-    --primary: #E11D48;
-    --primary-foreground: #FFFFFF;
-    --muted: #CFD9E5;
-    --muted-foreground: #64748B;
-    --destructive: #CC0033;
-    --destructive-foreground: #FAFAFA;
-    --border: #E2E8F0;
+    --primary: #e11d48;
+    --primary-foreground: #ffffff;
+    --muted: #cfd9e5;
+    --muted-foreground: #64748b;
+    --destructive: #cc0033;
+    --destructive-foreground: #fafafa;
+    --border: #e2e8f0;
   }
 
   .dark {
@@ -176,88 +174,87 @@
     --card: #1f1e1e;
     --card-foreground: #262626;
     --muted: #262626;
-    --muted-foreground: #A3A3A3;
+    --muted-foreground: #a3a3a3;
     --border: #262626;
   }
 
   :root[data-theme='violet'] {
-    --primary: #6E56CF;
+    --primary: #6e56cf;
   }
 
   .dark[data-theme='violet'] {
     --background: #060815;
-     --foreground: #dad6d6;
-    --card: #0B0F1A;
-    --card-foreground: #F6F8FB;
-    --primary-foreground: #F6F8FB;
-    --muted: #232B3D;
-    --muted-foreground: #A1A8BF;
-    --border: #232B3D;
+    --foreground: #dad6d6;
+    --card: #0b0f1a;
+    --card-foreground: #f6f8fb;
+    --primary-foreground: #f6f8fb;
+    --muted: #232b3d;
+    --muted-foreground: #a1a8bf;
+    --border: #232b3d;
   }
 
   :root[data-theme='red'] {
-    --primary: #CC0033;
+    --primary: #cc0033;
   }
 
   .dark[data-theme='red'] {
-    --primary-foreground: #FFE5E5;
+    --primary-foreground: #ffe5e5;
   }
 
   :root[data-theme='blue'] {
-    --primary: #2490FF;
+    --primary: #2490ff;
   }
 
   .dark[data-theme='blue'] {
-    --background: #02080F;
+    --background: #02080f;
     --foreground: #dad6d6;
-    --card: #0B1117;
-    --card-foreground: #F8FAFC;
-    --primary-foreground: #0F1729;
-    --muted: #1E293B;
-    --muted-foreground: #94A3B8;
-    --border: #1E293B;
+    --card: #0b1117;
+    --card-foreground: #f8fafc;
+    --primary-foreground: #0f1729;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --border: #1e293b;
   }
 
   :root[data-theme='orange'] {
-    --primary: #EA580C;
+    --primary: #ea580c;
   }
 
   .dark[data-theme='orange'] {
-    --background: #0C0A09;
-     --foreground: #dad6d6;
+    --background: #0c0a09;
+    --foreground: #dad6d6;
     --card: #141110;
-    --card-foreground: #FAFAF9;
-    --primary-foreground: #FAFAF9;
+    --card-foreground: #fafaf9;
+    --primary-foreground: #fafaf9;
     --muted: #292524;
-    --muted-foreground: #A8A29E;
+    --muted-foreground: #a8a29e;
     --border: #292524;
   }
 
   :root[data-theme='yellow'] {
-    --primary: #FACC15;
+    --primary: #facc15;
   }
 
   .dark[data-theme='yellow'] {
     --background: #141110;
     --foreground: #dad6d6;
     --card: #141110;
-    --card-foreground: #FAFAF9;
-    --primary: #FACC15;
+    --card-foreground: #fafaf9;
+    --primary: #facc15;
     --primary-foreground: #141110;
     --muted: #292524;
-    --muted-foreground: #A8A29E;
+    --muted-foreground: #a8a29e;
     --border: #2b2524;
   }
 
   :root[data-theme='green'] {
-    --primary: #22C55E;
+    --primary: #22c55e;
   }
 
   .dark[data-theme='green'] {
-    --primary: #22C55E;
-    --primary-foreground: #052E16;
+    --primary: #22c55e;
+    --primary-foreground: #052e16;
   }
-
 }
 
 /** Scroll bar **/
@@ -283,15 +280,32 @@
 [multiple],
 textarea,
 select {
-  @apply w-full rounded-md border border-border bg-background text-xs text-foreground placeholder-muted-foreground focus:z-10 focus:border-primary focus:outline-hidden focus:ring-primary;
+  @apply border-border bg-background text-foreground placeholder-muted-foreground focus:border-primary focus:ring-primary w-full rounded-md border text-xs focus:z-10 focus:outline-hidden;
+}
+
+label {
+  @apply text-foreground bg-background mb-1 text-sm font-semibold sm:text-base;
+}
+
+button {
+  @apply rounded-md text-sm font-medium shadow-sm hover:cursor-pointer hover:text-primary  focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
 }
 
 [type='checkbox'],
 [type='radio'] {
-  @apply h-4 w-4 rounded-sm border-border bg-background checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary focus:ring-2 focus:ring-primary;
+  @apply border-border bg-background checked:border-primary checked:bg-primary indeterminate:border-primary indeterminate:bg-primary focus:ring-primary h-4 w-4 rounded-sm focus:ring-2;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+    scrollbar-width: thin;
+  scrollbar-color: #3a3a3a transparent;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+
+}
 
 @keyframes fade-in {
   from {
@@ -313,24 +327,34 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: #fff !important;
 }
 
+/* Hide scrollbar but keep scrolling */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
 .menu-card {
-  @apply bg-background border rounded-3xl h-24 flex flex-col items-center justify-center gap-2 text-sm font-medium text-foreground shadow-sm active:scale-95 transition;
+  @apply bg-background text-foreground flex h-24 flex-col items-center justify-center gap-2 rounded-3xl border text-sm font-medium shadow-sm transition active:scale-95;
 }
 .icon-wrap {
-  @apply w-12 h-12 rounded-2xl flex items-center justify-center;
+  @apply flex h-12 w-12 items-center justify-center rounded-2xl;
 }
 .icon {
-  @apply w-6 h-6;
+  @apply h-6 w-6;
 }
 
 .floating-label {
-  @apply absolute left-4 top-2 -translate-y-4 scale-90 bg-white px-2 text-xs text-gray-500 transition
-         peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2
-         peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-90 peer-focus:text-primary;
+  @apply bg-background peer-focus:text-primary absolute left-2 top-2 -translate-y-4 scale-90 px-2 text-xs text-gray-500
+         transition peer-placeholder-shown:top-1/2
+         peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-90;
 }
 
 .input {
-  @apply w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-primary focus:ring-2 focus:ring-primary/20;
+  @apply focus:border-primary focus:ring-primary/20 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:ring-2;
 }
 
 .error-text {

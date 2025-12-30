@@ -28,7 +28,6 @@ export class OrderService {
     this.GetUserOrders().subscribe({
       next: (res: ApiResponseModel<Exchange[]>) => {    
         if (res.Status == 200) {
-          console.log(res);
           this.customer_order.set(res.Body!);
         }
       },

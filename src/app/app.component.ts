@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GoogleOneTapService } from './core/services/google/google-one-tap.service';
 import { LoginPopupService } from './core/services/login-popup.service';
 import { LoginPopupComponent } from './shared/components/login-popup/login-popup.component';
-import { CommonModule } from '@angular/common';
+
 import { NgxSpinnerComponent } from 'ngx-spinner';
 import { SeoService } from './core/services/seo.service';
 import { filter } from 'rxjs';
@@ -21,9 +21,8 @@ import { mergeSeo } from './core/utils/seo.utils';
     ResponsiveHelperComponent,
     ReactiveFormsModule,
     LoginPopupComponent,
-    CommonModule,
-    NgxSpinnerComponent,
-  ],
+    NgxSpinnerComponent
+],
 })
 export class AppComponent {
   private ngZone = inject(NgZone);

@@ -1,5 +1,5 @@
 import { CreateUpdateCurrency } from '../../../../core/models/currencies';
-import { CommonModule } from '@angular/common';
+
 import { Component, Input, Output, EventEmitter, OnInit, inject, Signal, computed, effect } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonService } from 'src/app/core/services/common.service';
@@ -11,7 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-step-one',
   templateUrl: './step-one.component.html',
-  imports: [CommonModule, ReactiveFormsModule], // ✅ Add this
+  imports: [ReactiveFormsModule], // ✅ Add this
 })
 export class StepOneComponent implements OnInit {
   fb = inject(FormBuilder);
