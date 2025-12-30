@@ -39,7 +39,7 @@
               }
               <div
                 class="bg-primary absolute inset-y-0 right-0 flex w-20 items-center justify-center rounded-r-lg px-2 text-sm sm:px-4 sm:text-base">
-                <span class="text-white">{{ currencyService.selectedSendCurrency()?.Symbol }}</span>
+                <span class="text-primary-foreground">{{ currencyService.selectedSendCurrency()?.Symbol }}</span>
               </div>
             </div>
           </div>
@@ -88,7 +88,7 @@
           <button
             (click)="redirectExchange()"
             type="button"
-            class="bg-primary text-primary-foreground w-full cursor-pointer rounded-lg py-3 px-4 text-base font-bold transition duration-300 hover:scale-105 hover:shadow-lg active:scale-95 sm:py-4 sm:text-lg">
+            class="bg-primary text-primary-foreground w-full rounded-lg py-3 px-4 text-base font-bold transition duration-300 hover:scale-105 hover:shadow-lg active:scale-95 sm:py-4 sm:text-lg">
             Exchange Now
           </button>
         </form>
